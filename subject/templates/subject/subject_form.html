@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-10">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+
+                    <h4 class="mb-0">
+                        <i class="fas fa-book me-2"></i>{{ title }}
+                    </h4>
+
+                    <a href="{% url 'subject_list' %}" class="btn btn-light btn-sm">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Institution</label>
+                                {{ form.institution }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Department</label>
+                                {{ form.department }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Course</label>
+                                {{ form.course }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Subject Code</label>
+                                {{ form.subject_code }}
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label class="form-label fw-semibold">Subject Name</label>
+                                {{ form.subject_name }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Semester</label>
+                                {{ form.semester }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Credits</label>
+                                {{ form.credits }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Assigned Faculty</label>
+                                {{ form.staff }}
+                            </div>
+
+                            <div class="col-md-6 mb-3 d-flex align-items-center">
+
+                                <div class="form-check mt-4">
+
+                                    {{ form.is_active }}
+
+                                    <label class="form-check-label ms-2">
+                                        Active Subject
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="text-end">
+
+                            <a href="{% url 'subject_list' %}" class="btn btn-secondary">
+                                <i class="fas fa-times me-1"></i>
+                                Cancel
+                            </a>
+
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save me-1"></i>
+                                Save Subject
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Institution Management
+{% endblock %}
+
+{% block content %}
+
+{% include 'includes/navbar.html' %}
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-lg-2 col-md-3 p-0">
+            {% include 'includes/sidebar.html' %}
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-10 col-md-9 p-4">
+
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+                    <h2 class="fw-bold mb-1">
+                        <i class="fas fa-building text-primary me-2"></i>
+                        Institution Management
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Manage all institutions from one place.
+                    </p>
+                </div>
+
+                <a href="{% url 'add_institution' %}"
+                   class="btn btn-primary rounded-pill px-4 shadow-sm">
+
+                    <i class="fas fa-plus-circle me-2"></i>
+                    Add Institution
+
+                </a>
+
+            </div>
+
+            <!-- Search Box -->
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <div class="input-group">
+
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+
+                        <input type="text"
+                               class="form-control border-start-0"
+                               placeholder="Search Institution...">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Table Card -->
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead class="table-primary">
+
+                                <tr>
+
+                                    <th>ID</th>
+                                    <th>Logo</th>
+                                    <th>Institution</th>
+                                    <th>Code</th>
+                                    <th>Contact</th>
+                                    <th>City</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            {% for institution in institutions %}
+
+                                <tr>
+
+                                    <td>
+                                        <strong>{{ institution.id }}</strong>
+                                    </td>
+
+                                    <!-- Logo -->
+                                    <td>
+
+                                        {% if institution.logo %}
+
+                                            <img src="{{ institution.logo.url }}"
+                                                 class="rounded-circle border shadow-sm"
+                                                 width="55"
+                                                 height="55"
+                                                 style="object-fit:cover;">
+
+                                        {% else %}
+
+                                            <div class="bg-light rounded-circle d-flex justify-content-center align-items-center border"
+                                                 style="width:55px;height:55px;">
+
+                                                <i class="fas fa-building text-secondary"></i>
+
+                                            </div>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        <strong>{{ institution.name }}</strong>
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ institution.code }}
+
+                                    </td>
+
+                                    <td>
+
+                                        <div>{{ institution.email }}</div>
+
+                                        <small class="text-muted">
+                                            {{ institution.phone }}
+                                        </small>
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ institution.city }}
+
+                                    </td>
+
+                                    <td>
+
+                                        {% if institution.is_active %}
+
+                                            <span class="badge rounded-pill bg-success px-3 py-2">
+                                                Active
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge rounded-pill bg-danger px-3 py-2">
+                                                Inactive
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <a href="{% url 'edit_institution' institution.id %}"
+                                                class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                                                <i class="fas fa-pen me-1"></i> Edit
+                                            </a>
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% empty %}
+
+                                <tr>
+
+                                    <td colspan="8" class="text-center py-5">
+
+                                        <i class="fas fa-building fa-3x text-muted mb-3"></i>
+
+                                        <h5>No Institution Found</h5>
+
+                                        <p class="text-muted">
+                                            Click <strong>Add Institution</strong> to create your first institution.
+                                        </p>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

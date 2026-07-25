@@ -1,0 +1,601 @@
+{% extends "base.html" %}
+
+{% block title %}Subject Management{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- =========================
+            PAGE HEADER
+    ========================== -->
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-0">
+                Subject Management
+            </h2>
+
+            <small class="text-muted">
+                Manage all subjects
+            </small>
+
+        </div>
+
+        <div class="d-flex gap-2 mt-2 mt-md-0">
+
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+
+                <i class="fas fa-arrow-left me-2"></i>
+
+                Back to Dashboard
+
+            </a>
+
+            <a href="{% url 'add_subject' %}" class="btn btn-primary">
+
+                <i class="fas fa-plus me-2"></i>
+
+                Add Subject
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- =========================
+            SUCCESS MESSAGE
+    ========================== -->
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+        <div class="alert alert-success alert-dismissible fade show">
+
+            {{ message }}
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+            </button>
+
+        </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+    <!-- =========================
+            STATISTICS
+    ========================== -->
+
+    <div class="row mb-4">
+
+        <div class="col-lg-4 col-md-6 mb-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="fas fa-book fa-2x text-primary mb-3"></i>
+
+                    <h6 class="text-muted">
+                        Total Subjects
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ total_subjects }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="fas fa-check-circle fa-2x text-success mb-3"></i>
+
+                    <h6 class="text-success">
+                        Active Subjects
+                    </h6>
+
+                    <h2 class="fw-bold text-success">
+                        {{ active_subjects }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 col-md-12 mb-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="fas fa-times-circle fa-2x text-danger mb-3"></i>
+
+                    <h6 class="text-danger">
+                        Inactive Subjects
+                    </h6>
+
+                    <h2 class="fw-bold text-danger">
+                        {{ inactive_subjects }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+        <!-- =========================
+            SEARCH FILTER
+    ========================== -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3">
+
+                    <!-- Search -->
+
+                    <div class="col-lg-4">
+
+                        <input
+                            type="text"
+                            name="search"
+                            class="form-control"
+                            placeholder="Search Subject Code / Subject Name"
+                            value="{{ search }}">
+
+                    </div>
+
+                    <!-- Department -->
+
+                    <div class="col-lg-3">
+
+                        <select
+                            name="department"
+                            class="form-select">
+
+                            <option value="">
+                                All Departments
+                            </option>
+
+                            {% for dept in departments %}
+
+                            <option
+                                value="{{ dept.id }}"
+                                {% if selected_department == dept.id|stringformat:"s" %}
+                                selected
+                                {% endif %}>
+
+                                {{ dept.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Course -->
+
+                    <div class="col-lg-3">
+
+                        <select
+                            name="course"
+                            class="form-select">
+
+                            <option value="">
+                                All Courses
+                            </option>
+
+                            {% for c in courses %}
+
+                            <option
+                                value="{{ c.id }}"
+                                {% if selected_course == c.id|stringformat:"s" %}
+                                selected
+                                {% endif %}>
+
+                                {{ c.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Search Button -->
+
+                    <div class="col-lg-2 d-grid">
+
+                        <button class="btn btn-primary">
+
+                            <i class="fas fa-search me-2"></i>
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+        <!-- =========================
+            SUBJECT TABLE
+    ========================== -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>S.No</th>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Department</th>
+                        <th>Course</th>
+                        <th>Semester</th>
+                        <th>Credits</th>
+                        <th>Faculty</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for subject in page_obj %}
+
+                <tr>
+
+                    <!-- S.No -->
+                    <td>
+
+                        {{ forloop.counter }}
+
+                    </td>
+
+                    <!-- Subject Code -->
+                    <td class="fw-semibold">
+
+                        {{ subject.subject_code }}
+
+                    </td>
+
+                    <!-- Subject Name -->
+                    <td>
+
+                        {{ subject.subject_name }}
+
+                    </td>
+
+                    <!-- Department -->
+                    <td>
+
+                        {{ subject.department.name }}
+
+                    </td>
+
+                    <!-- Course -->
+                    <td>
+
+                        {{ subject.course.name }}
+
+                    </td>
+
+                    <!-- Semester -->
+                    <td class="text-center">
+
+                        {{ subject.semester }}
+
+                    </td>
+
+                    <!-- Credits -->
+                    <td class="text-center">
+
+                        {{ subject.credits }}
+
+                    </td>
+
+                    <!-- Faculty -->
+                    <td>
+
+                        {% if subject.staff %}
+                            {{ subject.staff.name }}
+                        {% else %}
+                            <span class="text-muted">Not Assigned</span>
+                        {% endif %}
+
+                    </td>
+
+                    <!-- Status -->
+                    <td class="text-center">
+
+                        <div class="form-check form-switch d-flex justify-content-center">
+
+                            <input
+                                class="form-check-input status-switch"
+                                type="checkbox"
+                                {% if subject.is_active %}checked{% endif %}
+                                disabled>
+
+                        </div>
+
+                    </td>
+
+                    <!-- Action -->
+                    <td class="text-center">
+
+                        <a href="{% url 'edit_subject' subject.id %}"
+                           class="btn btn-sm btn-outline-primary me-1"
+                           title="Edit">
+
+                            <i class="fas fa-edit"></i>
+
+                        </a>
+
+                        <a href="{% url 'delete_subject' subject.id %}"
+                           class="btn btn-sm btn-outline-danger"
+                           title="Delete"
+                           onclick="return confirm('Are you sure you want to delete this subject?')">
+
+                            <i class="fas fa-trash"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="10" class="text-center py-5">
+
+                        <i class="fas fa-book fa-3x text-secondary mb-3"></i>
+
+                        <h5 class="text-muted">
+
+                            No Subjects Found
+
+                        </h5>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+        <!-- =========================
+            PAGINATION
+    ========================== -->
+
+    {% if page_obj.has_other_pages %}
+
+    <nav class="mt-4">
+
+        <ul class="pagination justify-content-center">
+
+            <!-- Previous -->
+
+            {% if page_obj.has_previous %}
+
+            <li class="page-item">
+
+                <a class="page-link"
+                   href="?page={{ page_obj.previous_page_number }}&search={{ search }}&department={{ selected_department }}&course={{ selected_course }}">
+
+                    Previous
+
+                </a>
+
+            </li>
+
+            {% else %}
+
+            <li class="page-item disabled">
+
+                <span class="page-link">
+
+                    Previous
+
+                </span>
+
+            </li>
+
+            {% endif %}
+
+            <!-- Page Numbers -->
+
+            {% for num in page_obj.paginator.page_range %}
+
+                {% if page_obj.number == num %}
+
+                <li class="page-item active">
+
+                    <span class="page-link">
+
+                        {{ num }}
+
+                    </span>
+
+                </li>
+
+                {% else %}
+
+                <li class="page-item">
+
+                    <a class="page-link"
+                       href="?page={{ num }}&search={{ search }}&department={{ selected_department }}&course={{ selected_course }}">
+
+                        {{ num }}
+
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+            {% endfor %}
+
+            <!-- Next -->
+
+            {% if page_obj.has_next %}
+
+            <li class="page-item">
+
+                <a class="page-link"
+                   href="?page={{ page_obj.next_page_number }}&search={{ search }}&department={{ selected_department }}&course={{ selected_course }}">
+
+                    Next
+
+                </a>
+
+            </li>
+
+            {% else %}
+
+            <li class="page-item disabled">
+
+                <span class="page-link">
+
+                    Next
+
+                </span>
+
+            </li>
+
+            {% endif %}
+
+        </ul>
+
+    </nav>
+
+    {% endif %}
+    </div>
+
+<style>
+
+/* ---------- Status Switch ---------- */
+
+.status-switch{
+    width:52px;
+    height:28px;
+    cursor:not-allowed;
+}
+
+.status-switch:checked{
+    background:#198754;
+    border-color:#198754;
+}
+
+.status-switch:not(:checked){
+    background:#dc3545;
+    border-color:#dc3545;
+}
+
+.status-switch:focus{
+    box-shadow:none;
+}
+
+/* ---------- Card Hover ---------- */
+
+.card{
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+/* ---------- Table ---------- */
+
+.table td{
+    vertical-align:middle;
+}
+
+.table-dark th{
+    text-align:center;
+    vertical-align:middle;
+}
+
+/* ---------- Action Buttons ---------- */
+
+.btn-outline-primary,
+.btn-outline-danger{
+    width:36px;
+    height:36px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+}
+
+/* ---------- Pagination ---------- */
+
+.page-link{
+    border-radius:8px;
+    margin:0 3px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width:768px){
+
+    h2{
+        font-size:24px;
+    }
+
+    .table{
+        font-size:14px;
+    }
+
+}
+
+</style>
+
+{% endblock %}

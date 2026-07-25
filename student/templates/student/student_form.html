@@ -1,0 +1,414 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- =========================
+            PAGE HEADER
+    ========================== -->
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-0">
+                {{ title }}
+            </h2>
+
+            <small class="text-muted">
+                Student Management
+            </small>
+
+        </div>
+
+        <div>
+
+            <a href="{% url 'student_list' %}" class="btn btn-secondary">
+
+                <i class="fas fa-arrow-left me-2"></i>
+
+                Back to Students
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+            FORM
+    ========================== -->
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-header bg-primary text-white">
+
+                <h5 class="mb-0">
+
+                    <i class="fas fa-user-graduate me-2"></i>
+
+                    Personal Information
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4">
+
+                    <!-- Photo -->
+
+                    <div class="col-md-3">
+
+                        <label class="form-label fw-semibold">
+
+                            Student Photo
+
+                        </label>
+
+                        {{ form.photo }}
+
+                        {% if form.photo.errors %}
+
+                            <div class="text-danger small mt-1">
+
+                                {{ form.photo.errors }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Register Number -->
+
+                    <div class="col-md-3">
+
+                        <label class="form-label fw-semibold">
+
+                            Register Number <span class="text-danger">*</span>
+
+                        </label>
+
+                        {{ form.register_no }}
+
+                        {% if form.register_no.errors %}
+
+                            <div class="text-danger small mt-1">
+
+                                {{ form.register_no.errors }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Student Name -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+
+                            Student Name <span class="text-danger">*</span>
+
+                        </label>
+
+                        {{ form.name }}
+
+                        {% if form.name.errors %}
+
+                            <div class="text-danger small mt-1">
+
+                                {{ form.name.errors }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Gender -->
+
+                    <div class="col-md-4">
+
+                        <label class="form-label fw-semibold">
+
+                            Gender
+
+                        </label>
+
+                        {{ form.gender }}
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+                CONTACT INFORMATION
+        ========================== -->
+
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-header bg-success text-white">
+
+                <h5 class="mb-0">
+
+                    <i class="fas fa-address-book me-2"></i>
+
+                    Contact Information
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4">
+
+                    <!-- Email -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+
+                            Email Address
+
+                        </label>
+
+                        {{ form.email }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+                <!-- =========================
+                ACADEMIC INFORMATION
+        ========================== -->
+
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-header bg-info text-white">
+
+                <h5 class="mb-0">
+
+                    <i class="fas fa-graduation-cap me-2"></i>
+
+                    Academic Information
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label fw-semibold">
+                            Institution
+                        </label>
+
+                        {{ form.institution }}
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label fw-semibold">
+                            Department
+                        </label>
+
+                        {{ form.department }}
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label fw-semibold">
+                            Course
+                        </label>
+
+                        {{ form.course }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Year
+                        </label>
+
+                        {{ form.year }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+                STATUS
+        ========================== -->
+
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-header bg-dark text-white">
+
+                <h5 class="mb-0">
+
+                    <i class="fas fa-toggle-on me-2"></i>
+
+                    Status
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="form-check form-switch">
+
+                    {{ form.is_active }}
+
+                    <label class="form-check-label ms-2">
+
+                        Active Student
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+                BUTTONS
+        ========================== -->
+
+        <div class="d-flex justify-content-end gap-2 mb-4">
+
+            <a href="{% url 'student_list' %}"
+               class="btn btn-secondary">
+
+                <i class="fas fa-times me-2"></i>
+
+                Cancel
+
+            </a>
+
+            <button
+                    type="submit"
+                    class="btn btn-primary">
+
+                <i class="fas fa-save me-2"></i>
+
+                {{ button }}
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<style>
+
+/* ---------- Card ---------- */
+
+.card{
+    border-radius:15px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+/* ---------- Header ---------- */
+
+.card-header{
+    border-radius:15px 15px 0 0 !important;
+}
+
+/* ---------- Form ---------- */
+
+.form-control,
+.form-select{
+    border-radius:10px;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:none;
+    border-color:#0d6efd;
+}
+
+/* ---------- Switch ---------- */
+
+.form-check-input{
+    width:50px;
+    height:25px;
+}
+
+.form-check-input:focus{
+    box-shadow:none;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn{
+    border-radius:10px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media(max-width:768px){
+
+    h2{
+        font-size:24px;
+    }
+
+    .d-flex.justify-content-end{
+        flex-direction:column;
+    }
+
+    .d-flex.justify-content-end .btn{
+        width:100%;
+    }
+
+}
+
+</style>
+
+{% endblock %}

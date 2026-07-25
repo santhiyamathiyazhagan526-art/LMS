@@ -1,0 +1,53 @@
+body{
+    background:#f5f7fb;
+}
+
+.login-left{
+
+    background:linear-gradient(135deg,#2563eb,#1e40af);
+
+}
+
+.login-card{
+
+    width:430px;
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+
+}
+
+.form-control{
+
+    height:50px;
+
+    border-radius:10px;
+
+}
+
+.btn-primary{
+
+    height:50px;
+
+    border-radius:10px;
+
+    font-size:18px;
+
+}
+
+a{
+
+    text-decoration:none;
+
+}
+
+.display-3{
+
+    font-weight:bold;
+
+}

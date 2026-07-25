@@ -1,0 +1,176 @@
+/* ===========================
+   BODY
+=========================== */
+
+body{
+    background:#F8FAFC;
+    font-family:'Poppins',sans-serif;
+}
+
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sidebar{
+    width:260px;
+    min-height:100vh;
+    background:#FFFFFF;
+    border-right:1px solid #E5E7EB;
+    position:sticky;
+    top:0;
+    left:0;
+}
+
+.sidebar h3{
+    color:#1E293B;
+}
+
+.sidebar small{
+    color:#64748B !important;
+}
+
+/* Navigation */
+
+.sidebar .nav-item{
+    margin:8px 14px;
+}
+
+.sidebar-link{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:14px 18px;
+
+    color:#334155 !important;
+
+    border-radius:12px;
+
+    font-weight:500;
+
+    text-decoration:none;
+
+    transition:all .3s ease;
+}
+
+.sidebar-link i{
+    width:22px;
+    text-align:center;
+    font-size:17px;
+}
+
+.sidebar-link:hover{
+
+    background:#EFF6FF;
+
+    color:#2563EB !important;
+
+    transform:translateX(4px);
+
+}
+
+.sidebar-link.active{
+
+    background:#2563EB;
+
+    color:#fff !important;
+
+}
+
+/* ===========================
+   MAIN CONTENT
+=========================== */
+
+.dashboard-content{
+
+    min-height:100vh;
+
+    width:100%;
+
+    background:#F8FAFC;
+
+}
+
+/* ===========================
+   DASHBOARD CARD
+=========================== */
+
+.dashboard-card{
+
+    border:none;
+
+    border-radius:18px;
+
+    box-shadow:0 8px 30px rgba(0,0,0,.05);
+
+    transition:.3s;
+
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.icon-box{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:24px;
+
+}
+
+/* ===========================
+   TABLE
+=========================== */
+
+.table{
+
+    margin-bottom:0;
+
+}
+
+.table thead{
+
+    background:#F8FAFC;
+
+}
+
+.table th{
+
+    font-weight:600;
+
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+
+.navbar{
+
+    background:#FFFFFF !important;
+
+    box-shadow:0 2px 15px rgba(0,0,0,.05);
+
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+.btn{
+
+    border-radius:10px;
+
+}
