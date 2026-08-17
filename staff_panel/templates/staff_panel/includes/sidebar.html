@@ -1,0 +1,91 @@
+{% load static %}
+
+<div class="sidebar">
+
+    <!-- Logo -->
+
+    <div class="logo-section">
+
+        <img src="{% static 'staff_panel/images/logo.png' %}"
+             alt="Logo">
+
+        <h2>STAFF</h2>
+
+        <p>Learning Management System</p>
+
+    </div>
+
+    <!-- Navigation -->
+
+    <nav class="sidebar-menu">
+
+        <ul>
+
+            <li>
+                <a href="{% url 'staff_dashboard' %}" class="active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'staff_profile' %}">
+                    <i class="fas fa-user"></i>
+                    <span>My Profile</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'staff_subjects' %}">
+                    <i class="fas fa-book-open"></i>
+                    <span>My Subjects</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'staff_students' %}">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Students</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'staff_attendance' %}">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Attendance</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'staff_materials' %}">
+                    <i class="fas fa-folder-open"></i>
+                    <span>Study Materials</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'staff_assignments' %}">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Assignments</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'staff_timetable' %}">
+                    <i class="fas fa-clock"></i>
+                    <span>Timetable</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'staff_logout' %}">
+                    <i class="fas fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+</div>

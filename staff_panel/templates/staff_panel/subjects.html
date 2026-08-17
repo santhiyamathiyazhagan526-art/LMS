@@ -1,0 +1,204 @@
+{% extends "staff_panel/base.html" %}
+{% load static %}
+
+{% block title %}My Subjects{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-0">My Subjects</h2>
+            <small class="text-muted">
+                Subjects assigned to you
+            </small>
+        </div>
+
+        <div class="text-end">
+            <h5 class="mb-0">{{ subject_count }}</h5>
+            <small class="text-muted">Total Subjects</small>
+        </div>
+
+    </div>
+
+    <!-- Search -->
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <input
+                        type="text"
+                        id="subjectSearch"
+                        class="form-control"
+                        placeholder="Search Subject Code or Subject Name">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Subject Table -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+                Assigned Subjects
+            </h5>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0"
+                       id="subjectTable">
+
+                    <thead class="table-dark">
+
+                    <tr>
+
+                        <th>S.No</th>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Department</th>
+                        <th>Course</th>
+                        <th>Semester</th>
+                        <th>Credits</th>
+                        <th>Status</th>
+                        <th width="120">Action</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for subject in subjects %}
+
+                    <tr>
+
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>
+                            {{ subject.subject_code }}
+                        </td>
+
+                        <td>
+                            {{ subject.subject_name }}
+                        </td>
+
+                        <td>
+                            {{ subject.department }}
+                        </td>
+
+                        <td>
+                            {{ subject.course }}
+                        </td>
+
+                        <td>
+                            Semester {{ subject.semester }}
+                        </td>
+
+                        <td>
+                            {{ subject.credits }}
+                        </td>
+
+                        <td>
+
+                            {% if subject.is_active %}
+
+                                <span class="badge bg-success">
+                                    Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+                                    Inactive
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="btn btn-primary btn-sm">
+
+                                <i class="fas fa-eye"></i>
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="9"
+                            class="text-center p-5">
+
+                            <i class="fas fa-book fa-3x text-muted mb-3"></i>
+
+                            <h5>No Subjects Assigned</h5>
+
+                            <p class="text-muted">
+                                Contact Administrator.
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("subjectSearch").addEventListener("keyup", function () {
+
+    let value = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#subjectTable tbody tr");
+
+    rows.forEach(function(row){
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(value)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

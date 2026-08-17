@@ -1,0 +1,691 @@
+{% extends "student_portal/base.html" %}
+
+{% block title %}
+My Subjects
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* =========================================
+   SUBJECT PAGE
+========================================= */
+
+.subject-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.subject-header {
+    margin-bottom: 22px;
+}
+
+.subject-header h1 {
+    margin: 0;
+
+    font-size: 26px;
+
+    font-weight: 700;
+
+    color: #172033;
+}
+
+.subject-header p {
+    margin: 6px 0 0;
+
+    font-size: 13px;
+
+    color: #718096;
+}
+
+
+/* =========================================
+   COURSE SUMMARY
+========================================= */
+
+.course-banner {
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+
+    border-radius: 13px;
+
+    padding: 17px 20px;
+
+    margin-bottom: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+
+.course-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+
+.course-icon {
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 11px;
+
+    background: #ecfdf9;
+
+    color: #0f766e;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 18px;
+
+    flex-shrink: 0;
+}
+
+
+.course-name {
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #172033;
+}
+
+
+.course-details {
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color: #7b8798;
+}
+
+
+.subject-count {
+    padding: 7px 10px;
+
+    background: #ecfdf9;
+
+    border: 1px solid #c9f3eb;
+
+    color: #0f766e;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   SUBJECT GRID
+========================================= */
+
+.subject-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(210px, 1fr));
+
+    gap: 15px;
+
+    align-items: start;
+
+    max-width: 1080px;
+}
+
+
+/* =========================================
+   SUBJECT CARD
+========================================= */
+
+.subject-card {
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+
+    border-radius: 12px;
+
+    padding: 16px;
+
+    min-height: 215px;
+
+    max-width: 340px;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.subject-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #a7ddd5;
+
+    box-shadow:
+        0 7px 18px rgba(15, 23, 42, 0.07);
+}
+
+
+/* =========================================
+   CARD TOP
+========================================= */
+
+.subject-card-top {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 13px;
+}
+
+
+.subject-number {
+    width: 36px;
+
+    height: 36px;
+
+    border-radius: 9px;
+
+    background: #0f766e;
+
+    color: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.subject-code {
+    padding: 6px 9px;
+
+    background: #ecfdf9;
+
+    border: 1px solid #c9f3eb;
+
+    color: #0f766e;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   SUBJECT NAME
+========================================= */
+
+.subject-name {
+    min-height: 40px;
+
+    margin-bottom: 10px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    color: #263244;
+}
+
+
+/* =========================================
+   SUBJECT DETAILS
+========================================= */
+
+.subject-detail {
+    min-height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    border-top: 1px solid #edf2f2;
+
+    font-size: 12px;
+
+    color: #718096;
+}
+
+
+.subject-detail i {
+    width: 17px;
+
+    color: #0f766e;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    flex-shrink: 0;
+}
+
+
+.subject-detail strong {
+    margin-left: 3px;
+
+    color: #344054;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-state {
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+
+    border-radius: 13px;
+
+    min-height: 260px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+
+.empty-icon {
+    width: 55px;
+
+    height: 55px;
+
+    border-radius: 13px;
+
+    background: #ecfdf9;
+
+    color: #0f766e;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+
+    margin-bottom: 14px;
+}
+
+
+.empty-state h3 {
+    margin: 0;
+
+    font-size: 16px;
+
+    color: #273244;
+}
+
+
+.empty-state p {
+    margin: 6px 0 0;
+
+    font-size: 12px;
+
+    color: #8b95a5;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .subject-grid {
+        grid-template-columns:
+            repeat(2, minmax(210px, 1fr));
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .subject-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .course-banner {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .subject-header h1 {
+        font-size: 24px;
+    }
+
+
+    .subject-card {
+        max-width: 100%;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .course-banner {
+        padding: 15px;
+    }
+
+
+    .course-name {
+        font-size: 15px;
+    }
+
+
+    .subject-card {
+        padding: 15px;
+    }
+
+}
+
+</style>
+
+
+<div class="subject-page">
+
+
+    <!-- =====================================
+         PAGE HEADER
+    ====================================== -->
+
+    <div class="subject-header">
+
+        <h1>
+            My Subjects
+        </h1>
+
+        <p>
+            Subjects assigned to your current course
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
+         COURSE SUMMARY
+    ====================================== -->
+
+    <div class="course-banner">
+
+
+        <div class="course-info">
+
+
+            <div class="course-icon">
+
+                <i class="fas fa-book-open"></i>
+
+            </div>
+
+
+            <div>
+
+                <div class="course-name">
+
+                    {{ student.course }}
+
+                </div>
+
+
+                <div class="course-details">
+
+                    {{ student.programme }}
+
+                    &nbsp;•&nbsp;
+
+                    {{ student.year }}
+
+                    {% if student.section %}
+
+                        &nbsp;•&nbsp;
+
+                        Section {{ student.section.section }}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="subject-count">
+
+            {{ subjects|length }}
+
+            Subject{{ subjects|length|pluralize }}
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         SUBJECT CARDS
+    ====================================== -->
+
+    {% if subjects %}
+
+
+        <div class="subject-grid">
+
+
+            {% for subject in subjects %}
+
+
+                <div class="subject-card">
+
+
+                    <!-- CARD TOP -->
+
+                    <div class="subject-card-top">
+
+
+                        <div class="subject-number">
+
+                            {{ forloop.counter|stringformat:"02d" }}
+
+                        </div>
+
+
+                        <div class="subject-code">
+
+                            {{ subject.subject_code }}
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- SUBJECT NAME -->
+
+                    <div class="subject-name">
+
+                        {{ subject.subject_name }}
+
+                    </div>
+
+
+                    <!-- SEMESTER -->
+
+                    <div class="subject-detail">
+
+                        <i class="fas fa-layer-group"></i>
+
+                        <span>
+
+                            Semester
+
+                            <strong>
+                                {{ subject.semester }}
+                            </strong>
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- CREDITS -->
+
+                    <div class="subject-detail">
+
+                        <i class="fas fa-star"></i>
+
+                        <span>
+
+                            Credits
+
+                            <strong>
+                                {{ subject.credits }}
+                            </strong>
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- FACULTY -->
+
+                    <div class="subject-detail">
+
+                        <i class="fas fa-user-tie"></i>
+
+                        <span>
+
+                            Faculty
+
+                            <strong>
+
+                                {% if subject.staff %}
+
+                                    {{ subject.staff }}
+
+                                {% else %}
+
+                                    Not assigned
+
+                                {% endif %}
+
+                            </strong>
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <!-- =================================
+             EMPTY STATE
+        ================================== -->
+
+        <div class="empty-state">
+
+
+            <div class="empty-icon">
+
+                <i class="fas fa-book-open"></i>
+
+            </div>
+
+
+            <h3>
+
+                No Subjects Found
+
+            </h3>
+
+
+            <p>
+
+                No active subjects are currently assigned to your course.
+
+            </p>
+
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add Section{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    Add Section
+                </h4>
+            </div>
+
+            <div class="card-body">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <!-- Institution -->
+                    <div class="mb-3">
+
+                        <label>Institution</label>
+
+                        <select
+                            name="institution"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Institution
+                            </option>
+
+                            {% for institution in institutions %}
+
+                            <option value="{{ institution.id }}">
+
+                                {{ institution.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Department -->
+                    <div class="mb-3">
+
+                        <label>Department</label>
+
+                        <select
+                            name="department"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Department
+                            </option>
+
+                            {% for department in departments %}
+
+                            <option value="{{ department.id }}">
+
+                                {{ department.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Course -->
+                    <div class="mb-3">
+
+                        <label>Course</label>
+
+                        <select
+                            name="course"
+                            id="course"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Course
+                            </option>
+
+                            {% for course in courses %}
+
+                            <option
+                                value="{{ course.id }}"
+                                data-programme="{{ course.programme }}">
+
+                                {{ course.name }}
+
+                                - {{ course.programme }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Programme -->
+                    <div class="mb-3">
+
+                        <label>Programme</label>
+
+                        <select
+                            name="programme"
+                            id="programme"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Programme
+                            </option>
+
+                            <option value="UG">
+                                Under Graduate
+                            </option>
+
+                            <option value="PG">
+                                Post Graduate
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Year -->
+                    <div class="mb-3">
+
+                        <label>Year</label>
+
+                        <select
+                            name="year"
+                            id="year"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Year
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Section -->
+                    <div class="mb-3">
+
+                        <label>Section</label>
+
+                        <input
+                            type="text"
+                            name="section"
+                            class="form-control"
+                            placeholder="Example: A"
+                            required>
+
+                    </div>
+
+
+                    <!-- Status -->
+                    <div class="form-check mb-4">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="is_active"
+                            checked>
+
+                        <label class="form-check-label">
+                            Active
+                        </label>
+
+                    </div>
+
+
+                    <!-- Buttons -->
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="fas fa-save"></i>
+
+                        Save
+
+                    </button>
+
+                    <a
+                        href="{% url 'section_list' %}"
+                        class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const courseSelect =
+        document.getElementById("course");
+
+    const programmeSelect =
+        document.getElementById("programme");
+
+    const yearSelect =
+        document.getElementById("year");
+
+
+    // ----------------------------------
+    // Course → Programme
+    // ----------------------------------
+
+    courseSelect.addEventListener("change", function () {
+
+        const selectedOption =
+            this.options[this.selectedIndex];
+
+        const programme =
+            selectedOption.dataset.programme;
+
+        programmeSelect.value =
+            programme || "";
+
+        loadYears(programme);
+
+    });
+
+
+    // ----------------------------------
+    // Programme → Year
+    // ----------------------------------
+
+    programmeSelect.addEventListener("change", function () {
+
+        loadYears(this.value);
+
+    });
+
+
+    function loadYears(programme) {
+
+        yearSelect.innerHTML =
+            '<option value="">Select Year</option>';
+
+
+        if (programme === "UG") {
+
+            yearSelect.innerHTML +=
+                '<option value="I">I Year</option>';
+
+            yearSelect.innerHTML +=
+                '<option value="II">II Year</option>';
+
+            yearSelect.innerHTML +=
+                '<option value="III">III Year</option>';
+
+            yearSelect.innerHTML +=
+                '<option value="IV">IV Year</option>';
+
+        }
+
+
+        else if (programme === "PG") {
+
+            yearSelect.innerHTML +=
+                '<option value="PG-I">PG I Year</option>';
+
+            yearSelect.innerHTML +=
+                '<option value="PG-II">PG II Year</option>';
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

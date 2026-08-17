@@ -275,7 +275,11 @@
 
                         <th>Course</th>
 
+                        <th>Programme</th>
+
                         <th>Year</th>
+
+                        <th>Section</th>
 
                         <th>Status</th>
 
@@ -334,12 +338,20 @@
                         {{ student.course.name }}
 
                     </td>
+                
+                    <td>
+
+                        {{ student.programme }}
+
+                    </td>
+
 
                     <td>
 
                         {{ student.year }}
 
                     </td>
+                    <td>{{ student.section.section }}</td>
                                         <!-- Status -->
                     <td class="text-center">
 

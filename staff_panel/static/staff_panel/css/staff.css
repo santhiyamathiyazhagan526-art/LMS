@@ -1,0 +1,1242 @@
+/* ==========================================================
+   STAFF PANEL - PROFESSIONAL DASHBOARD
+   Part 1 : Global Layout + Sidebar
+========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f5f7fb;
+    color:#374151;
+    overflow-x:hidden;
+}
+
+/* ==========================================================
+   Layout
+========================================================== */
+
+.staff-wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ==========================================================
+   Sidebar
+========================================================== */
+
+.sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:260px;
+    height:100vh;
+
+    background:#ffffff;
+
+    border-right:1px solid #e5e7eb;
+
+    overflow-y:auto;
+
+    transition:.3s;
+
+    z-index:1000;
+}
+
+/* Scrollbar */
+
+.sidebar::-webkit-scrollbar{
+    width:6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+    background:#d1d5db;
+    border-radius:10px;
+}
+
+/* ==========================================================
+   Logo
+========================================================== */
+
+.logo-section{
+    text-align:center;
+    padding:25px 20px;
+
+    border-bottom:1px solid #eef2f7;
+}
+
+.logo-section img{
+    width:75px;
+    height:75px;
+    object-fit:contain;
+    margin-bottom:12px;
+}
+
+.logo-section h2{
+    font-size:26px;
+    font-weight:700;
+    color:#1f2937;
+    margin-bottom:5px;
+}
+
+.logo-section p{
+    font-size:13px;
+    color:#6b7280;
+    margin:0;
+}
+
+/* ==========================================================
+   Menu
+========================================================== */
+
+.sidebar-menu{
+    padding:20px 15px;
+}
+
+.sidebar-menu ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.sidebar-menu li{
+    margin-bottom:8px;
+}
+
+.sidebar-menu a{
+    display:flex;
+    align-items:center;
+
+    gap:14px;
+
+    padding:13px 18px;
+
+    text-decoration:none;
+
+    color:#4b5563;
+
+    border-radius:12px;
+
+    transition:.25s;
+
+    font-weight:500;
+
+    font-size:15px;
+}
+
+.sidebar-menu a i{
+    width:20px;
+    text-align:center;
+    font-size:17px;
+}
+
+.sidebar-menu a:hover{
+    background:#eef2ff;
+    color:#4f46e5;
+}
+
+.sidebar-menu a.active{
+    background:#4f46e5;
+    color:#ffffff;
+}
+
+/* ==========================================================
+   Main Area
+========================================================== */
+
+.main-wrapper{
+    margin-left:260px;
+
+    width:calc(100% - 260px);
+
+    min-height:100vh;
+
+    background:#f5f7fb;
+}
+
+/* ==========================================================
+   Content
+========================================================== */
+
+.content-area{
+    padding:30px;
+}
+
+/* ==========================================================
+   Headings
+========================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    color:#111827;
+    font-weight:600;
+}
+
+p{
+    color:#6b7280;
+}
+
+.text-muted{
+    color:#6b7280 !important;
+}
+/* ==========================================================
+   STAFF PANEL - PROFESSIONAL DASHBOARD
+   Part 2 : Navbar + Cards + Buttons
+========================================================== */
+
+/* ==========================================================
+   Top Navbar
+========================================================== */
+
+.top-navbar{
+    height:70px;
+    background:#ffffff;
+    border-bottom:1px solid #e5e7eb;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 30px;
+
+    position:sticky;
+    top:0;
+
+    z-index:999;
+}
+
+.top-navbar-left{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.top-navbar-right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.menu-toggle{
+    width:42px;
+    height:42px;
+
+    border:none;
+
+    background:#f3f4f6;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.menu-toggle:hover{
+    background:#4f46e5;
+    color:#ffffff;
+}
+
+.search-box{
+    width:320px;
+    position:relative;
+}
+
+.search-box input{
+    width:100%;
+    height:45px;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:12px;
+
+    padding-left:45px;
+
+    outline:none;
+
+    background:#f9fafb;
+}
+
+.search-box i{
+    position:absolute;
+    left:16px;
+    top:15px;
+    color:#9ca3af;
+}
+
+.profile-box{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile-box img{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.profile-box h6{
+    margin:0;
+    font-size:15px;
+}
+
+.profile-box small{
+    color:#6b7280;
+}
+
+/* ==========================================================
+   Dashboard Cards
+========================================================== */
+
+.dashboard-card{
+    background:#ffffff;
+
+    border:none;
+
+    border-radius:18px;
+
+    box-shadow:0 5px 18px rgba(0,0,0,.06);
+
+    transition:.3s;
+
+    overflow:hidden;
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.08);
+
+}
+
+.dashboard-card .card-header{
+
+    background:#ffffff;
+
+    border-bottom:1px solid #edf2f7;
+
+    padding:18px 22px;
+
+}
+
+.dashboard-card .card-body{
+
+    padding:22px;
+
+}
+
+/* ==========================================================
+   Statistics Cards
+========================================================== */
+
+.stat-card{
+
+    position:relative;
+
+}
+
+.stat-card h2{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    margin-top:10px;
+
+}
+
+.stat-card small{
+
+    color:#6b7280;
+
+    font-weight:500;
+
+}
+
+.icon-box{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#ffffff;
+
+    font-size:24px;
+
+}
+
+.bg-primary{
+
+    background:#2563eb !important;
+
+}
+
+.bg-success{
+
+    background:#059669 !important;
+
+}
+
+.bg-warning{
+
+    background:#f59e0b !important;
+
+}
+
+.bg-danger{
+
+    background:#ef4444 !important;
+
+}
+
+.bg-info{
+
+    background:#06b6d4 !important;
+
+}
+
+/* ==========================================================
+   Card Titles
+========================================================== */
+
+.card-title{
+
+    font-size:18px;
+
+    font-weight:600;
+
+    color:#1f2937;
+
+}
+
+.card-subtitle{
+
+    color:#6b7280;
+
+    font-size:14px;
+
+}
+
+/* ==========================================================
+   Buttons
+========================================================== */
+
+.btn{
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.btn-primary{
+
+    background:#4f46e5;
+
+    border:none;
+
+}
+
+.btn-success{
+
+    border:none;
+
+}
+
+.btn-warning{
+
+    border:none;
+
+}
+
+.btn-danger{
+
+    border:none;
+
+}
+
+.btn-outline-primary:hover{
+
+    background:#4f46e5;
+
+}
+
+.btn-outline-success:hover{
+
+    background:#059669;
+
+}
+
+.btn-outline-warning:hover{
+
+    background:#f59e0b;
+    color:#ffffff;
+
+}
+
+.btn-outline-danger:hover{
+
+    background:#ef4444;
+
+}
+
+/* ==========================================================
+   Quick Action Buttons
+========================================================== */
+
+.quick-action{
+
+    padding:30px 15px;
+
+    text-align:center;
+
+    border-radius:15px;
+
+    background:#ffffff;
+
+    border:1px solid #e5e7eb;
+
+    transition:.3s;
+
+}
+
+.quick-action:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.quick-action i{
+
+    font-size:30px;
+
+    margin-bottom:15px;
+
+}
+
+.quick-action h6{
+
+    margin:0;
+
+    font-size:15px;
+
+}
+
+/* ==========================================================
+   Alerts
+========================================================== */
+
+.alert{
+
+    border-radius:12px;
+
+    border:none;
+
+}
+
+.alert-light{
+
+    background:#f9fafb;
+
+}
+/* ==========================================================
+   STAFF PANEL - PROFESSIONAL DASHBOARD
+   Part 3 : Tables, Forms, Profile & Utilities
+========================================================== */
+
+/* ==========================================================
+   Tables
+========================================================== */
+
+.table{
+    margin-bottom:0;
+    vertical-align:middle;
+}
+
+.table thead{
+    background:#f8fafc;
+}
+
+.table thead th{
+    border:none;
+    color:#374151;
+    font-weight:600;
+    padding:15px;
+    font-size:14px;
+}
+
+.table tbody td{
+    padding:15px;
+    border-top:1px solid #edf2f7;
+    color:#4b5563;
+}
+
+.table-hover tbody tr:hover{
+    background:#f9fafb;
+}
+
+/* ==========================================================
+   Forms
+========================================================== */
+
+.form-control,
+.form-select{
+
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    height:45px;
+
+    box-shadow:none;
+
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:#4f46e5;
+    box-shadow:0 0 0 0.15rem rgba(79,70,229,.15);
+
+}
+
+textarea.form-control{
+
+    height:auto;
+
+}
+
+/* ==========================================================
+   Labels
+========================================================== */
+
+label{
+
+    font-weight:600;
+    color:#374151;
+    margin-bottom:6px;
+
+}
+
+/* ==========================================================
+   Profile Card
+========================================================== */
+
+.profile-card{
+
+    background:#fff;
+    border-radius:18px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 5px 18px rgba(0,0,0,.06);
+
+}
+
+.profile-card img{
+
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:20px;
+    border:5px solid #eef2ff;
+
+}
+
+.profile-card h4{
+
+    margin-bottom:5px;
+
+}
+
+.profile-card p{
+
+    margin-bottom:15px;
+
+}
+
+/* ==========================================================
+   Information Table
+========================================================== */
+
+.info-table{
+
+    width:100%;
+
+}
+
+.info-table tr{
+
+    border-bottom:1px solid #eef2f7;
+
+}
+
+.info-table th{
+
+    width:35%;
+    padding:12px;
+    color:#374151;
+    font-weight:600;
+
+}
+
+.info-table td{
+
+    padding:12px;
+    color:#6b7280;
+
+}
+
+/* ==========================================================
+   Announcements
+========================================================== */
+
+.announcement{
+
+    padding:15px;
+    border-radius:12px;
+    background:#f9fafb;
+    border-left:4px solid #4f46e5;
+    margin-bottom:15px;
+
+}
+
+/* ==========================================================
+   Badges
+========================================================== */
+
+.badge{
+
+    border-radius:30px;
+    padding:8px 15px;
+    font-weight:500;
+
+}
+
+/* ==========================================================
+   Attendance Status
+========================================================== */
+
+.badge-present{
+
+    background:#dcfce7;
+    color:#166534;
+
+}
+
+.badge-absent{
+
+    background:#fee2e2;
+    color:#991b1b;
+
+}
+
+.badge-late{
+
+    background:#fef3c7;
+    color:#92400e;
+
+}
+
+/* ==========================================================
+   Pagination
+========================================================== */
+
+.pagination .page-link{
+
+    border:none;
+    margin:0 4px;
+    border-radius:10px;
+    color:#4f46e5;
+
+}
+
+.pagination .page-item.active .page-link{
+
+    background:#4f46e5;
+    color:#fff;
+
+}
+
+/* ==========================================================
+   Timetable
+========================================================== */
+
+.timetable-card{
+
+    border-radius:18px;
+    overflow:hidden;
+
+}
+
+.timetable-card table{
+
+    margin:0;
+
+}
+
+/* ==========================================================
+   Cards
+========================================================== */
+
+.card{
+
+    border:none;
+    border-radius:18px;
+    box-shadow:0 5px 18px rgba(0,0,0,.05);
+
+}
+
+/* ==========================================================
+   Dropdown
+========================================================== */
+
+.dropdown-menu{
+
+    border:none;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.10);
+
+}
+
+.dropdown-item{
+
+    padding:10px 18px;
+
+}
+
+.dropdown-item:hover{
+
+    background:#eef2ff;
+
+}
+
+/* ==========================================================
+   Utilities
+========================================================== */
+
+.shadow-sm{
+
+    box-shadow:0 3px 12px rgba(0,0,0,.05)!important;
+
+}
+
+.rounded-xl{
+
+    border-radius:18px;
+
+}
+
+.fw-semibold{
+
+    font-weight:600;
+
+}
+
+.text-primary{
+
+    color:#4f46e5!important;
+
+}
+
+.text-success{
+
+    color:#059669!important;
+
+}
+
+.text-warning{
+
+    color:#f59e0b!important;
+
+}
+
+.text-danger{
+
+    color:#ef4444!important;
+
+}
+
+.bg-light{
+
+    background:#f8fafc!important;
+
+}
+/* ==========================================================
+   STAFF PANEL - PROFESSIONAL DASHBOARD
+   Part 4 : Responsive + Animation + Finishing
+========================================================== */
+
+/* Smooth scrolling */
+
+html{
+    scroll-behavior:smooth;
+}
+
+/* ==========================================================
+   Links
+========================================================== */
+
+a{
+    text-decoration:none;
+    transition:.3s;
+}
+
+a:hover{
+    text-decoration:none;
+}
+
+/* ==========================================================
+   Images
+========================================================== */
+
+img{
+    max-width:100%;
+    height:auto;
+}
+
+/* ==========================================================
+   List Group
+========================================================== */
+
+.list-group-item{
+    border:none;
+    border-bottom:1px solid #eef2f7;
+    padding:14px 18px;
+}
+
+.list-group-item:last-child{
+    border-bottom:none;
+}
+
+/* ==========================================================
+   Card Animation
+========================================================== */
+
+.dashboard-card{
+    animation:fadeUp .5s ease;
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* ==========================================================
+   Button Animation
+========================================================== */
+
+.btn{
+    transition:all .3s ease;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* ==========================================================
+   Scrollbar
+========================================================== */
+
+::-webkit-scrollbar{
+    width:8px;
+    height:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#f1f5f9;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#cbd5e1;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#94a3b8;
+}
+
+/* ==========================================================
+   Notifications
+========================================================== */
+
+.notification-dot{
+
+    width:10px;
+    height:10px;
+
+    background:#ef4444;
+
+    border-radius:50%;
+
+    display:inline-block;
+
+}
+
+/* ==========================================================
+   Footer
+========================================================== */
+
+.footer{
+
+    margin-top:40px;
+
+    padding:20px;
+
+    text-align:center;
+
+    color:#6b7280;
+
+    font-size:14px;
+
+}
+
+/* ==========================================================
+   Responsive
+========================================================== */
+
+@media (max-width:1200px){
+
+    .search-box{
+        width:220px;
+    }
+
+}
+
+@media (max-width:992px){
+
+    .sidebar{
+
+        width:220px;
+
+    }
+
+    .main-wrapper{
+
+        margin-left:220px;
+        width:calc(100% - 220px);
+
+    }
+
+    .content-area{
+
+        padding:20px;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .sidebar{
+
+        left:-260px;
+        transition:.3s;
+
+    }
+
+    .sidebar.active{
+
+        left:0;
+
+    }
+
+    .main-wrapper{
+
+        margin-left:0;
+        width:100%;
+
+    }
+
+    .top-navbar{
+
+        padding:0 15px;
+
+    }
+
+    .search-box{
+
+        display:none;
+
+    }
+
+    .content-area{
+
+        padding:15px;
+
+    }
+
+    .dashboard-card{
+
+        margin-bottom:20px;
+
+    }
+
+    .profile-box small{
+
+        display:none;
+
+    }
+
+}
+
+@media (max-width:576px){
+
+    .logo-section h2{
+
+        font-size:22px;
+
+    }
+
+    .icon-box{
+
+        width:48px;
+        height:48px;
+        font-size:20px;
+
+    }
+
+    .card-body{
+
+        padding:18px;
+
+    }
+
+    .btn{
+
+        font-size:14px;
+
+    }
+
+}
+
+/* ==========================================================
+   Print
+========================================================== */
+
+@media print{
+
+    .sidebar,
+    .top-navbar,
+    .btn{
+
+        display:none;
+
+    }
+
+    .main-wrapper{
+
+        margin:0;
+        width:100%;
+
+    }
+
+}
+
+/* ==========================================================
+   End of File
+========================================================== */
+.page-header{
+    margin-bottom:25px;
+}
+
+.profile-card{
+    background:#fff;
+    border-radius:12px;
+    padding:30px;
+    display:flex;
+    gap:40px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.profile-image img{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #6A0DAD;
+}
+
+.profile-details{
+    flex:1;
+}
+
+.profile-details table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.profile-details th{
+    width:220px;
+    text-align:left;
+    padding:15px;
+    background:#f5f5f5;
+}
+
+.profile-details td{
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+/* ===========================
+   Subject Table Header Fix
+=========================== */
+
+.table-dark{
+    background:#212529 !important;
+}
+
+.table-dark th{
+    background:#212529 !important;
+    color:#ffffff !important;
+    border:none !important;
+    font-weight:600;
+    text-align:center;
+}
+
+.table-dark td{
+    color:#ffffff !important;
+}

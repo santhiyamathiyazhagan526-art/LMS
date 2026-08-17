@@ -37,7 +37,13 @@ INSTALLED_APPS = [
      'student',
      'staff',
      'subject',
-     "staff_panel"
+     "staff_panel",
+     'section',
+     "attendance",
+     "study_material",
+     "assignment",
+     'timetable',
+     'student_portal',
 ]
 
 MIDDLEWARE = [

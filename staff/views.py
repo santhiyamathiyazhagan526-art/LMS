@@ -68,6 +68,7 @@ def add_staff(request):
                         password="Staff@123",
                         role="STAFF",
                         first_name=staff.name,
+                        must_change_password=True,
                     )
                     messages.success(
                         request,

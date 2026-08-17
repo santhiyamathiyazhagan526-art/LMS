@@ -1,0 +1,1054 @@
+{% extends "student_portal/base.html" %}
+
+{% block title %}
+Attendance
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* =========================================
+   ATTENDANCE PAGE
+========================================= */
+
+.attendance-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.attendance-header {
+    margin-bottom: 22px;
+}
+
+.attendance-header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #172033;
+}
+
+.attendance-header p {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: #718096;
+}
+
+
+/* =========================================
+   COURSE SUMMARY
+========================================= */
+
+.attendance-summary {
+    background: #ffffff;
+    border: 1px solid #e2eeee;
+    border-radius: 13px;
+    padding: 17px 20px;
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+
+.attendance-course {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+
+.attendance-course-icon {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 11px;
+
+    background: #ecfdf9;
+    color: #0f766e;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+
+    flex-shrink: 0;
+}
+
+
+.attendance-course-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #172033;
+}
+
+
+.attendance-course-details {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #7b8798;
+}
+
+
+/* =========================================
+   OVERALL ATTENDANCE
+========================================= */
+
+.overall-card {
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+
+    border-radius: 13px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+
+.overall-title {
+    margin-bottom: 16px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #263244;
+}
+
+
+/* =========================================
+   OVERALL GRID
+========================================= */
+
+.overall-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.2fr
+        1fr
+        1fr
+        1fr;
+
+    gap: 14px;
+}
+
+
+/* =========================================
+   PERCENTAGE
+========================================= */
+
+.overall-percentage {
+    background: #f0fdfa;
+
+    border: 1px solid #d8f1ed;
+
+    border-radius: 10px;
+
+    padding: 16px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+
+.percentage-label {
+    font-size: 10px;
+
+    font-weight: 600;
+
+    color: #718096;
+
+    margin-bottom: 5px;
+}
+
+
+.percentage-value {
+    font-size: 28px;
+
+    font-weight: 800;
+
+    color: #0f766e;
+}
+
+
+.percentage-text {
+    margin-top: 2px;
+
+    font-size: 10px;
+
+    color: #7b8798;
+}
+
+
+/* =========================================
+   STAT CARDS
+========================================= */
+
+.attendance-stat {
+    background: #fafcfc;
+
+    border: 1px solid #e7eeee;
+
+    border-radius: 10px;
+
+    padding: 16px;
+}
+
+
+.stat-icon {
+    width: 30px;
+
+    height: 30px;
+
+    border-radius: 7px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 10px;
+
+    font-size: 12px;
+}
+
+
+.present-icon {
+    background: #ecfdf9;
+
+    color: #0f766e;
+}
+
+
+.absent-icon {
+    background: #fff1f2;
+
+    color: #e11d48;
+}
+
+
+.total-icon {
+    background: #f3f4f6;
+
+    color: #64748b;
+}
+
+
+.stat-value {
+    font-size: 19px;
+
+    font-weight: 700;
+
+    color: #263244;
+}
+
+
+.stat-label {
+    margin-top: 3px;
+
+    font-size: 10px;
+
+    color: #7b8798;
+}
+
+
+/* =========================================
+   SUBJECT SECTION
+========================================= */
+
+.subject-section {
+    margin-top: 4px;
+}
+
+
+.subject-section-title {
+    margin-bottom: 14px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #263244;
+}
+
+
+/* =========================================
+   SUBJECT GRID
+========================================= */
+
+.subject-attendance-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(210px, 1fr));
+
+    gap: 15px;
+
+    max-width: 1080px;
+}
+
+
+/* =========================================
+   SUBJECT CARD
+========================================= */
+
+.subject-attendance-card {
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+
+    border-radius: 12px;
+
+    padding: 16px;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.subject-attendance-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #a7ddd5;
+
+    box-shadow:
+        0 7px 18px rgba(15, 23, 42, 0.07);
+}
+
+
+/* =========================================
+   SUBJECT TOP
+========================================= */
+
+.subject-card-top {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-bottom: 14px;
+}
+
+
+.subject-card-icon {
+    width: 38px;
+
+    height: 38px;
+
+    border-radius: 9px;
+
+    background: #ecfdf9;
+
+    color: #0f766e;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 15px;
+}
+
+
+.subject-status {
+    padding: 5px 8px;
+
+    border-radius: 6px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.status-good {
+    background: #ecfdf9;
+
+    color: #0f766e;
+
+    border: 1px solid #c9f3eb;
+}
+
+
+.status-warning {
+    background: #fff7ed;
+
+    color: #c2410c;
+
+    border: 1px solid #fed7aa;
+}
+
+
+.status-low {
+    background: #fff1f2;
+
+    color: #be123c;
+
+    border: 1px solid #fecdd3;
+}
+
+
+/* =========================================
+   SUBJECT NAME
+========================================= */
+
+.subject-card-name {
+    min-height: 40px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    color: #263244;
+}
+
+
+.subject-card-code {
+    margin-top: 3px;
+
+    margin-bottom: 15px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    color: #0f766e;
+}
+
+
+/* =========================================
+   ATTENDANCE PERCENTAGE
+========================================= */
+
+.subject-percentage-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 7px;
+}
+
+
+.subject-percentage {
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: #0f766e;
+}
+
+
+.subject-percentage-label {
+    font-size: 9px;
+
+    color: #8b95a5;
+}
+
+
+/* =========================================
+   PROGRESS BAR
+========================================= */
+
+.progress-track {
+    width: 100%;
+
+    height: 7px;
+
+    background: #edf2f2;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+
+.progress-bar {
+    height: 100%;
+
+    background: #0f766e;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================
+   CLASS COUNT
+========================================= */
+
+.class-count {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top: 12px;
+
+    padding-top: 10px;
+
+    border-top: 1px solid #edf2f2;
+
+    font-size: 10px;
+
+    color: #718096;
+}
+
+
+.class-count strong {
+    color: #344054;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-state {
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+
+    border-radius: 13px;
+
+    min-height: 260px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+
+.empty-icon {
+    width: 55px;
+
+    height: 55px;
+
+    border-radius: 13px;
+
+    background: #ecfdf9;
+
+    color: #0f766e;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+
+    margin-bottom: 14px;
+}
+
+
+.empty-state h3 {
+    margin: 0;
+
+    font-size: 16px;
+
+    color: #273244;
+}
+
+
+.empty-state p {
+    margin: 6px 0 0;
+
+    font-size: 12px;
+
+    color: #8b95a5;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .overall-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .subject-attendance-grid {
+        grid-template-columns:
+            repeat(2, minmax(210px, 1fr));
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .attendance-summary {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .overall-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .subject-attendance-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+
+
+<div class="attendance-page">
+
+
+    <!-- =====================================
+         PAGE HEADER
+    ====================================== -->
+
+    <div class="attendance-header">
+
+        <h1>
+            Attendance
+        </h1>
+
+        <p>
+            View your overall and subject-wise attendance
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
+         COURSE SUMMARY
+    ====================================== -->
+
+    <div class="attendance-summary">
+
+
+        <div class="attendance-course">
+
+
+            <div class="attendance-course-icon">
+
+                <i class="fas fa-chart-pie"></i>
+
+            </div>
+
+
+            <div>
+
+                <div class="attendance-course-name">
+
+                    {{ student.course }}
+
+                </div>
+
+
+                <div class="attendance-course-details">
+
+                    {{ student.programme }}
+
+                    &nbsp;•&nbsp;
+
+                    {{ student.year }}
+
+                    {% if student.section %}
+
+                        &nbsp;•&nbsp;
+
+                        Section {{ student.section.section }}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         OVERALL ATTENDANCE
+    ====================================== -->
+
+    <div class="overall-card">
+
+
+        <div class="overall-title">
+
+            Overall Attendance
+
+        </div>
+
+
+        <div class="overall-grid">
+
+
+            <!-- PERCENTAGE -->
+
+            <div class="overall-percentage">
+
+                <div class="percentage-label">
+
+                    ATTENDANCE RATE
+
+                </div>
+
+
+                <div class="percentage-value">
+
+                    {{ overall_percentage }}%
+
+                </div>
+
+
+                <div class="percentage-text">
+
+                    Overall attendance
+
+                </div>
+
+            </div>
+
+
+            <!-- PRESENT -->
+
+            <div class="attendance-stat">
+
+                <div class="stat-icon present-icon">
+
+                    <i class="fas fa-check"></i>
+
+                </div>
+
+
+                <div class="stat-value">
+
+                    {{ present_classes }}
+
+                </div>
+
+
+                <div class="stat-label">
+
+                    Present Classes
+
+                </div>
+
+            </div>
+
+
+            <!-- ABSENT -->
+
+            <div class="attendance-stat">
+
+                <div class="stat-icon absent-icon">
+
+                    <i class="fas fa-times"></i>
+
+                </div>
+
+
+                <div class="stat-value">
+
+                    {{ absent_classes }}
+
+                </div>
+
+
+                <div class="stat-label">
+
+                    Absent Classes
+
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="attendance-stat">
+
+                <div class="stat-icon total-icon">
+
+                    <i class="fas fa-calendar-check"></i>
+
+                </div>
+
+
+                <div class="stat-value">
+
+                    {{ total_classes }}
+
+                </div>
+
+
+                <div class="stat-label">
+
+                    Total Classes
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         SUBJECT ATTENDANCE
+    ====================================== -->
+
+    <div class="subject-section">
+
+
+        <div class="subject-section-title">
+
+            Subject-wise Attendance
+
+        </div>
+
+
+        {% if subject_attendance %}
+
+
+            <div class="subject-attendance-grid">
+
+
+                {% for item in subject_attendance %}
+
+
+                    <div class="subject-attendance-card">
+
+
+                        <!-- TOP -->
+
+                        <div class="subject-card-top">
+
+
+                            <div class="subject-card-icon">
+
+                                <i class="fas fa-book-open"></i>
+
+                            </div>
+
+
+                            {% if item.attendance_status == "Good" %}
+
+                                <div class="subject-status status-good">
+
+                                    Good
+
+                                </div>
+
+
+                            {% elif item.attendance_status == "Warning" %}
+
+                                <div class="subject-status status-warning">
+
+                                    Warning
+
+                                </div>
+
+
+                            {% else %}
+
+                                <div class="subject-status status-low">
+
+                                    Low
+
+                                </div>
+
+                            {% endif %}
+
+
+                        </div>
+
+
+                        <!-- SUBJECT NAME -->
+
+                        <div class="subject-card-name">
+
+                            {{ item.subject__subject_name }}
+
+                        </div>
+
+
+                        <!-- SUBJECT CODE -->
+
+                        <div class="subject-card-code">
+
+                            {{ item.subject__subject_code }}
+
+                        </div>
+
+
+                        <!-- PERCENTAGE -->
+
+                        <div class="subject-percentage-row">
+
+
+                            <div class="subject-percentage">
+
+                                {{ item.percentage }}%
+
+                            </div>
+
+
+                            <div class="subject-percentage-label">
+
+                                Attendance
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- PROGRESS -->
+
+                        <div class="progress-track">
+
+                            <div
+                                class="progress-bar"
+                                style="width: {{ item.percentage }}%;"
+                            >
+                            </div>
+
+                        </div>
+
+
+                        <!-- CLASS COUNT -->
+
+                        <div class="class-count">
+
+
+                            <span>
+
+                                Present
+
+                                <strong>
+                                    {{ item.present_classes }}
+                                </strong>
+
+                            </span>
+
+
+                            <span>
+
+                                Total
+
+                                <strong>
+                                    {{ item.total_classes }}
+                                </strong>
+
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- =================================
+                 EMPTY STATE
+            ================================== -->
+
+            <div class="empty-state">
+
+
+                <div class="empty-icon">
+
+                    <i class="fas fa-chart-pie"></i>
+
+                </div>
+
+
+                <h3>
+
+                    No Attendance Records
+
+                </h3>
+
+
+                <p>
+
+                    Attendance records are not available yet.
+
+                </p>
+
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

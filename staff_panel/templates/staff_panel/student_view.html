@@ -1,0 +1,101 @@
+{% extends "staff_panel/base.html" %}
+
+{% load static %}
+
+{% block title %}Student Profile{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+
+                Student Profile
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-3 text-center">
+
+                    {% if student.photo %}
+
+                        <img src="{{ student.photo.url }}"
+                             class="img-fluid rounded-circle"
+                             width="180">
+
+                    {% else %}
+
+                        <img src="{% static 'staff_panel/images/avatar.png' %}"
+                             width="180"
+                             class="rounded-circle">
+
+                    {% endif %}
+
+                </div>
+
+                <div class="col-md-9">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>Register No</th>
+                            <td>{{ student.register_no }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Name</th>
+                            <td>{{ student.name }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ student.email }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Programme</th>
+                            <td>{{ student.programme }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Department</th>
+                            <td>{{ student.department }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Course</th>
+                            <td>{{ student.course }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Year</th>
+                            <td>{{ student.year }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Section</th>
+                            <td>{{ student.section.section }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

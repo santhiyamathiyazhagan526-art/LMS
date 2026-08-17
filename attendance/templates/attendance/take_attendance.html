@@ -1,0 +1,664 @@
+{% extends "staff_panel/base.html" %}
+
+{% block title %}Take Attendance{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ============================= -->
+    <!-- TAKE ATTENDANCE CARD -->
+    <!-- ============================= -->
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+                <i class="fas fa-calendar-check"></i>
+                Take Attendance
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="GET" id="attendanceForm">
+
+                <div class="row">
+
+                    <!-- ============================= -->
+                    <!-- PROGRAMME -->
+                    <!-- ============================= -->
+
+                    <div class="col-md-3">
+
+                        <label class="form-label fw-bold">
+                            Programme
+                        </label>
+
+                        <select
+                            name="programme"
+                            id="programme"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Programme
+                            </option>
+
+                            <option value="UG">
+                                UG
+                            </option>
+
+                            <option value="PG">
+                                PG
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- YEAR -->
+                    <!-- ============================= -->
+
+                    <div class="col-md-3">
+
+                        <label class="form-label fw-bold">
+                            Year
+                        </label>
+
+                        <select
+                            name="year"
+                            id="year"
+                            class="form-select"
+                            disabled
+                            required>
+
+                            <option value="">
+                                Select Year
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- SECTION -->
+                    <!-- ============================= -->
+
+                    <div class="col-md-3">
+
+                        <label class="form-label fw-bold">
+                            Section
+                        </label>
+
+                        <select
+                            name="section"
+                            id="section"
+                            class="form-select"
+                            disabled
+                            required>
+
+                            <option value="">
+                                Select Section
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- SUBJECT -->
+                    <!-- ============================= -->
+
+                    <div class="col-md-3">
+
+                        <label class="form-label fw-bold">
+                            Subject
+                        </label>
+
+                        <select
+                            name="subject"
+                            id="subject"
+                            class="form-select"
+                            disabled
+                            required>
+
+                            <option value="">
+                                Select Subject
+                            </option>
+
+                            {% for subject in subjects %}
+
+                                <option value="{{ subject.id }}">
+                                    {{ subject }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ============================= -->
+                <!-- DATE + SHOW STUDENTS -->
+                <!-- ============================= -->
+
+                <div class="row mt-3">
+
+                    <!-- DATE -->
+
+                    <div class="col-md-3">
+
+                        <label class="form-label fw-bold">
+                            Date
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date"
+                            id="attendanceDate"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+
+                    <!-- SHOW STUDENTS -->
+
+                    <div class="col-md-3 d-flex align-items-end">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            <i class="fas fa-search"></i>
+
+                            Show Students
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    {% if students %}
+
+<div class="card shadow mt-4">
+
+    <div class="card-header bg-success text-white">
+
+        <h5 class="mb-0">
+
+            <i class="fas fa-users"></i>
+
+            Student List
+
+        </h5>
+
+    </div>
+
+
+    <div class="card-body">
+
+        <form
+            method="POST"
+            action="{% url 'save_attendance' %}">
+
+            {% csrf_token %}
+
+
+            <!-- Selected Attendance Details -->
+
+            <input
+                type="hidden"
+                name="programme"
+                value="{{ selected_programme }}">
+
+
+            <input
+                type="hidden"
+                name="year"
+                value="{{ selected_year }}">
+
+
+            <input
+                type="hidden"
+                name="section"
+                value="{{ selected_section }}">
+
+
+            <input
+                type="hidden"
+                name="subject"
+                value="{{ selected_subject }}">
+
+
+            <input
+                type="hidden"
+                name="date"
+                value="{{ selected_date }}">
+
+
+            <div class="table-responsive">
+
+                <table
+                    class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th style="width: 60px;">
+                                S.NO
+                            </th>
+
+                            <th>
+                                Register No
+                            </th>
+
+                            <th>
+                                Student Name
+                            </th>
+
+                            <th style="width: 180px;">
+                                Attendance
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for student in students %}
+
+                        <tr>
+
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+
+
+                            <td>
+                                <strong>
+                                    {{ student.register_no }}
+                                </strong>
+                            </td>
+
+
+                            <td>
+                                {{ student.name }}
+                            </td>
+
+
+                            <td>
+
+                                <div class="form-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        name="present_students"
+                                        value="{{ student.id }}"
+                                        id="student_{{ student.id }}"
+                                        checked>
+
+                                    <label
+                                        class="form-check-label"
+                                        for="student_{{ student.id }}">
+
+                                        Present
+
+                                    </label>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- SAVE -->
+
+            <div class="text-end mt-3">
+
+                <button
+                    type="submit"
+                    class="btn btn-success">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Attendance
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% elif request.GET.section and request.GET.subject and request.GET.date %}
+
+<div class="alert alert-warning mt-4">
+
+    <i class="fas fa-exclamation-triangle"></i>
+
+    No students found for the selected section.
+
+</div>
+
+{% endif %}
+<!-- ===================================================== -->
+<!-- JAVASCRIPT -->
+<!-- ===================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const programmeSelect =
+        document.getElementById("programme");
+
+    const yearSelect =
+        document.getElementById("year");
+
+    const sectionSelect =
+        document.getElementById("section");
+
+    const subjectSelect =
+        document.getElementById("subject");
+
+
+    // =====================================================
+    // PROGRAMME → YEAR
+    // =====================================================
+
+    programmeSelect.addEventListener("change", function () {
+
+        const programme = this.value;
+
+        console.log(
+            "Selected Programme:",
+            programme
+        );
+
+
+        // Reset Year
+
+        yearSelect.innerHTML =
+            '<option value="">Select Year</option>';
+
+        yearSelect.disabled = true;
+
+
+        // Reset Section
+
+        sectionSelect.innerHTML =
+            '<option value="">Select Section</option>';
+
+        sectionSelect.disabled = true;
+
+
+        // Reset Subject
+
+        subjectSelect.value = "";
+
+        subjectSelect.disabled = true;
+
+
+        if (!programme) {
+            return;
+        }
+
+
+        // Call Django get_years()
+
+        fetch(
+            "{% url 'get_years' %}?programme=" +
+            encodeURIComponent(programme)
+        )
+
+        .then(function (response) {
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to load years"
+                );
+            }
+
+            return response.json();
+
+        })
+
+        .then(function (data) {
+
+            console.log(
+                "Years received:",
+                data
+            );
+
+
+            data.forEach(function (item) {
+
+                const option =
+                    document.createElement("option");
+
+                option.value =
+                    item.value;
+
+                option.textContent =
+                    item.text;
+
+                yearSelect.appendChild(
+                    option
+                );
+
+            });
+
+
+            if (data.length > 0) {
+
+                yearSelect.disabled = false;
+
+            }
+
+        })
+
+        .catch(function (error) {
+
+            console.error(
+                "Year loading error:",
+                error
+            );
+
+        });
+
+    });
+
+
+    // =====================================================
+    // YEAR → SECTION
+    // =====================================================
+
+    yearSelect.addEventListener("change", function () {
+
+        const programme =
+            programmeSelect.value;
+
+        const year =
+            this.value;
+
+
+        console.log(
+            "Selected Programme:",
+            programme
+        );
+
+        console.log(
+            "Selected Year:",
+            year
+        );
+
+
+        // Reset Section
+
+        sectionSelect.innerHTML =
+            '<option value="">Select Section</option>';
+
+        sectionSelect.disabled = true;
+
+
+        // Reset Subject
+
+        subjectSelect.value = "";
+
+        subjectSelect.disabled = true;
+
+
+        if (!programme || !year) {
+            return;
+        }
+
+
+        // Call Django get_sections()
+
+        fetch(
+            "{% url 'get_sections' %}" +
+            "?programme=" +
+            encodeURIComponent(programme) +
+            "&year=" +
+            encodeURIComponent(year)
+        )
+
+        .then(function (response) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Failed to load sections"
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(function (data) {
+
+            console.log(
+                "Sections received:",
+                data
+            );
+
+
+            if (data.length === 0) {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = "";
+
+                option.textContent =
+                    "No Section Available";
+
+                sectionSelect.appendChild(
+                    option
+                );
+
+                return;
+
+            }
+
+
+            data.forEach(function (item) {
+
+                const option =
+                    document.createElement("option");
+
+                option.value =
+                    item.id;
+
+                option.textContent =
+                    item.name;
+
+                sectionSelect.appendChild(
+                    option
+                );
+
+            });
+
+
+            sectionSelect.disabled = false;
+
+        })
+
+        .catch(function (error) {
+
+            console.error(
+                "Section loading error:",
+                error
+            );
+
+        });
+
+    });
+
+
+    // =====================================================
+    // SECTION → SUBJECT
+    // =====================================================
+
+    sectionSelect.addEventListener("change", function () {
+
+        const section =
+            this.value;
+
+
+        if (!section) {
+
+            subjectSelect.disabled = true;
+
+            return;
+
+        }
+
+
+        subjectSelect.disabled = false;
+
+    });
+
+
+});
+
+</script>
+
+{% endblock %}

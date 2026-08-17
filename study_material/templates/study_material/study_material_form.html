@@ -1,0 +1,514 @@
+{% extends "staff_panel/base.html" %}
+
+{% block title %}Add Study Material{% endblock %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-primary text-white">
+
+        <h4 class="mb-0">
+            <i class="fas fa-book"></i>
+            Add Study Material
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+
+            <!-- ==========================================
+                 PROGRAMME
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    Programme
+                </label>
+
+                <select
+                    id="programme"
+                    class="form-select"
+                    required
+                >
+
+                    <option value="">
+                        Select Programme
+                    </option>
+
+                    <option value="UG">
+                        UG
+                    </option>
+
+                    <option value="PG">
+                        PG
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ==========================================
+                 YEAR
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    Year
+                </label>
+
+                <select
+                    id="year"
+                    class="form-select"
+                    disabled
+                    required
+                >
+
+                    <option value="">
+                        Select Year
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ==========================================
+                 SECTION
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    Section
+                </label>
+
+                <select
+                    name="section"
+                    id="section"
+                    class="form-select"
+                    disabled
+                    required
+                >
+
+                    <option value="">
+                        Select Section
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ==========================================
+                 SUBJECT
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    Subject
+                </label>
+
+                <select
+                    name="subject"
+                    id="subject"
+                    class="form-select"
+                    required
+                >
+
+                    <option value="">
+                        Select Subject
+                    </option>
+
+                    {% for subject in subjects %}
+
+                        <option value="{{ subject.id }}">
+                            {{ subject }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- ==========================================
+                 TITLE
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    Material Title
+                </label>
+
+                {{ form.title }}
+
+            </div>
+
+
+            <!-- ==========================================
+                 DESCRIPTION
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    Description
+                </label>
+
+                {{ form.description }}
+
+            </div>
+
+
+            <!-- ==========================================
+                 MATERIAL TYPE
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    Material Type
+                </label>
+
+                {{ form.material_type }}
+
+            </div>
+
+
+            <!-- ==========================================
+                 FILE
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    Upload File
+                </label>
+
+                {{ form.file }}
+
+            </div>
+
+
+            <!-- ==========================================
+                 ACTIVE
+            =========================================== -->
+
+            <div class="form-check mb-4">
+
+                {{ form.is_active }}
+
+                <label class="form-check-label">
+                    Active Material
+                </label>
+
+            </div>
+
+
+            <!-- ==========================================
+                 BUTTONS
+            =========================================== -->
+
+            <button
+                type="submit"
+                class="btn btn-success"
+            >
+
+                <i class="fas fa-upload"></i>
+                Upload Material
+
+            </button>
+
+            <a
+                href="{% url 'staff_materials' %}"
+                class="btn btn-secondary"
+            >
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const programme =
+            document.getElementById("programme");
+
+        const year =
+            document.getElementById("year");
+
+        const section =
+            document.getElementById("section");
+
+
+        // ==================================================
+        // PROGRAMME → YEAR
+        // ==================================================
+
+        programme.addEventListener(
+            "change",
+            function () {
+
+                const selectedProgramme =
+                    this.value;
+
+
+                // Clear year
+
+                year.innerHTML =
+                    '<option value="">Select Year</option>';
+
+                year.disabled = true;
+
+
+                // Clear section
+
+                section.innerHTML =
+                    '<option value="">Select Section</option>';
+
+                section.disabled = true;
+
+
+                if (!selectedProgramme) {
+
+                    return;
+
+                }
+
+
+                fetch(
+                    "{% url 'study_material_get_years' %}"
+                    + "?programme="
+                    + encodeURIComponent(
+                        selectedProgramme
+                    )
+                )
+
+                .then(
+                    response => {
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "Unable to load years"
+                            );
+
+                        }
+
+                        return response.json();
+
+                    }
+                )
+
+                .then(
+                    data => {
+
+                        data.forEach(
+                            function (item) {
+
+                                const option =
+                                    document.createElement(
+                                        "option"
+                                    );
+
+                                option.value =
+                                    item.value;
+
+                                option.textContent =
+                                    item.text;
+
+                                year.appendChild(
+                                    option
+                                );
+
+                            }
+                        );
+
+                        year.disabled = false;
+
+                    }
+                )
+
+                .catch(
+                    error => {
+
+                        console.error(
+                            "Year Error:",
+                            error
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        // ==================================================
+        // YEAR → SECTION
+        // ==================================================
+
+        year.addEventListener(
+            "change",
+            function () {
+
+                const selectedProgramme =
+                    programme.value;
+
+                const selectedYear =
+                    this.value;
+
+
+                // Clear section
+
+                section.innerHTML =
+                    '<option value="">Select Section</option>';
+
+                section.disabled = true;
+
+
+                if (
+                    !selectedProgramme ||
+                    !selectedYear
+                ) {
+
+                    return;
+
+                }
+
+
+                console.log(
+                    "Loading sections:",
+                    selectedProgramme,
+                    selectedYear
+                );
+
+
+                fetch(
+                    "{% url 'study_material_get_sections' %}"
+                    + "?programme="
+                    + encodeURIComponent(
+                        selectedProgramme
+                    )
+                    + "&year="
+                    + encodeURIComponent(
+                        selectedYear
+                    )
+                )
+
+                .then(
+                    response => {
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "Unable to load sections"
+                            );
+
+                        }
+
+                        return response.json();
+
+                    }
+                )
+
+                .then(
+                    data => {
+
+                        console.log(
+                            "Sections received:",
+                            data
+                        );
+
+
+                        if (data.length === 0) {
+
+                            const option =
+                                document.createElement(
+                                    "option"
+                                );
+
+                            option.value = "";
+
+                            option.textContent =
+                                "No Sections Found";
+
+                            section.appendChild(
+                                option
+                            );
+
+                            return;
+
+                        }
+
+
+                        data.forEach(
+                            function (item) {
+
+                                const option =
+                                    document.createElement(
+                                        "option"
+                                    );
+
+                                option.value =
+                                    item.id;
+
+                                option.textContent =
+                                    item.name;
+
+                                section.appendChild(
+                                    option
+                                );
+
+                            }
+                        );
+
+
+                        section.disabled = false;
+
+                    }
+                )
+
+                .catch(
+                    error => {
+
+                        console.error(
+                            "Section Error:",
+                            error
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+{% endblock %}

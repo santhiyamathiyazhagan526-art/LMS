@@ -1,0 +1,780 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Section{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow">
+
+            <!-- ============================= -->
+            <!-- HEADER -->
+            <!-- ============================= -->
+
+            <div class="card-header bg-warning">
+
+                <h4 class="mb-0">
+                    Edit Section
+                </h4>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- ============================= -->
+                    <!-- INSTITUTION -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label
+                            for="institution"
+                            class="form-label">
+
+                            Institution
+
+                        </label>
+
+                        <select
+                            name="institution"
+                            id="institution"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Institution
+                            </option>
+
+                            {% for institution in institutions %}
+
+                                <option
+                                    value="{{ institution.id }}"
+                                    {% if institution.id == section.institution_id %}
+                                        selected
+                                    {% endif %}
+                                >
+
+                                    {{ institution.name }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- DEPARTMENT -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label
+                            for="department"
+                            class="form-label">
+
+                            Department
+
+                        </label>
+
+                        <select
+                            name="department"
+                            id="department"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Department
+                            </option>
+
+                            {% for department in departments %}
+
+                                <option
+                                    value="{{ department.id }}"
+                                    {% if department.id == section.department_id %}
+                                        selected
+                                    {% endif %}
+                                >
+
+                                    {{ department.name }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- PROGRAMME -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label
+                            for="programme"
+                            class="form-label">
+
+                            Programme
+
+                        </label>
+
+                        <select
+                            name="programme"
+                            id="programme"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Programme
+                            </option>
+
+                            <option
+                                value="UG"
+                                {% if programme == "UG" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Under Graduate
+                            </option>
+
+                            <option
+                                value="PG"
+                                {% if programme == "PG" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Post Graduate
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- COURSE -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label
+                            for="course"
+                            class="form-label">
+
+                            Course
+
+                        </label>
+
+                        <select
+                            name="course"
+                            id="course"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Course
+                            </option>
+
+                            {% for course in courses %}
+
+                                <option
+                                    value="{{ course.id }}"
+                                    data-programme="{{ course.programme }}"
+                                    data-department="{{ course.department_id }}"
+
+                                    {% if course.id == section.course_id %}
+                                        selected
+                                    {% endif %}
+                                >
+
+                                    {{ course.name }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- YEAR -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label
+                            for="year"
+                            class="form-label">
+
+                            Year
+
+                        </label>
+
+                        <select
+                            name="year"
+                            id="year"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Year
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- SECTION -->
+                    <!-- ============================= -->
+
+                    <div class="mb-3">
+
+                        <label
+                            for="section"
+                            class="form-label">
+
+                            Section
+
+                        </label>
+
+                        <input
+                            type="text"
+                            name="section"
+                            id="section"
+                            class="form-control"
+                            value="{{ section.section }}"
+                            placeholder="Example: A"
+                            required>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- ACTIVE -->
+                    <!-- ============================= -->
+
+                    <div class="form-check mb-4">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="is_active"
+                            id="is_active"
+
+                            {% if section.is_active %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <label
+                            class="form-check-label"
+                            for="is_active">
+
+                            Active
+
+                        </label>
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <!-- ============================= -->
+                    <!-- BUTTONS -->
+                    <!-- ============================= -->
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="fas fa-save"></i>
+
+                        Update Section
+
+                    </button>
+
+
+                    <a
+                        href="{% url 'section_list' %}"
+                        class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const programmeSelect =
+            document.getElementById("programme");
+
+        const departmentSelect =
+            document.getElementById("department");
+
+        const courseSelect =
+            document.getElementById("course");
+
+        const yearSelect =
+            document.getElementById("year");
+
+
+        /*
+        ==========================================
+        EXISTING VALUES
+        ==========================================
+        */
+
+        const existingCourse =
+            "{{ section.course_id }}";
+
+        const existingYear =
+            "{{ section.year }}";
+
+
+        /*
+        ==========================================
+        ADD YEAR OPTION
+        ==========================================
+        */
+
+        function addYear(
+            value,
+            text,
+            selectedValue
+        ) {
+
+            const option =
+                document.createElement("option");
+
+            option.value = value;
+
+            option.textContent = text;
+
+
+            if (value === selectedValue) {
+
+                option.selected = true;
+
+            }
+
+
+            yearSelect.appendChild(option);
+
+        }
+
+
+        /*
+        ==========================================
+        LOAD YEARS
+        ==========================================
+        */
+
+        function loadYears(
+            programme,
+            selectedYear = ""
+        ) {
+
+            yearSelect.innerHTML = "";
+
+
+            const defaultOption =
+                document.createElement("option");
+
+            defaultOption.value = "";
+
+            defaultOption.textContent =
+                "Select Year";
+
+            yearSelect.appendChild(
+                defaultOption
+            );
+
+
+            /*
+            ==========================
+            UG
+            ==========================
+            */
+
+            if (programme === "UG") {
+
+                addYear(
+                    "I",
+                    "I Year",
+                    selectedYear
+                );
+
+                addYear(
+                    "II",
+                    "II Year",
+                    selectedYear
+                );
+
+                addYear(
+                    "III",
+                    "III Year",
+                    selectedYear
+                );
+
+                addYear(
+                    "IV",
+                    "IV Year",
+                    selectedYear
+                );
+
+            }
+
+
+            /*
+            ==========================
+            PG
+            ==========================
+            */
+
+            if (programme === "PG") {
+
+                addYear(
+                    "PG-I",
+                    "PG I Year",
+                    selectedYear
+                );
+
+                addYear(
+                    "PG-II",
+                    "PG II Year",
+                    selectedYear
+                );
+
+            }
+
+        }
+
+
+        /*
+        ==========================================
+        FILTER COURSES
+        ==========================================
+        */
+
+        function filterCourses(
+            programme,
+            department
+        ) {
+
+            let courseFound = false;
+
+
+            Array.from(
+                courseSelect.options
+            ).forEach(
+                function (option) {
+
+                    /*
+                    Keep placeholder
+                    */
+
+                    if (!option.value) {
+
+                        option.style.display =
+                            "";
+
+                        return;
+
+                    }
+
+
+                    const courseProgramme =
+                        option.getAttribute(
+                            "data-programme"
+                        );
+
+
+                    const courseDepartment =
+                        option.getAttribute(
+                            "data-department"
+                        );
+
+
+                    /*
+                    Course must match:
+
+                    1. Programme
+                    2. Department
+                    */
+
+                    const programmeMatch =
+                        courseProgramme ===
+                        programme;
+
+
+                    const departmentMatch =
+                        !department ||
+                        courseDepartment ===
+                        department;
+
+
+                    if (
+                        programmeMatch &&
+                        departmentMatch
+                    ) {
+
+                        option.style.display =
+                            "";
+
+                        option.disabled =
+                            false;
+
+
+                        if (
+                            option.value ===
+                            existingCourse &&
+                            !courseFound
+                        ) {
+
+                            courseFound = true;
+
+                        }
+
+                    }
+                    else {
+
+                        option.style.display =
+                            "none";
+
+                        option.disabled =
+                            true;
+
+                    }
+
+                }
+            );
+
+
+            /*
+            ==================================
+            KEEP EXISTING COURSE
+            ==================================
+            */
+
+            if (courseFound) {
+
+                courseSelect.value =
+                    existingCourse;
+
+            }
+            else {
+
+                /*
+                If programme was changed,
+                clear old course.
+                */
+
+                courseSelect.value = "";
+
+            }
+
+        }
+
+
+        /*
+        ==========================================
+        PROGRAMME CHANGE
+        ==========================================
+        */
+
+        programmeSelect.addEventListener(
+            "change",
+            function () {
+
+                const programme =
+                    this.value;
+
+                const department =
+                    departmentSelect.value;
+
+
+                /*
+                Filter courses
+                */
+
+                filterCourses(
+                    programme,
+                    department
+                );
+
+
+                /*
+                Load correct years
+                */
+
+                loadYears(
+                    programme,
+                    ""
+                );
+
+            }
+        );
+
+
+        /*
+        ==========================================
+        DEPARTMENT CHANGE
+        ==========================================
+        */
+
+        departmentSelect.addEventListener(
+            "change",
+            function () {
+
+                const programme =
+                    programmeSelect.value;
+
+                const department =
+                    this.value;
+
+
+                filterCourses(
+                    programme,
+                    department
+                );
+
+            }
+        );
+
+
+        /*
+        ==========================================
+        COURSE CHANGE
+        ==========================================
+        */
+
+        courseSelect.addEventListener(
+            "change",
+            function () {
+
+                const selectedOption =
+                    this.options[
+                        this.selectedIndex
+                    ];
+
+
+                if (
+                    !selectedOption ||
+                    !selectedOption.value
+                ) {
+
+                    return;
+
+                }
+
+
+                const programme =
+                    selectedOption.getAttribute(
+                        "data-programme"
+                    );
+
+
+                /*
+                Automatically synchronize
+                Programme with Course
+                */
+
+                programmeSelect.value =
+                    programme;
+
+
+                /*
+                Reset year because
+                course changed
+                */
+
+                loadYears(
+                    programme,
+                    ""
+                );
+
+            }
+        );
+
+
+        /*
+        ==========================================
+        INITIAL PAGE LOAD
+        ==========================================
+        */
+
+        const initialProgramme =
+            "{{ programme }}";
+
+        const initialDepartment =
+            "{{ section.department_id }}";
+
+
+        /*
+        Set programme
+        */
+
+        programmeSelect.value =
+            initialProgramme;
+
+
+        /*
+        Filter courses
+        */
+
+        filterCourses(
+            initialProgramme,
+            initialDepartment
+        );
+
+
+        /*
+        Load existing year
+        */
+
+        loadYears(
+            initialProgramme,
+            existingYear
+        );
+
+    }
+
+);
+
+</script>
+
+{% endblock %}

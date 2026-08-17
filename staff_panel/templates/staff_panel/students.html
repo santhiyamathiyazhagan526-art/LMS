@@ -1,0 +1,290 @@
+{% extends "staff_panel/base.html" %}
+{% load static %}
+
+{% block title %}Students{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">My Students</h2>
+            <small class="text-muted">
+                Students assigned to your subjects
+            </small>
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card dashboard-card">
+
+                <div class="card-body text-center">
+
+                    <i class="fas fa-user-graduate fa-2x text-primary mb-2"></i>
+
+                    <h2>{{ total_students }}</h2>
+
+                    <h6>Total Students</h6>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card dashboard-card">
+
+                <div class="card-body text-center">
+
+                    <i class="fas fa-user-check fa-2x text-success mb-2"></i>
+
+                    <h2>{{ active_students }}</h2>
+
+                    <h6>Active Students</h6>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card dashboard-card">
+
+                <div class="card-body text-center">
+
+                    <i class="fas fa-user-times fa-2x text-danger mb-2"></i>
+
+                    <h2>{{ inactive_students }}</h2>
+
+                    <h6>Inactive Students</h6>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Search -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <input
+                type="text"
+                id="studentSearch"
+                class="form-control"
+                placeholder="Search Register No / Student Name">
+
+        </div>
+
+    </div>
+
+    <!-- Table -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                Student List
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover mb-0"
+                   id="studentTable">
+
+                <thead class="table-dark">
+
+                <tr>
+
+                    <th>S.No</th>
+                    <th>Photo</th>
+                    <th>Register No</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Course</th>
+                    <th>Programme</th>
+                    <th>Year</th>
+                    <th>Section</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                                <tbody>
+
+                {% for student in students %}
+
+                {% ifchanged student.programme student.year student.section.section %}
+
+                <tr class="table-primary">
+
+                    <td colspan="11" class="fw-bold fs-5">
+
+                        <i class="fas fa-users me-2"></i>
+
+                        {{ student.programme }}
+                        →
+                        {{ student.year }}
+                        →
+                        Section {{ student.section.section }}
+
+                    </td>
+
+                </tr>
+
+                {% endifchanged %}
+
+                <tr>
+
+                    <td>{{ forloop.counter }}</td>
+
+                    <td>
+
+                        {% if student.photo %}
+
+                            <img src="{{ student.photo.url }}"
+                                width="45"
+                                height="45"
+                                style="border-radius:50%;object-fit:cover;">
+
+                        {% else %}
+
+                            <img src="{% static 'staff_panel/images/avatar.png' %}"
+                                width="45"
+                                height="45"
+                                style="border-radius:50%;">
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ student.register_no }}</td>
+
+                    <td>{{ student.name }}</td>
+
+                    <td>{{ student.department }}</td>
+
+                    <td>{{ student.course }}</td>
+
+                    <td>
+
+                        <span class="badge bg-info">
+
+                            {{ student.programme }}
+
+                        </span>
+
+                    </td>
+
+                    <td>{{ student.year }}</td>
+
+                    <td>{{ student.section.section }}</td>
+
+                    <td>
+
+                        {% if student.is_active %}
+
+                            <span class="badge bg-success">
+
+                                Active
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-danger">
+
+                                Inactive
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a href="{% url 'staff_student_view' student.id %}"
+                            class="btn btn-primary btn-sm">
+
+                                <i class="fas fa-eye"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="11" class="text-center p-5">
+
+                        <i class="fas fa-users fa-3x text-muted mb-3"></i>
+
+                        <h5>No Students Found</h5>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("studentSearch").addEventListener("keyup", function () {
+
+    let value = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#studentTable tbody tr");
+
+    rows.forEach(function(row){
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(value)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

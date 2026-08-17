@@ -256,6 +256,7 @@
                     <th>
                         Course Name
                     </th>
+                    <th>Programme</th>
 
                     <th>
                         Department
@@ -293,6 +294,17 @@
 
                         {{ course.name }}
 
+                    </td>
+                    <td>
+                        {% if course.programme == "UG" %}
+                            <span class="badge bg-info">
+                                UG
+                            </span>
+                        {% elif course.programme == "PG" %}
+                            <span class="badge bg-primary">
+                                PG
+                            </span>
+                        {% endif %}
                     </td>
 
                     <td>

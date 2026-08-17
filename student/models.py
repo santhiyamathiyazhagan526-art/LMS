@@ -2,6 +2,7 @@ from django.db import models
 from institution.models import Institution
 from department.models import Department
 from course.models import Course
+from section.models import Section
 
 
 class Student(models.Model):
@@ -12,11 +13,20 @@ class Student(models.Model):
         ("Other", "Other"),
     ]
 
+    PROGRAMME_CHOICES = [
+    ("UG", "Under Graduate"),
+    ("PG", "Post Graduate"),
+]
+
     YEAR_CHOICES = [
         ("I", "I Year"),
         ("II", "II Year"),
         ("III", "III Year"),
-        ("IV", "IV Year"),
+
+        ("PG-I", "PG I Year"),
+
+        ("PG-II", "PG II Year"),
+
     ]
 
     photo = models.ImageField(
@@ -57,6 +67,19 @@ class Student(models.Model):
         on_delete=models.CASCADE
     )
 
+    from section.models import Section
+
+    section = models.ForeignKey(
+        Section,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+    programme = models.CharField(
+    max_length=2,
+    choices=PROGRAMME_CHOICES,
+    default="UG"
+)
     year = models.CharField(
         max_length=5,
         choices=YEAR_CHOICES

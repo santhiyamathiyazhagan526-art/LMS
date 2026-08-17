@@ -1,0 +1,136 @@
+{% load static %}
+
+<nav class="top-navbar">
+
+    <!-- Left -->
+
+    <div class="top-navbar-left">
+
+        <button class="menu-toggle" id="menuToggle">
+
+            <i class="fas fa-bars"></i>
+
+        </button>
+
+        <div>
+
+            <h4 class="mb-0 fw-bold">
+                Dashboard
+            </h4>
+
+            <small class="text-muted">
+                Staff Panel
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- Right -->
+
+    <div class="top-navbar-right">
+
+        <!-- Search -->
+
+        <div class="search-box">
+
+            <i class="fas fa-search"></i>
+
+            <input type="text"
+                   placeholder="Search...">
+
+        </div>
+
+        <!-- Notification -->
+
+        <button class="menu-toggle">
+
+            <i class="fas fa-bell"></i>
+
+        </button>
+
+        <!-- Messages -->
+
+        <button class="menu-toggle">
+
+            <i class="fas fa-envelope"></i>
+
+        </button>
+
+        <!-- Profile -->
+
+        <div class="dropdown">
+
+            <button
+                class="btn btn-light dropdown-toggle profile-box"
+                data-bs-toggle="dropdown">
+
+                {% if staff.photo %}
+                    <img src="{{ staff.photo.url }}" alt="Profile">
+                {% else %}
+                    <img src="{% static 'staff_panel/images/avatar.png' %}" alt="Profile">
+                {% endif %}
+                                    
+
+                <div class="text-start">
+
+                    <h6>{{ request.user.username }}</h6>
+
+                    <small>Staff</small>
+
+                </div>
+
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+
+                <li>
+
+                    <a class="dropdown-item"
+                       href="{% url 'staff_profile' %}">
+
+                        <i class="fas fa-user me-2"></i>
+
+                        My Profile
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a class="dropdown-item"
+                       href="#">
+
+                        <i class="fas fa-cog me-2"></i>
+
+                        Settings
+
+                    </a>
+
+                </li>
+
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+                <li>
+
+                    <a class="dropdown-item text-danger"
+                       href="{% url 'staff_logout' %}">
+
+                        <i class="fas fa-right-from-bracket me-2"></i>
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>

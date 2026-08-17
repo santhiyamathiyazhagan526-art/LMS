@@ -4,6 +4,7 @@ from department.models import Department
 
 
 class Course(models.Model):
+
     institution = models.ForeignKey(
         Institution,
         on_delete=models.CASCADE
@@ -15,7 +16,18 @@ class Course(models.Model):
         related_name="courses"
     )
 
-    name = models.CharField(max_length=150)
+    # ADD PROGRAMME HERE
+    programme = models.CharField(
+        max_length=2,
+        choices=[
+            ("UG", "UG"),
+            ("PG", "PG"),
+        ]
+    )
+
+    name = models.CharField(
+        max_length=150
+    )
 
     code = models.CharField(
         max_length=20,
@@ -33,16 +45,17 @@ class Course(models.Model):
         null=True
     )
 
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(
+        default=True
+    )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ["name"]
-        verbose_name = "Course"
-        verbose_name_plural = "Courses"
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
 
     def __str__(self):
         return self.name

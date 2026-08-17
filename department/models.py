@@ -20,8 +20,9 @@ class Department(models.Model):
     )
 
     dean_name = models.CharField(
-    max_length=100
+        max_length=100
     )
+    
     hod_name = models.CharField(
         max_length=100
     )

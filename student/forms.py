@@ -16,6 +16,8 @@ class StudentForm(forms.ModelForm):
             "institution",
             "department",
             "course",
+            "section",
+            "programme",
             "year",
             "is_active",
         ]
@@ -52,6 +54,15 @@ class StudentForm(forms.ModelForm):
             "course": forms.Select(attrs={
                 "class": "form-select"
             }),
+
+            "section": forms.Select(attrs={
+                "class": "form-select"
+            }),
+
+            "programme": forms.Select(attrs={
+                "class": "form-select"
+            }),
+                        
 
             "year": forms.Select(attrs={
                 "class": "form-select"

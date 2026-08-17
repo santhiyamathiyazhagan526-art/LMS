@@ -1,0 +1,511 @@
+{% extends "staff_panel/base.html" %}
+
+{% block title %}Staff Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">Dashboard</h2>
+
+            <p class="text-muted mb-0">
+                Welcome back,
+                <strong>{{ request.user.username }}</strong>
+            </p>
+        </div>
+
+        <div class="text-end">
+
+            <small class="text-muted">
+                Today's Date
+            </small>
+
+            <h6 class="fw-semibold mb-0">
+                {% now "l, d F Y" %}
+            </h6>
+
+        </div>
+
+    </div>
+
+
+    <!-- Statistics -->
+    <div class="row g-4 mb-4">
+
+        <!-- My Subjects -->
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <small class="text-muted">
+                                My Subjects
+                            </small>
+
+                            <h2 class="fw-bold">
+                                {{ subject_count|default:"0" }}
+                            </h2>
+
+                        </div>
+
+                        <div class="icon-box bg-primary text-white">
+
+                            <i class="fas fa-book"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Students -->
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <small class="text-muted">
+                                Students
+                            </small>
+
+                            <h2 class="fw-bold">
+                                {{ student_count|default:"0" }}
+                            </h2>
+
+                        </div>
+
+                        <div class="icon-box bg-success text-white">
+
+                            <i class="fas fa-user-graduate"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Today's Classes -->
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <small class="text-muted">
+                                Today's Classes
+                            </small>
+
+                            <h2 class="fw-bold">
+                                {{ today_classes|default:"0" }}
+                            </h2>
+
+                        </div>
+
+                        <div class="icon-box bg-warning text-white">
+
+                            <i class="fas fa-calendar-day"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Assignments -->
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <small class="text-muted">
+                                Assignments
+                            </small>
+
+                            <h2 class="fw-bold">
+                                {{ assignment_count|default:"0" }}
+                            </h2>
+
+                        </div>
+
+                        <div class="icon-box bg-danger text-white">
+
+                            <i class="fas fa-file-alt"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Today's Timetable -->
+    <div class="card dashboard-card mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                <i class="fas fa-clock text-primary me-2"></i>
+
+                Today's Timetable
+
+            </h5>
+
+        </div>
+
+
+        <div class="card-body p-0">
+
+            {% if today_timetable %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover mb-0">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Period</th>
+
+                                <th>Subject</th>
+
+                                <th>Programme</th>
+
+                                <th>Year</th>
+
+                                <th>Section</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for timetable in today_timetable %}
+
+                            <tr>
+
+                                <td>
+
+                                    <span class="badge bg-primary">
+
+                                        {{ timetable.get_period_display }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+
+                                        {{ timetable.subject }}
+
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ timetable.section.programme }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ timetable.section.year }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ timetable.section.section }}
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-5 text-muted">
+
+                    <i class="fas fa-calendar-check fa-2x mb-3"></i>
+
+                    <p class="mb-0">
+
+                        No classes scheduled today.
+
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+
+        <div class="col-12">
+
+            <div class="card dashboard-card">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-bolt text-primary me-2"></i>
+
+                        Quick Actions
+
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="row g-3">
+
+
+                        <!-- Attendance -->
+                        <div class="col-lg-3 col-md-6">
+
+                            <a
+                                href="{% url 'staff_attendance' %}"
+                                class="btn btn-outline-primary w-100 py-3"
+                            >
+
+                                <i class="fas fa-calendar-check fa-2x mb-2 d-block"></i>
+
+                                Attendance
+
+                            </a>
+
+                        </div>
+
+
+                        <!-- Materials -->
+                        <div class="col-lg-3 col-md-6">
+
+                            <a
+                                href="{% url 'staff_materials' %}"
+                                class="btn btn-outline-success w-100 py-3"
+                            >
+
+                                <i class="fas fa-folder-open fa-2x mb-2 d-block"></i>
+
+                                Materials
+
+                            </a>
+
+                        </div>
+
+
+                        <!-- Assignments -->
+                        <div class="col-lg-3 col-md-6">
+
+                            <a
+                                href="{% url 'staff_assignments' %}"
+                                class="btn btn-outline-warning w-100 py-3"
+                            >
+
+                                <i class="fas fa-file-alt fa-2x mb-2 d-block"></i>
+
+                                Assignments
+
+                            </a>
+
+                        </div>
+
+
+                        <!-- Timetable -->
+                        <div class="col-lg-3 col-md-6">
+
+                            <a
+                                href="{% url 'staff_timetable' %}"
+                                class="btn btn-outline-info w-100 py-3"
+                            >
+
+                                <i class="fas fa-clock fa-2x mb-2 d-block"></i>
+
+                                Timetable
+
+                            </a>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Staff Information -->
+    <div class="row">
+
+        <div class="col-12">
+
+            <div class="card dashboard-card">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="fas fa-user text-success me-2"></i>
+
+                        Staff Information
+
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <table class="table table-borderless mb-0">
+
+                        <tr>
+
+                            <th width="25%">
+                                Name
+                            </th>
+
+                            <td>
+                                {{ staff.name|default:"Not Available" }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Staff ID
+                            </th>
+
+                            <td>
+                                {{ staff.staff_id|default:"Not Available" }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <td>
+                                {{ staff.email|default:"Not Available" }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <td>
+                                {{ staff.department|default:"Not Assigned" }}
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>
+                                Phone
+                            </th>
+
+                            <td>
+                                {{ staff.phone|default:"Not Available" }}
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,838 @@
+{% extends "student_portal/base.html" %}
+
+{% block title %}
+Study Materials
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* =========================================
+   MATERIAL PAGE
+========================================= */
+
+.material-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.material-header {
+    margin-bottom: 22px;
+}
+
+.material-header h1 {
+    margin: 0;
+
+    font-size: 26px;
+
+    font-weight: 700;
+
+    color: #172033;
+}
+
+.material-header p {
+    margin: 6px 0 0;
+
+    font-size: 13px;
+
+    color: #718096;
+}
+
+
+/* =========================================
+   SUMMARY
+========================================= */
+
+.material-summary {
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+
+    border-radius: 13px;
+
+    padding: 17px 20px;
+
+    margin-bottom: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+
+.material-course {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+
+.material-course-icon {
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 11px;
+
+    background: #ecfdf9;
+
+    color: #0f766e;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 18px;
+}
+
+
+.material-course-name {
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #172033;
+}
+
+
+.material-course-details {
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color: #7b8798;
+}
+
+
+.material-count {
+    padding: 7px 11px;
+
+    background: #ecfdf9;
+
+    border: 1px solid #c9f3eb;
+
+    color: #0f766e;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   MATERIAL GRID
+========================================= */
+
+.material-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(210px, 1fr));
+
+    gap: 15px;
+
+    align-items: start;
+
+    max-width: 1080px;
+}
+
+
+/* =========================================
+   MATERIAL CARD
+========================================= */
+
+.material-card {
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+
+    border-radius: 12px;
+
+    padding: 16px;
+
+    min-height: 245px;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.material-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #a7ddd5;
+
+    box-shadow:
+        0 7px 18px rgba(15, 23, 42, 0.07);
+}
+
+
+/* =========================================
+   CARD TOP
+========================================= */
+
+.material-top {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 14px;
+}
+
+
+/* =========================================
+   FILE ICON
+========================================= */
+
+.material-icon {
+    width: 40px;
+
+    height: 40px;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 17px;
+
+    background: #ecfdf9;
+
+    color: #0f766e;
+}
+
+
+.material-type {
+    padding: 5px 8px;
+
+    border-radius: 6px;
+
+    background: #f4f7f7;
+
+    color: #667085;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.material-title {
+    min-height: 42px;
+
+    margin-bottom: 8px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    color: #263244;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.material-description {
+    min-height: 34px;
+
+    margin-bottom: 10px;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+    color: #7b8798;
+}
+
+
+/* =========================================
+   DETAILS
+========================================= */
+
+.material-detail {
+    min-height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    border-top: 1px solid #edf2f2;
+
+    font-size: 11px;
+
+    color: #718096;
+}
+
+
+.material-detail i {
+    width: 16px;
+
+    text-align: center;
+
+    color: #0f766e;
+
+    font-size: 11px;
+}
+
+
+.material-detail strong {
+    margin-left: 3px;
+
+    color: #344054;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.material-actions {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 12px;
+}
+
+
+.material-btn {
+    flex: 1;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 8px 9px;
+
+    border-radius: 7px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+
+.view-btn {
+    background: #ecfdf9;
+
+    color: #0f766e;
+
+    border: 1px solid #c9f3eb;
+}
+
+
+.view-btn:hover {
+    background: #d9f7f1;
+
+    color: #0f766e;
+}
+
+
+.download-btn {
+    background: #0f766e;
+
+    color: #ffffff;
+
+    border: 1px solid #0f766e;
+}
+
+
+.download-btn:hover {
+    background: #115e59;
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-state {
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+
+    border-radius: 13px;
+
+    min-height: 280px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+
+.empty-icon {
+    width: 55px;
+
+    height: 55px;
+
+    border-radius: 13px;
+
+    background: #ecfdf9;
+
+    color: #0f766e;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+
+    margin-bottom: 14px;
+}
+
+
+.empty-state h3 {
+    margin: 0;
+
+    font-size: 16px;
+
+    color: #273244;
+}
+
+
+.empty-state p {
+    margin: 6px 0 0;
+
+    font-size: 12px;
+
+    color: #8b95a5;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .material-grid {
+        grid-template-columns:
+            repeat(2, minmax(210px, 1fr));
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .material-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .material-card {
+        max-width: 100%;
+    }
+
+    .material-summary {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .material-summary {
+        padding: 15px;
+    }
+
+    .material-card {
+        padding: 15px;
+    }
+
+}
+
+</style>
+
+
+<div class="material-page">
+
+
+    <!-- =====================================
+         PAGE HEADER
+    ====================================== -->
+
+    <div class="material-header">
+
+        <h1>
+            Study Materials
+        </h1>
+
+        <p>
+            Access learning materials shared by your faculty
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
+         COURSE SUMMARY
+    ====================================== -->
+
+    <div class="material-summary">
+
+
+        <div class="material-course">
+
+
+            <div class="material-course-icon">
+
+                <i class="fas fa-folder-open"></i>
+
+            </div>
+
+
+            <div>
+
+                <div class="material-course-name">
+
+                    {{ student.course }}
+
+                </div>
+
+
+                <div class="material-course-details">
+
+                    {{ student.programme }}
+
+                    &nbsp;•&nbsp;
+
+                    {{ student.year }}
+
+                    {% if student.section %}
+
+                        &nbsp;•&nbsp;
+
+                        Section {{ student.section.section }}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="material-count">
+
+            {{ materials|length }}
+
+            Material{{ materials|length|pluralize }}
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         MATERIALS
+    ====================================== -->
+
+    {% if materials %}
+
+
+        <div class="material-grid">
+
+
+            {% for material in materials %}
+
+
+                <div class="material-card">
+
+
+                    <!-- CARD TOP -->
+
+                    <div class="material-top">
+
+
+                        <div class="material-icon">
+
+
+                            {% if material.material_type == "PDF" %}
+
+                                <i class="fas fa-file-pdf"></i>
+
+
+                            {% elif material.material_type == "PPT" %}
+
+                                <i class="fas fa-file-powerpoint"></i>
+
+
+                            {% elif material.material_type == "DOC" %}
+
+                                <i class="fas fa-file-word"></i>
+
+
+                            {% elif material.material_type == "VIDEO" %}
+
+                                <i class="fas fa-file-video"></i>
+
+
+                            {% else %}
+
+                                <i class="fas fa-file"></i>
+
+                            {% endif %}
+
+
+                        </div>
+
+
+                        <div class="material-type">
+
+                            {{ material.get_material_type_display }}
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- TITLE -->
+
+                    <div class="material-title">
+
+                        {{ material.title }}
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    {% if material.description %}
+
+                        <div class="material-description">
+
+                            {{ material.description|truncatechars:75 }}
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="material-description">
+
+                            Learning material shared by faculty.
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- SUBJECT -->
+
+                    <div class="material-detail">
+
+                        <i class="fas fa-book-open"></i>
+
+                        <span>
+
+                            Subject
+
+                            <strong>
+
+                                {{ material.subject.subject_name }}
+
+                            </strong>
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- FACULTY -->
+
+                    <div class="material-detail">
+
+                        <i class="fas fa-user-tie"></i>
+
+                        <span>
+
+                            Faculty
+
+                            <strong>
+
+                                {{ material.staff }}
+
+                            </strong>
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- DATE -->
+
+                    <div class="material-detail">
+
+                        <i class="fas fa-calendar"></i>
+
+                        <span>
+
+                            Added
+
+                            <strong>
+
+                                {{ material.created_at|date:"d M Y" }}
+
+                            </strong>
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="material-actions">
+
+
+                        <a
+                            href="{{ material.file.url }}"
+                            target="_blank"
+                            class="material-btn view-btn"
+                        >
+
+                            <i class="fas fa-eye"></i>
+
+                            View
+
+                        </a>
+
+
+                        <a
+                            href="{{ material.file.url }}"
+                            download
+                            class="material-btn download-btn"
+                        >
+
+                            <i class="fas fa-download"></i>
+
+                            Download
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <!-- =================================
+             EMPTY STATE
+        ================================== -->
+
+        <div class="empty-state">
+
+
+            <div class="empty-icon">
+
+                <i class="fas fa-folder-open"></i>
+
+            </div>
+
+
+            <h3>
+
+                No Study Materials
+
+            </h3>
+
+
+            <p>
+
+                No learning materials are currently available for your section.
+
+            </p>
+
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+{% endblock %}

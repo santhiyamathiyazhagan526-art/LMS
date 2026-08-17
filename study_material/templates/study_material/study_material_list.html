@@ -1,0 +1,804 @@
+{% extends "staff_panel/base.html" %}
+
+{% block title %}Study Materials{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .materials-wrapper {
+        padding: 5px;
+    }
+
+    /* ==============================
+       MAIN CARD
+    ============================== */
+
+    .materials-card {
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+
+    /* ==============================
+       HEADER
+    ============================== */
+
+    .materials-header {
+        background: linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
+
+        padding: 20px 24px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        color: white;
+    }
+
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+
+    .material-icon {
+        width: 48px;
+        height: 48px;
+
+        background: rgba(255, 255, 255, 0.18);
+
+        border-radius: 12px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 23px;
+    }
+
+
+    .header-title {
+        margin: 0;
+        font-size: 21px;
+        font-weight: 600;
+    }
+
+
+    .header-subtitle {
+        margin: 4px 0 0;
+        font-size: 13px;
+        opacity: 0.85;
+    }
+
+
+    /* ==============================
+       ADD BUTTON
+    ============================== */
+
+    .add-material-btn {
+        background: white;
+        color: #2563eb;
+
+        padding: 10px 17px;
+
+        border-radius: 8px;
+
+        text-decoration: none;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        display: flex;
+        align-items: center;
+        gap: 7px;
+
+        transition: all 0.2s ease;
+    }
+
+
+    .add-material-btn:hover {
+        background: #f1f5ff;
+        color: #1d4ed8;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* ==============================
+       BODY
+    ============================== */
+
+    .materials-body {
+        padding: 22px 24px 25px;
+    }
+
+
+    /* ==============================
+       SUMMARY
+    ============================== */
+
+    .materials-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        margin-bottom: 18px;
+    }
+
+
+    .material-count {
+        color: #475569;
+        font-size: 14px;
+    }
+
+
+    .material-count strong {
+        color: #1e293b;
+    }
+
+
+    /* ==============================
+       TABLE
+    ============================== */
+
+    .materials-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+
+    .materials-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+
+        min-width: 850px;
+    }
+
+
+    .materials-table thead th {
+        background: #f8fafc;
+
+        color: #475569;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        text-transform: uppercase;
+
+        letter-spacing: 0.3px;
+
+        padding: 13px 14px;
+
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+
+        text-align: left;
+    }
+
+
+    .materials-table thead th:first-child {
+        border-left: 1px solid #e2e8f0;
+
+        border-top-left-radius: 8px;
+    }
+
+
+    .materials-table thead th:last-child {
+        border-right: 1px solid #e2e8f0;
+
+        border-top-right-radius: 8px;
+    }
+
+
+    .materials-table tbody td {
+        padding: 14px;
+
+        font-size: 14px;
+
+        color: #334155;
+
+        border-bottom: 1px solid #eef2f7;
+
+        vertical-align: middle;
+    }
+
+
+    .materials-table tbody tr {
+        transition: background 0.2s ease;
+    }
+
+
+    .materials-table tbody tr:hover {
+        background: #f8fbff;
+    }
+
+
+    /* ==============================
+       SERIAL NUMBER
+    ============================== */
+
+    .serial-number {
+        width: 50px;
+
+        color: #64748b;
+
+        font-weight: 600;
+    }
+
+
+    /* ==============================
+       TITLE
+    ============================== */
+
+    .material-title {
+        font-weight: 600;
+
+        color: #1e293b;
+    }
+
+
+    .material-subtitle {
+        display: block;
+
+        margin-top: 3px;
+
+        color: #94a3b8;
+
+        font-size: 12px;
+    }
+
+
+    /* ==============================
+       BADGES
+    ============================== */
+
+    .badge-custom {
+        display: inline-flex;
+
+        align-items: center;
+
+        padding: 5px 9px;
+
+        border-radius: 6px;
+
+        font-size: 12px;
+
+        font-weight: 600;
+
+        white-space: nowrap;
+    }
+
+
+    .badge-subject {
+        background: #eff6ff;
+        color: #2563eb;
+    }
+
+
+    .badge-ug {
+        background: #ecfdf5;
+        color: #059669;
+    }
+
+
+    .badge-pg {
+        background: #f5f3ff;
+        color: #7c3aed;
+    }
+
+
+    .badge-year {
+        background: #fff7ed;
+        color: #ea580c;
+    }
+
+
+    .badge-section {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+
+    /* ==============================
+       FILE BUTTON
+    ============================== */
+
+    .file-btn {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 7px;
+
+        padding: 7px 11px;
+
+        border-radius: 7px;
+
+        background: #eff6ff;
+
+        color: #2563eb;
+
+        text-decoration: none;
+
+        font-size: 12px;
+
+        font-weight: 600;
+
+        border: 1px solid #dbeafe;
+
+        transition: all 0.2s ease;
+    }
+
+
+    .file-btn:hover {
+        background: #2563eb;
+
+        color: white;
+
+        border-color: #2563eb;
+    }
+
+
+    .no-file {
+        color: #94a3b8;
+
+        font-size: 12px;
+    }
+
+
+    /* ==============================
+       EMPTY STATE
+    ============================== */
+
+    .empty-state {
+        text-align: center;
+
+        padding: 65px 20px;
+    }
+
+
+    .empty-icon {
+        width: 70px;
+        height: 70px;
+
+        margin: 0 auto 18px;
+
+        background: #eff6ff;
+
+        color: #2563eb;
+
+        border-radius: 50%;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        font-size: 28px;
+    }
+
+
+    .empty-state h3 {
+        margin: 0 0 8px;
+
+        color: #1e293b;
+
+        font-size: 18px;
+    }
+
+
+    .empty-state p {
+        margin: 0 0 22px;
+
+        color: #64748b;
+
+        font-size: 14px;
+    }
+
+
+    .empty-add-btn {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 7px;
+
+        background: #2563eb;
+
+        color: white;
+
+        padding: 10px 16px;
+
+        border-radius: 8px;
+
+        text-decoration: none;
+
+        font-size: 13px;
+
+        font-weight: 600;
+    }
+
+
+    .empty-add-btn:hover {
+        background: #1d4ed8;
+
+        color: white;
+    }
+
+
+    /* ==============================
+       MOBILE
+    ============================== */
+
+    @media (max-width: 768px) {
+
+        .materials-header {
+            padding: 16px;
+
+            align-items: flex-start;
+
+            gap: 15px;
+        }
+
+
+        .header-title {
+            font-size: 18px;
+        }
+
+
+        .header-subtitle {
+            display: none;
+        }
+
+
+        .add-material-btn {
+            padding: 8px 10px;
+
+            font-size: 12px;
+        }
+
+
+        .materials-body {
+            padding: 16px;
+        }
+
+
+        .material-icon {
+            width: 42px;
+            height: 42px;
+        }
+
+    }
+
+</style>
+
+
+<div class="materials-wrapper">
+
+    <div class="materials-card">
+
+
+        <!-- ==========================================
+             HEADER
+        =========================================== -->
+
+        <div class="materials-header">
+
+
+            <div class="header-left">
+
+                <div class="material-icon">
+                    📚
+                </div>
+
+
+                <div>
+
+                    <h2 class="header-title">
+                        Study Materials
+                    </h2>
+
+                    <p class="header-subtitle">
+                        Manage and access your uploaded learning materials
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="{% url 'add_study_material' %}"
+                class="add-material-btn"
+            >
+
+                <span>+</span>
+
+                Add Material
+
+            </a>
+
+
+        </div>
+
+
+        <!-- ==========================================
+             BODY
+        =========================================== -->
+
+        <div class="materials-body">
+
+
+            {% if materials %}
+
+
+                <!-- SUMMARY -->
+
+                <div class="materials-summary">
+
+                    <div class="material-count">
+
+                        Total Materials:
+
+                        <strong>
+                            {{ materials|length }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ======================================
+                     TABLE
+                ======================================= -->
+
+                <div class="materials-table-wrapper">
+
+                    <table class="materials-table">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    S.No
+                                </th>
+
+                                <th>
+                                    Title
+                                </th>
+
+                                <th>
+                                    Subject
+                                </th>
+
+                                <th>
+                                    Programme
+                                </th>
+
+                                <th>
+                                    Year
+                                </th>
+
+                                <th>
+                                    Section
+                                </th>
+
+                                <th>
+                                    File
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                        {% for material in materials %}
+
+
+                            <tr>
+
+
+                                <!-- S.NO -->
+
+                                <td class="serial-number">
+
+                                    {{ forloop.counter }}
+
+                                </td>
+
+
+                                <!-- TITLE -->
+
+                                <td>
+
+                                    <span class="material-title">
+
+                                        {{ material.title }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- SUBJECT -->
+
+                                <td>
+
+                                    <span class="badge-custom badge-subject">
+
+                                        📖
+
+                                        {{ material.subject }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- PROGRAMME -->
+
+                                <td>
+
+                                    {% if material.section.course.programme == "PG" %}
+
+                                        <span class="badge-custom badge-pg">
+
+                                            PG
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge-custom badge-ug">
+
+                                            UG
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- YEAR -->
+
+                                <td>
+
+                                    <span class="badge-custom badge-year">
+
+                                        {{ material.section.year }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- SECTION -->
+
+                                <td>
+
+                                    <span class="badge-custom badge-section">
+
+                                        Section {{ material.section.section }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- FILE -->
+
+                                <td>
+
+                                    {% if material.file %}
+
+                                        <a
+                                            href="{{ material.file.url }}"
+                                            target="_blank"
+                                            class="file-btn"
+                                        >
+
+                                            📄
+
+                                            View / Download
+
+                                        </a>
+
+                                    {% else %}
+
+                                        <span class="no-file">
+
+                                            No File
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                            </tr>
+
+
+                        {% endfor %}
+
+
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+
+                <!-- ======================================
+                     EMPTY STATE
+                ======================================= -->
+
+                <div class="empty-state">
+
+
+                    <div class="empty-icon">
+
+                        📚
+
+                    </div>
+
+
+                    <h3>
+                        No Study Materials Found
+                    </h3>
+
+
+                    <p>
+                        You have not uploaded any study materials yet.
+                    </p>
+
+
+                    <a
+                        href="{% url 'add_study_material' %}"
+                        class="empty-add-btn"
+                    >
+
+                        +
+
+                        Add Study Material
+
+                    </a>
+
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}

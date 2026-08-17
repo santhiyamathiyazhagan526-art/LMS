@@ -37,7 +37,10 @@ urlpatterns = [
     path("staff/", include("staff.urls")),
     path("subject/", include("subject.urls")),
     path("staff-panel/", include("staff_panel.urls")),
-    
+    path("section/", include("section.urls")),
+    path("attendance/",include("attendance.urls")),
+    path("study-material/",include("study_material.urls")),
+    path("student/",include("student_portal.urls")),
     ]
 
 # Serve uploaded media files during development

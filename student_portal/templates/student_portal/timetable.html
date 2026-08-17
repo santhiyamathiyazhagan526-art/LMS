@@ -1,0 +1,711 @@
+{% extends "student_portal/base.html" %}
+
+{% block title %}
+Timetable
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* =========================================
+   TIMETABLE PAGE
+========================================= */
+
+.timetable-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.timetable-header {
+    margin-bottom: 22px;
+}
+
+.timetable-header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #172033;
+}
+
+.timetable-header p {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: #718096;
+}
+
+
+/* =========================================
+   COURSE SUMMARY
+========================================= */
+
+.timetable-summary {
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+
+    border-radius: 13px;
+
+    padding: 17px 20px;
+
+    margin-bottom: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+
+.timetable-course {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+
+.timetable-course-icon {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 11px;
+
+    background: #ecfdf9;
+
+    color: #0f766e;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 18px;
+
+    flex-shrink: 0;
+}
+
+
+.timetable-course-name {
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #172033;
+}
+
+
+.timetable-course-details {
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color: #7b8798;
+}
+
+
+.week-label {
+    padding: 7px 11px;
+
+    background: #ecfdf9;
+
+    border: 1px solid #c9f3eb;
+
+    color: #0f766e;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   TABLE WRAPPER
+========================================= */
+
+.timetable-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.timetable-table {
+    width: 100%;
+
+    min-width: 900px;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+}
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.timetable-table thead th {
+    padding: 13px 10px;
+
+    background: #f0fdfa;
+
+    color: #0f766e;
+
+    border-bottom: 1px solid #d8eeeb;
+
+    border-right: 1px solid #e7eeee;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-align: center;
+}
+
+
+.timetable-table thead th:first-child {
+    width: 125px;
+
+    text-align: left;
+
+    padding-left: 18px;
+}
+
+
+/* =========================================
+   TABLE BODY
+========================================= */
+
+.timetable-table tbody th {
+    padding: 14px 16px;
+
+    background: #fafcfc;
+
+    color: #263244;
+
+    border-right: 1px solid #e7eeee;
+
+    border-bottom: 1px solid #edf2f2;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-align: left;
+}
+
+
+.timetable-table tbody td {
+    height: 105px;
+
+    padding: 9px;
+
+    border-right: 1px solid #edf2f2;
+
+    border-bottom: 1px solid #edf2f2;
+
+    vertical-align: middle;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   PERIOD CELL
+========================================= */
+
+.period-cell {
+    background: #ffffff;
+
+    transition: background 0.2s ease;
+}
+
+
+.period-cell:hover {
+    background: #f8fffd;
+}
+
+
+/* =========================================
+   SUBJECT BOX
+========================================= */
+
+.subject-box {
+    width: 100%;
+
+    min-height: 78px;
+
+    padding: 10px;
+
+    background: #f5fffd;
+
+    border: 1px solid #d8f1ed;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+}
+
+
+/* =========================================
+   SUBJECT NAME
+========================================= */
+
+.subject-name {
+    font-size: 12px;
+
+    font-weight: 700;
+
+    line-height: 1.35;
+
+    color: #263244;
+}
+
+
+/* =========================================
+   SUBJECT CODE
+========================================= */
+
+.subject-code {
+    font-size: 9px;
+
+    font-weight: 700;
+
+    color: #0f766e;
+}
+
+
+/* =========================================
+   STAFF
+========================================= */
+
+.subject-staff {
+    max-width: 120px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-size: 9px;
+
+    color: #7b8798;
+}
+
+
+.subject-staff i {
+    margin-right: 3px;
+
+    color: #0f766e;
+}
+
+
+/* =========================================
+   FREE PERIOD
+========================================= */
+
+.free-period {
+    color: #a0aab8;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+.free-period i {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 14px;
+
+    color: #c5ced6;
+}
+
+
+/* =========================================
+   DAY
+========================================= */
+
+.day-name {
+    display: block;
+
+    color: #263244;
+}
+
+.day-short {
+    display: none;
+
+    color: #263244;
+}
+
+
+/* =========================================
+   LEGEND
+========================================= */
+
+.timetable-legend {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-top: 14px;
+
+    font-size: 11px;
+
+    color: #7b8798;
+}
+
+
+.legend-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+
+.legend-box {
+    width: 12px;
+
+    height: 12px;
+
+    border-radius: 3px;
+}
+
+
+.legend-subject {
+    background: #f5fffd;
+
+    border: 1px solid #d8f1ed;
+}
+
+
+.legend-free {
+    background: #fafafa;
+
+    border: 1px solid #e4e7eb;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 750px) {
+
+    .timetable-summary {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .timetable-wrapper {
+        border-radius: 10px;
+    }
+
+    .day-name {
+        display: none;
+    }
+
+    .day-short {
+        display: block;
+    }
+
+}
+
+</style>
+
+
+<div class="timetable-page">
+
+
+    <!-- =====================================
+         PAGE HEADER
+    ====================================== -->
+
+    <div class="timetable-header">
+
+        <h1>
+            Timetable
+        </h1>
+
+        <p>
+            Your weekly class schedule
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
+         COURSE SUMMARY
+    ====================================== -->
+
+    <div class="timetable-summary">
+
+
+        <div class="timetable-course">
+
+
+            <div class="timetable-course-icon">
+
+                <i class="fas fa-calendar-alt"></i>
+
+            </div>
+
+
+            <div>
+
+                <div class="timetable-course-name">
+
+                    {{ student.course }}
+
+                </div>
+
+
+                <div class="timetable-course-details">
+
+                    {{ student.programme }}
+
+                    &nbsp;•&nbsp;
+
+                    {{ student.year }}
+
+                    {% if student.section %}
+
+                        &nbsp;•&nbsp;
+
+                        Section {{ student.section.section }}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="week-label">
+
+            Weekly Schedule
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         TIMETABLE TABLE
+    ====================================== -->
+
+    <div class="timetable-wrapper">
+
+
+        <table class="timetable-table">
+
+
+            <!-- HEADER -->
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Day
+                    </th>
+
+
+                    {% for period_number, period_name in periods %}
+
+                        <th>
+                            {{ period_name }}
+                        </th>
+
+                    {% endfor %}
+
+                </tr>
+
+            </thead>
+
+
+            <!-- BODY -->
+
+            <tbody>
+
+
+                {% for row in timetable_rows %}
+
+                    <tr>
+
+
+                        <!-- DAY -->
+
+                        <th>
+
+                            <span class="day-name">
+
+                                {{ row.day }}
+
+                            </span>
+
+
+                            <span class="day-short">
+
+                                {{ row.day|slice:":3" }}
+
+                            </span>
+
+                        </th>
+
+
+                        <!-- PERIODS -->
+
+                        {% for entry in row.periods %}
+
+                            <td class="period-cell">
+
+
+                                {% if entry %}
+
+
+                                    <div class="subject-box">
+
+
+                                        <div class="subject-name">
+
+                                            {{ entry.subject.subject_name }}
+
+                                        </div>
+
+
+                                        <div class="subject-code">
+
+                                            {{ entry.subject.subject_code }}
+
+                                        </div>
+
+
+                                        <div class="subject-staff">
+
+                                            <i class="fas fa-user-tie"></i>
+
+                                            {{ entry.staff }}
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                {% else %}
+
+
+                                    <div class="free-period">
+
+                                        <i class="fas fa-minus-circle"></i>
+
+                                        Free
+
+                                    </div>
+
+
+                                {% endif %}
+
+
+                            </td>
+
+                        {% endfor %}
+
+
+                    </tr>
+
+                {% endfor %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+    <!-- =====================================
+         LEGEND
+    ====================================== -->
+
+    <div class="timetable-legend">
+
+
+        <div class="legend-item">
+
+            <span class="legend-box legend-subject"></span>
+
+            Class
+
+        </div>
+
+
+        <div class="legend-item">
+
+            <span class="legend-box legend-free"></span>
+
+            Free Period
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "staff_panel/base.html" %}
+{% load static %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h2>My Profile</h2>
+</div>
+
+<div class="profile-card">
+
+    <div class="profile-image">
+
+        {% if staff.photo %}
+            <img src="{{ staff.photo.url }}" alt="Profile">
+        {% else %}
+            <img src="{% static 'staff_panel/images/avatar.png' %}" alt="Profile">
+        {% endif %}
+
+    </div>
+
+    <div class="profile-details">
+
+        <table>
+
+            <tr>
+                <th>Staff ID</th>
+                <td>{{ staff.staff_id }}</td>
+            </tr>
+
+            <tr>
+                <th>Name</th>
+                <td>{{ staff.name }}</td>
+            </tr>
+
+            <tr>
+                <th>Email</th>
+                <td>{{ staff.email }}</td>
+            </tr>
+
+            <tr>
+                <th>Gender</th>
+                <td>{{ staff.gender }}</td>
+            </tr>
+
+            <tr>
+                <th>Department</th>
+                <td>{{ staff.department }}</td>
+            </tr>
+
+            <tr>
+                <th>Institution</th>
+                <td>{{ staff.institution }}</td>
+            </tr>
+
+            <tr>
+                <th>Designation</th>
+                <td>{{ staff.designation }}</td>
+            </tr>
+
+            <tr>
+                <th>Status</th>
+                <td>
+                    {% if staff.is_active %}
+                        Active
+                    {% else %}
+                        Inactive
+                    {% endif %}
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

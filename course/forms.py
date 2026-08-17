@@ -9,6 +9,7 @@ class CourseForm(forms.ModelForm):
 
         fields = [
             "department",
+            "programme",
             "name",
             "code",
             "duration",
@@ -18,37 +19,57 @@ class CourseForm(forms.ModelForm):
         ]
 
         widgets = {
-            "department": forms.Select(attrs={
-                "class": "form-select"
-            }),
+            "department": forms.Select(
+                attrs={
+                    "class": "form-select"
+                }
+            ),
 
-            "name": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Enter Course Name"
-            }),
+            "programme": forms.Select(
+                attrs={
+                    "class": "form-select"
+                }
+            ),
 
-            "code": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Enter Course Code"
-            }),
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Course Name"
+                }
+            ),
 
-            "duration": forms.NumberInput(attrs={
-                "class": "form-control",
-                "placeholder": "Duration (Years)"
-            }),
+            "code": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Course Code"
+                }
+            ),
 
-            "total_semesters": forms.NumberInput(attrs={
-                "class": "form-control",
-                "placeholder": "Total Semesters"
-            }),
+            "duration": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Duration (Years)"
+                }
+            ),
 
-            "description": forms.Textarea(attrs={
-                "class": "form-control",
-                "rows": 4,
-                "placeholder": "Description"
-            }),
+            "total_semesters": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Total Semesters"
+                }
+            ),
 
-            "is_active": forms.CheckboxInput(attrs={
-                "class": "form-check-input"
-            }),
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Description",
+                    "rows": 4
+                }
+            ),
+
+            "is_active": forms.CheckboxInput(
+                attrs={
+                    "class": "form-check-input"
+                }
+            ),
         }

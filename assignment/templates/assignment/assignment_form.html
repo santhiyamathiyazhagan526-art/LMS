@@ -1,0 +1,557 @@
+{% extends "staff_panel/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-primary text-white">
+
+        <h4 class="mb-0">
+            <i class="fas fa-tasks"></i>
+            {{ title }}
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <form
+            method="POST"
+            id="assignmentForm"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- ==========================================
+                 PROGRAMME
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label
+                    class="form-label fw-bold"
+                    for="programme"
+                >
+                    Programme
+                </label>
+
+                <select
+                    id="programme"
+                    class="form-select"
+                    required
+                >
+
+                    <option value="">
+                        Select Programme
+                    </option>
+
+                    <option
+                        value="UG"
+                        {% if current_programme == "UG" %}
+                            selected
+                        {% endif %}
+                    >
+                        UG
+                    </option>
+
+                    <option
+                        value="PG"
+                        {% if current_programme == "PG" %}
+                            selected
+                        {% endif %}
+                    >
+                        PG
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ==========================================
+                 YEAR
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label
+                    class="form-label fw-bold"
+                    for="year"
+                >
+                    Year
+                </label>
+
+                <select
+                    id="year"
+                    class="form-select"
+                    required
+                >
+
+                    <option value="">
+                        Select Year
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ==========================================
+                 SECTION
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label
+                    class="form-label fw-bold"
+                    for="section"
+                >
+                    Section
+                </label>
+
+                <select
+                    name="section"
+                    id="section"
+                    class="form-select"
+                    required
+                >
+
+                    <option value="">
+                        Select Section
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ==========================================
+                 SUBJECT
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label
+                    class="form-label fw-bold"
+                    for="id_subject"
+                >
+                    Subject
+                </label>
+
+                {{ form.subject }}
+
+                {% if form.subject.errors %}
+
+                    <div class="text-danger mt-1">
+                        {{ form.subject.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ==========================================
+                 ASSIGNMENT TITLE
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label
+                    class="form-label fw-bold"
+                    for="id_title"
+                >
+                    Assignment Title
+                </label>
+
+                {{ form.title }}
+
+                {% if form.title.errors %}
+
+                    <div class="text-danger mt-1">
+                        {{ form.title.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ==========================================
+                 DESCRIPTION
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label
+                    class="form-label fw-bold"
+                    for="id_description"
+                >
+                    Description
+                </label>
+
+                {{ form.description }}
+
+                {% if form.description.errors %}
+
+                    <div class="text-danger mt-1">
+                        {{ form.description.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ==========================================
+                 GOOGLE CLASSROOM LINK
+            =========================================== -->
+
+            <div class="mb-3">
+
+                <label
+                    class="form-label fw-bold"
+                    for="id_google_classroom_link"
+                >
+                    Google Classroom Link
+                </label>
+
+                {{ form.google_classroom_link }}
+
+                <small class="text-muted">
+                    Paste the Google Classroom assignment link here.
+                </small>
+
+                {% if form.google_classroom_link.errors %}
+
+                    <div class="text-danger mt-1">
+                        {{ form.google_classroom_link.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ==========================================
+                 ACTIVE
+            =========================================== -->
+
+            <div class="form-check mb-4">
+
+                {{ form.is_active }}
+
+                <label
+                    class="form-check-label"
+                    for="id_is_active"
+                >
+                    Active
+                </label>
+
+            </div>
+
+
+            <!-- ==========================================
+                 BUTTONS
+            =========================================== -->
+
+            <button
+                type="submit"
+                class="btn btn-success"
+            >
+
+                <i class="fas fa-save"></i>
+
+                {{ button }}
+
+            </button>
+
+
+            <a
+                href="{% url 'staff_assignments' %}"
+                class="btn btn-secondary"
+            >
+
+                <i class="fas fa-arrow-left"></i>
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const programme =
+            document.getElementById("programme");
+
+        const year =
+            document.getElementById("year");
+
+        const section =
+            document.getElementById("section");
+
+
+        const currentYear =
+            "{{ current_year|default:'' }}";
+
+        const currentSection =
+            "{{ current_section_id|default:'' }}";
+
+
+        // ==================================================
+        // LOAD YEARS
+        // ==================================================
+
+        function loadYears(
+            selectedProgramme,
+            selectedYear = ""
+        ) {
+
+            year.innerHTML =
+                '<option value="">Select Year</option>';
+
+            section.innerHTML =
+                '<option value="">Select Section</option>';
+
+
+            if (!selectedProgramme) {
+
+                return;
+
+            }
+
+
+            fetch(
+                "{% url 'assignment_get_years' %}"
+                + "?programme="
+                + encodeURIComponent(
+                    selectedProgramme
+                )
+            )
+
+            .then(
+                response => response.json()
+            )
+
+            .then(
+                data => {
+
+                    data.forEach(
+                        function (item) {
+
+                            const option =
+                                document.createElement(
+                                    "option"
+                                );
+
+                            option.value =
+                                item.value;
+
+                            option.textContent =
+                                item.text;
+
+
+                            if (
+                                item.value ===
+                                selectedYear
+                            ) {
+
+                                option.selected =
+                                    true;
+
+                            }
+
+
+                            year.appendChild(
+                                option
+                            );
+
+                        }
+                    );
+
+
+                    if (selectedYear) {
+
+                        loadSections(
+                            selectedProgramme,
+                            selectedYear,
+                            currentSection
+                        );
+
+                    }
+
+                }
+            )
+
+            .catch(
+                error => {
+
+                    console.error(
+                        "Year loading error:",
+                        error
+                    );
+
+                }
+            );
+
+        }
+
+
+        // ==================================================
+        // LOAD SECTIONS
+        // ==================================================
+
+        function loadSections(
+            selectedProgramme,
+            selectedYear,
+            selectedSection = ""
+        ) {
+
+            section.innerHTML =
+                '<option value="">Select Section</option>';
+
+
+            if (
+                !selectedProgramme ||
+                !selectedYear
+            ) {
+
+                return;
+
+            }
+
+
+            fetch(
+                "{% url 'assignment_get_sections' %}"
+                + "?programme="
+                + encodeURIComponent(
+                    selectedProgramme
+                )
+                + "&year="
+                + encodeURIComponent(
+                    selectedYear
+                )
+            )
+
+            .then(
+                response => response.json()
+            )
+
+            .then(
+                data => {
+
+                    data.forEach(
+                        function (item) {
+
+                            const option =
+                                document.createElement(
+                                    "option"
+                                );
+
+                            option.value =
+                                item.id;
+
+                            option.textContent =
+                                item.name;
+
+
+                            if (
+                                String(item.id) ===
+                                String(selectedSection)
+                            ) {
+
+                                option.selected =
+                                    true;
+
+                            }
+
+
+                            section.appendChild(
+                                option
+                            );
+
+                        }
+                    );
+
+                }
+            )
+
+            .catch(
+                error => {
+
+                    console.error(
+                        "Section loading error:",
+                        error
+                    );
+
+                }
+            );
+
+        }
+
+
+        // ==================================================
+        // PROGRAMME CHANGE
+        // ==================================================
+
+        programme.addEventListener(
+            "change",
+            function () {
+
+                loadYears(
+                    this.value
+                );
+
+            }
+        );
+
+
+        // ==================================================
+        // YEAR CHANGE
+        // ==================================================
+
+        year.addEventListener(
+            "change",
+            function () {
+
+                loadSections(
+                    programme.value,
+                    this.value
+                );
+
+            }
+        );
+
+
+        // ==================================================
+        // INITIAL LOAD FOR EDIT
+        // ==================================================
+
+        if (programme.value) {
+
+            loadYears(
+                programme.value,
+                currentYear
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+{% endblock %}

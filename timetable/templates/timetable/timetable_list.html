@@ -1,0 +1,334 @@
+{% extends "staff_panel/base.html" %}
+
+{% block title %}Timetable{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .timetable-card {
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .timetable-header {
+        background: #2563eb;
+        color: white;
+        padding: 18px 22px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .timetable-header h4 {
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .add-btn {
+        background: white;
+        color: #2563eb;
+        border: none;
+        padding: 9px 16px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .add-btn:hover {
+        background: #f1f5f9;
+        color: #1d4ed8;
+    }
+
+    .table-wrapper {
+        padding: 20px;
+        overflow-x: auto;
+    }
+
+    .timetable-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 900px;
+    }
+
+    .timetable-table th {
+        background: #1f2937;
+        color: white;
+        padding: 12px;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    .timetable-table td {
+        padding: 12px;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 14px;
+    }
+
+    .timetable-table tbody tr:hover {
+        background: #f8fafc;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .badge-programme {
+        background: #ede9fe;
+        color: #6d28d9;
+    }
+
+    .badge-day {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .badge-period {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .action-btn {
+        display: inline-block;
+        padding: 6px 9px;
+        border-radius: 6px;
+        text-decoration: none;
+        margin-right: 4px;
+        font-size: 13px;
+    }
+
+    .edit-btn {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .delete-btn {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    .empty-box {
+        text-align: center;
+        padding: 60px 20px;
+        color: #6b7280;
+    }
+
+    .empty-box i {
+        font-size: 45px;
+        margin-bottom: 15px;
+    }
+
+</style>
+
+
+<div class="timetable-card">
+
+    <!-- HEADER -->
+
+    <div class="timetable-header">
+
+        <h4>
+            <i class="fas fa-calendar-alt"></i>
+            Timetable
+        </h4>
+
+        <a
+            href="{% url 'add_timetable' %}"
+            class="add-btn"
+        >
+            <i class="fas fa-plus"></i>
+            Add Timetable
+        </a>
+
+    </div>
+
+
+    <!-- MESSAGES -->
+
+    {% if messages %}
+
+        <div style="padding: 15px 20px 0;">
+
+            {% for message in messages %}
+
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    {% if timetables %}
+
+        <div class="table-wrapper">
+
+            <table class="timetable-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>S.No</th>
+
+                        <th>Programme</th>
+
+                        <th>Year</th>
+
+                        <th>Section</th>
+
+                        <th>Day</th>
+
+                        <th>Period</th>
+
+                        <th>Subject</th>
+
+                        <th>Staff</th>
+                        
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for timetable in timetables %}
+
+                        <tr>
+
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge badge-programme">
+
+                                    {{ timetable.section.course.programme }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+                                {{ timetable.section.year }}
+                            </td>
+
+
+                            <td>
+                                {{ timetable.section.section }}
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge badge-day">
+
+                                    {{ timetable.day }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge badge-period">
+
+                                    Period {{ timetable.period }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+                                <strong>
+                                    {{ timetable.subject }}
+                                </strong>
+                            </td>
+
+
+                            <td>
+                                {{ timetable.staff }}
+                            </td>
+
+
+
+
+                            <td>
+
+                                <a
+                                    href="{% url 'edit_timetable' timetable.id %}"
+                                    class="action-btn edit-btn"
+                                    title="Edit"
+                                >
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+
+                                <a
+                                    href="{% url 'delete_timetable' timetable.id %}"
+                                    class="action-btn delete-btn"
+                                    title="Delete"
+                                    onclick="return confirm('Are you sure you want to delete this timetable?');"
+                                >
+                                    <i class="fas fa-trash"></i>
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-box">
+
+            <i class="fas fa-calendar-times"></i>
+
+            <h4>
+                No Timetable Found
+            </h4>
+
+            <p>
+                No timetable entries have been added yet.
+            </p>
+
+
+            <a
+                href="{% url 'add_timetable' %}"
+                class="add-btn"
+                style="background:#2563eb;color:white;"
+            >
+                <i class="fas fa-plus"></i>
+                Add Timetable
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

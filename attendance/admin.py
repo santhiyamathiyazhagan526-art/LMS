@@ -9,8 +9,8 @@ class AttendanceAdmin(admin.ModelAdmin):
         "attendance_date",
         "student",
         "subject",
-        "status",
         "staff",
+        "status",
     )
 
     list_filter = (
@@ -20,6 +20,6 @@ class AttendanceAdmin(admin.ModelAdmin):
     )
 
     search_fields = (
-        "student__student_name",
-        "subject__subject_name",
+        "student__register_no",
+        "student__name",
     )

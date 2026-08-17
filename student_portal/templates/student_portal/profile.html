@@ -1,0 +1,731 @@
+{% extends "student_portal/base.html" %}
+
+{% block title %}
+My Profile
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* =========================================
+   PROFILE PAGE
+========================================= */
+
+.profile-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.profile-header {
+    margin-bottom: 22px;
+}
+
+.profile-header h1 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 700;
+    color: #172033;
+}
+
+.profile-header p {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: #7b8798;
+}
+
+
+/* =========================================
+   PROFILE TOP CARD
+========================================= */
+
+.profile-card {
+    background: #ffffff;
+    border: 1px solid #e3eeee;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+   PROFILE COVER
+========================================= */
+
+.profile-cover {
+    height: 105px;
+    background: #0f766e;
+    position: relative;
+}
+
+
+/* =========================================
+   PROFILE MAIN
+========================================= */
+
+.profile-main {
+    padding: 0 25px 25px;
+    position: relative;
+}
+
+
+/* =========================================
+   PROFILE PHOTO
+========================================= */
+
+.profile-photo {
+    width: 105px;
+    height: 105px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 5px solid #ffffff;
+    position: relative;
+    margin-top: -53px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+}
+
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.profile-photo-letter {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 34px;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   PROFILE NAME
+========================================= */
+
+.profile-name {
+    margin-top: 12px;
+}
+
+.profile-name h2 {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 700;
+    color: #172033;
+}
+
+.profile-name p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: #7b8798;
+}
+
+
+/* =========================================
+   PROFILE GRID
+========================================= */
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+
+/* =========================================
+   INFORMATION CARD
+========================================= */
+
+.info-card {
+    background: #ffffff;
+    border: 1px solid #e3eeee;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+}
+
+
+.info-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #edf2f2;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+
+.info-header i {
+    color: #0f766e;
+    font-size: 14px;
+}
+
+
+.info-header h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1d2736;
+}
+
+
+/* =========================================
+   INFORMATION ROW
+========================================= */
+
+.info-body {
+    padding: 8px 20px 15px;
+}
+
+
+.info-row {
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid #f0f3f3;
+}
+
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+
+.info-label {
+    font-size: 11px;
+    color: #8b95a5;
+}
+
+
+.info-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #273244;
+    text-align: right;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status-active {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #0f766e;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 850px) {
+
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .profile-main {
+        padding: 0 18px 20px;
+    }
+
+    .profile-cover {
+        height: 85px;
+    }
+
+    .profile-photo {
+        width: 90px;
+        height: 90px;
+        margin-top: -45px;
+    }
+
+    .profile-name h2 {
+        font-size: 18px;
+    }
+
+    .info-row {
+        gap: 10px;
+    }
+
+}
+
+</style>
+
+
+<div class="profile-page">
+
+
+    <!-- =====================================
+         PAGE HEADER
+    ====================================== -->
+
+    <div class="profile-header">
+
+        <h1>
+            My Profile
+        </h1>
+
+        <p>
+            View your personal and academic information
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
+         PROFILE CARD
+    ====================================== -->
+
+    <div class="profile-card">
+
+
+        <!-- COVER -->
+
+        <div class="profile-cover"></div>
+
+
+        <!-- PROFILE MAIN -->
+
+        <div class="profile-main">
+
+
+            <!-- PHOTO -->
+
+            <div class="profile-photo">
+
+                {% if student.photo %}
+
+                    <img
+                        src="{{ student.photo.url }}"
+                        alt="Student Photo"
+                    >
+
+                {% else %}
+
+                    <div class="profile-photo-letter">
+
+                        {{ student.name|first|upper }}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- NAME -->
+
+            <div class="profile-name">
+
+                <h2>
+                    {{ student.name }}
+                </h2>
+
+                <p>
+                    Student · {{ student.register_no }}
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         INFORMATION
+    ====================================== -->
+
+    <div class="profile-grid">
+
+
+        <!-- =================================
+             PERSONAL INFORMATION
+        ================================== -->
+
+        <div class="info-card">
+
+
+            <div class="info-header">
+
+                <i class="fas fa-user"></i>
+
+                <h3>
+                    Personal Information
+                </h3>
+
+            </div>
+
+
+            <div class="info-body">
+
+
+                <!-- NAME -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Full Name
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.name }}
+                    </div>
+
+                </div>
+
+
+                <!-- REGISTER NUMBER -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Register Number
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.register_no }}
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Email
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.email }}
+                    </div>
+
+                </div>
+
+
+                <!-- GENDER -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Gender
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.gender }}
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             ACADEMIC INFORMATION
+        ================================== -->
+
+        <div class="info-card">
+
+
+            <div class="info-header">
+
+                <i class="fas fa-graduation-cap"></i>
+
+                <h3>
+                    Academic Information
+                </h3>
+
+            </div>
+
+
+            <div class="info-body">
+
+
+                <!-- PROGRAMME -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Programme
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.programme }}
+                    </div>
+
+                </div>
+
+
+                <!-- DEPARTMENT -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Department
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.department }}
+                    </div>
+
+                </div>
+
+
+                <!-- COURSE -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Course
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.course }}
+                    </div>
+
+                </div>
+
+
+                <!-- YEAR -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Year
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.year }}
+                    </div>
+
+                </div>
+
+
+                <!-- SECTION -->
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Section
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if student.section %}
+
+                            {{ student.section.section }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             INSTITUTION INFORMATION
+        ================================== -->
+
+        <div class="info-card">
+
+
+            <div class="info-header">
+
+                <i class="fas fa-building-columns"></i>
+
+                <h3>
+                    Institution
+                </h3>
+
+            </div>
+
+
+            <div class="info-body">
+
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Institution
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.institution }}
+                    </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Department
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.department }}
+                    </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Course
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.course }}
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             ACCOUNT INFORMATION
+        ================================== -->
+
+        <div class="info-card">
+
+
+            <div class="info-header">
+
+                <i class="fas fa-circle-check"></i>
+
+                <h3>
+                    Account Information
+                </h3>
+
+            </div>
+
+
+            <div class="info-body">
+
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Account Status
+                    </div>
+
+                    <div class="info-value">
+
+
+                        {% if student.is_active %}
+
+                            <span class="status-active">
+
+                                <span class="status-dot"></span>
+
+                                Active
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="status-active">
+
+                                Inactive
+
+                            </span>
+
+                        {% endif %}
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Student ID
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.id }}
+                    </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Email
+                    </div>
+
+                    <div class="info-value">
+                        {{ student.email }}
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
