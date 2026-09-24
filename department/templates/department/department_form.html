@@ -1,88 +1,441 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
+
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
 
 <div class="container-fluid py-4">
 
-    <div class="card shadow-sm border-0">
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
 
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">{{ title }}</h4>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                {{ title }}
+            </h2>
+
+            <small class="text-muted">
+                Department Management
+            </small>
+
         </div>
 
-        <div class="card-body">
 
-            <form method="POST">
+        <!-- BACK TO DEPARTMENT LIST -->
+        <a
+            href="{% url 'department_list' %}"
+            class="btn btn-secondary"
+        >
 
-                {% csrf_token %}
+            <i class="fas fa-arrow-left me-2"></i>
 
-                <div class="row">
+            Back
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <label class="form-label">Department Name</label>
-                        {{ form.name }}
-                    </div>
+        </a>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <label class="form-label">Department Code</label>
-                        {{ form.code }}
-                    </div>
+    </div>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <label class="form-label">Dean Name</label>
-                        {{ form.dean_name }}
-                    </div>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <label class="form-label">HOD Name</label>
-                        {{ form.hod_name }}
-                    </div>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <label class="form-label">Email</label>
-                        {{ form.email }}
-                    </div>
+    <!-- =========================
+         FORM CARD
+    ========================== -->
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <label class="form-label">Phone</label>
-                        {{ form.phone }}
-                    </div>
+    <div class="row justify-content-center">
 
-                    <div class="col-12 mb-3">
-                        <label class="form-label">Description</label>
-                        {{ form.description }}
-                    </div>
+        <div class="col-lg-9 col-xl-8">
 
-                    <div class="col-12 mb-3">
-                        <div class="form-check">
-                            {{ form.is_active }}
-                            <label class="form-check-label">
-                                Active
-                            </label>
+            <div class="card shadow-sm border-0">
+
+
+                <!-- CARD HEADER -->
+
+                <div class="card-header bg-primary text-white py-3">
+
+                    <h4 class="mb-0">
+
+                        <i class="fas fa-building me-2"></i>
+
+                        {{ title }}
+
+                    </h4>
+
+                </div>
+
+
+
+                <!-- CARD BODY -->
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <div class="row">
+
+
+                            <!-- =========================
+                                 INSTITUTION
+                            ========================== -->
+
+                            <div class="col-12 mb-3">
+
+                                <label
+                                    for="{{ form.institution.id_for_label }}"
+                                    class="form-label fw-semibold"
+                                >
+
+                                    Institution
+                                    <span class="text-danger">*</span>
+
+                                </label>
+
+
+                                {{ form.institution }}
+
+
+                                {% if form.institution.errors %}
+
+                                    <div class="text-danger small mt-1">
+
+                                        {{ form.institution.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+
+                            <!-- =========================
+                                 DEPARTMENT NAME
+                            ========================== -->
+
+                            <div class="col-12 col-md-6 mb-3">
+
+                                <label
+                                    for="{{ form.name.id_for_label }}"
+                                    class="form-label fw-semibold"
+                                >
+
+                                    Department Name
+                                    <span class="text-danger">*</span>
+
+                                </label>
+
+
+                                {{ form.name }}
+
+
+                                {% if form.name.errors %}
+
+                                    <div class="text-danger small mt-1">
+
+                                        {{ form.name.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+
+                            <!-- =========================
+                                 DEPARTMENT CODE
+                            ========================== -->
+
+                            <div class="col-12 col-md-6 mb-3">
+
+                                <label
+                                    for="{{ form.code.id_for_label }}"
+                                    class="form-label fw-semibold"
+                                >
+
+                                    Department Code
+                                    <span class="text-danger">*</span>
+
+                                </label>
+
+
+                                {{ form.code }}
+
+
+                                {% if form.code.errors %}
+
+                                    <div class="text-danger small mt-1">
+
+                                        {{ form.code.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+
+                            <!-- =========================
+                                 DEAN NAME
+                            ========================== -->
+
+                            <div class="col-12 col-md-6 mb-3">
+
+                                <label
+                                    for="{{ form.dean_name.id_for_label }}"
+                                    class="form-label fw-semibold"
+                                >
+
+                                    Dean Name
+                                    <span class="text-danger">*</span>
+
+                                </label>
+
+
+                                {{ form.dean_name }}
+
+
+                                {% if form.dean_name.errors %}
+
+                                    <div class="text-danger small mt-1">
+
+                                        {{ form.dean_name.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+
+                            <!-- =========================
+                                 HOD NAME
+                            ========================== -->
+
+                            <div class="col-12 col-md-6 mb-3">
+
+                                <label
+                                    for="{{ form.hod_name.id_for_label }}"
+                                    class="form-label fw-semibold"
+                                >
+
+                                    HOD Name
+                                    <span class="text-danger">*</span>
+
+                                </label>
+
+
+                                {{ form.hod_name }}
+
+
+                                {% if form.hod_name.errors %}
+
+                                    <div class="text-danger small mt-1">
+
+                                        {{ form.hod_name.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+
+                            <!-- =========================
+                                 DESCRIPTION
+                            ========================== -->
+
+                            <div class="col-12 mb-3">
+
+                                <label
+                                    for="{{ form.description.id_for_label }}"
+                                    class="form-label fw-semibold"
+                                >
+
+                                    Description
+
+                                </label>
+
+
+                                {{ form.description }}
+
+
+                                {% if form.description.errors %}
+
+                                    <div class="text-danger small mt-1">
+
+                                        {{ form.description.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+
+                            <!-- =========================
+                                 ACTIVE STATUS
+                            ========================== -->
+
+                            <div class="col-12 mb-4">
+
+                                <div class="form-check">
+
+                                    {{ form.is_active }}
+
+                                    <label
+                                        for="{{ form.is_active.id_for_label }}"
+                                        class="form-check-label fw-semibold"
+                                    >
+
+                                        Active
+
+                                    </label>
+
+                                </div>
+
+
+                                {% if form.is_active.errors %}
+
+                                    <div class="text-danger small mt-1">
+
+                                        {{ form.is_active.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
                         </div>
-                    </div>
+
+
+
+                        <!-- =========================
+                             BUTTONS
+                        ========================== -->
+
+                        <div class="d-flex flex-column flex-md-row gap-2 pt-2">
+
+
+                            <!-- SAVE / UPDATE -->
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+
+                                <i class="fas fa-save me-2"></i>
+
+                                {{ button }}
+
+                            </button>
+
+
+
+                            <!-- CANCEL -->
+
+                            <a
+                                href="{% url 'department_list' %}"
+                                class="btn btn-secondary"
+                            >
+
+                                <i class="fas fa-times me-2"></i>
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+
+                    </form>
 
                 </div>
 
-                <div class="d-flex flex-column flex-md-row gap-2">
-
-                    <button type="submit" class="btn btn-primary">
-                        {{ button }}
-                    </button>
-
-                    <a href="{% url 'department_list' %}" class="btn btn-secondary">
-                        Cancel
-                    </a>
-
-                </div>
-
-            </form>
+            </div>
 
         </div>
 
     </div>
 
 </div>
+
+
+
+<!-- =========================
+     PAGE STYLE
+========================== -->
+
+<style>
+
+    .card {
+        border-radius: 12px;
+    }
+
+
+    .card-header {
+        border-radius: 12px 12px 0 0 !important;
+    }
+
+
+    .form-label {
+        margin-bottom: 7px;
+    }
+
+
+    .form-control,
+    .form-select {
+        min-height: 45px;
+        border-radius: 8px;
+    }
+
+
+    textarea.form-control {
+        min-height: 110px;
+    }
+
+
+    .form-control:focus,
+    .form-select:focus {
+
+        border-color: #0d6efd;
+
+        box-shadow:
+            0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+
+    }
+
+
+    .btn {
+        border-radius: 8px;
+        padding: 9px 18px;
+    }
+
+
+    .form-check-input {
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+    }
+
+
+    .form-check-label {
+        margin-left: 5px;
+    }
+
+</style>
+
 
 {% endblock %}

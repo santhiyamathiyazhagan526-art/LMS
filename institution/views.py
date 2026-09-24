@@ -1,20 +1,19 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Institution
 from .forms import InstitutionForm
+from .models import Institution
 
 
-# ===========================
-# Institution List
-# ===========================
-@login_required(login_url="login")
 def institution_list(request):
+    """
+    Display all institutions.
+    """
 
-    institutions = Institution.objects.all()
+    institutions = Institution.objects.all().order_by("name")
 
     context = {
-        "institutions": institutions
+        "institutions": institutions,
     }
 
     return render(
@@ -24,47 +23,15 @@ def institution_list(request):
     )
 
 
-# ===========================
-# Add Institution
-# ===========================
-@login_required(login_url="login")
-def add_institution(request):
-
-    if request.method == "POST":
-
-        form = InstitutionForm(
-            request.POST,
-            request.FILES
-        )
-
-        if form.is_valid():
-            form.save()
-            return redirect("institution_list")
-
-    else:
-
-        form = InstitutionForm()
-
-    context = {
-        "form": form,
-        "title": "Add Institution",
-        "button": "Save Institution"
-    }
-
-    return render(
-        request,
-        "institution/institution_form.html",
-        context
-    )
-
-
-# ===========================
-# Edit Institution
-# ===========================
-@login_required(login_url="login")
 def edit_institution(request, id):
+    """
+    Edit an existing institution.
+    """
 
-    institution = get_object_or_404(Institution, id=id)
+    institution = get_object_or_404(
+        Institution,
+        id=id
+    )
 
     if request.method == "POST":
 
@@ -75,21 +42,29 @@ def edit_institution(request, id):
         )
 
         if form.is_valid():
+
             form.save()
+
+            messages.success(
+                request,
+                "Institution details updated successfully."
+            )
+
             return redirect("institution_list")
 
     else:
 
-        form = InstitutionForm(instance=institution)
+        form = InstitutionForm(
+            instance=institution
+        )
 
     context = {
         "form": form,
-        "title": "Edit Institution",
-        "button": "Update Institution"
+        "institution": institution,
     }
 
     return render(
         request,
-        "institution/institution_form.html",
+        "institution/edit_institution.html",
         context
     )

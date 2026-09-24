@@ -6,7 +6,7 @@
 <div class="container-fluid py-4">
 
     <!-- =========================
-            PAGE HEADER
+         PAGE HEADER
     ========================== -->
 
     <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
@@ -23,8 +23,10 @@
 
         </div>
 
+
         <div class="d-flex gap-2 mt-2 mt-md-0">
 
+            <!-- Back to Dashboard -->
             <a href="{% url 'dashboard' %}"
                class="btn btn-secondary">
 
@@ -34,6 +36,8 @@
 
             </a>
 
+
+            <!-- Add Department -->
             <a href="{% url 'add_department' %}"
                class="btn btn-primary">
 
@@ -49,7 +53,7 @@
 
 
     <!-- =========================
-          SUCCESS MESSAGE
+         SUCCESS / ERROR MESSAGE
     ========================== -->
 
     {% if messages %}
@@ -61,9 +65,9 @@
                 {{ message }}
 
                 <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="alert">
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
                 </button>
 
             </div>
@@ -75,11 +79,12 @@
 
 
     <!-- =========================
-          STATISTICS
+         STATISTICS
     ========================== -->
 
     <div class="row mb-4">
 
+        <!-- Total -->
         <div class="col-lg-4 col-md-6 mb-3">
 
             <div class="card border-0 shadow-sm">
@@ -93,9 +98,7 @@
                     </h6>
 
                     <h2 class="fw-bold">
-
                         {{ total_departments }}
-
                     </h2>
 
                 </div>
@@ -105,7 +108,7 @@
         </div>
 
 
-
+        <!-- Active -->
         <div class="col-lg-4 col-md-6 mb-3">
 
             <div class="card border-0 shadow-sm">
@@ -115,15 +118,11 @@
                     <i class="fas fa-user-tie fa-2x text-success mb-3"></i>
 
                     <h6 class="text-success">
-
                         Active Departments
-
                     </h6>
 
                     <h2 class="fw-bold text-success">
-
                         {{ active_departments }}
-
                     </h2>
 
                 </div>
@@ -133,7 +132,7 @@
         </div>
 
 
-
+        <!-- Inactive -->
         <div class="col-lg-4 col-md-12 mb-3">
 
             <div class="card border-0 shadow-sm">
@@ -143,15 +142,11 @@
                     <i class="fas fa-ban fa-2x text-danger mb-3"></i>
 
                     <h6 class="text-danger">
-
                         Inactive Departments
-
                     </h6>
 
                     <h2 class="fw-bold text-danger">
-
                         {{ inactive_departments }}
-
                     </h2>
 
                 </div>
@@ -165,7 +160,7 @@
 
 
     <!-- =========================
-          SEARCH CARD
+         SEARCH CARD
     ========================== -->
 
     <div class="card border-0 shadow-sm mb-4">
@@ -179,13 +174,14 @@
                     <div class="col-md-10 mb-2 mb-md-0">
 
                         <input
-                                type="text"
-                                name="search"
-                                class="form-control"
-                                placeholder="Search by Department, Code, Dean, HOD or Email"
-                                value="{{ search }}">
+                            type="text"
+                            name="search"
+                            class="form-control"
+                            placeholder="Search by Department, Code, Dean or HOD"
+                            value="{{ search }}">
 
                     </div>
+
 
                     <div class="col-md-2 d-grid">
 
@@ -210,7 +206,7 @@
 
 
     <!-- =========================
-          TABLE
+         DEPARTMENT TABLE
     ========================== -->
 
     <div class="card border-0 shadow-sm">
@@ -223,19 +219,25 @@
 
                     <tr>
 
-                        <th width="70">S.No</th>
+                        <th width="70">
+                            S.No
+                        </th>
 
-                        <th>Department</th>
+                        <th>
+                            Department
+                        </th>
 
-                        <th>Code</th>
+                        <th>
+                            Code
+                        </th>
 
-                        <th>Dean</th>
+                        <th>
+                            Dean
+                        </th>
 
-                        <th>HOD</th>
-
-                        <th>Email</th>
-
-                        <th>Phone</th>
+                        <th>
+                            HOD
+                        </th>
 
                         <th class="text-center">
                             Status
@@ -249,54 +251,52 @@
 
                 </thead>
 
+
                 <tbody>
 
                 {% for department in departments %}
 
                     <tr>
 
+                        <!-- S.No -->
                         <td>
-
                             {{ forloop.counter }}
-
                         </td>
 
+
+                        <!-- Department -->
                         <td class="fw-semibold">
 
                             {{ department.name }}
 
                         </td>
 
+
+                        <!-- Code -->
                         <td>
 
                             {{ department.code }}
 
                         </td>
 
+
+                        <!-- Dean -->
                         <td>
 
                             {{ department.dean_name|default:"-" }}
 
                         </td>
 
+
+                        <!-- HOD -->
                         <td>
 
-                            {{ department.hod_name }}
+                            {{ department.hod_name|default:"-" }}
 
                         </td>
 
-                        <td>
 
-                            {{ department.email }}
-
-                        </td>
-
-                        <td>
-
-                            {{ department.phone }}
-
-                        </td>
-                                                <!-- Status -->
+                        <!-- Status -->
                         <td class="text-center">
 
                             <div class="form-check form-switch d-flex justify-content-center">
@@ -311,12 +311,14 @@
 
                         </td>
 
+
                         <!-- Action -->
                         <td class="text-center">
 
-                            <a href="{% url 'edit_department' department.id %}"
-                               class="btn btn-sm btn-outline-primary me-1"
-                               title="Edit">
+                            <a
+                                href="{% url 'edit_department' department.id %}"
+                                class="btn btn-sm btn-outline-primary"
+                                title="Edit">
 
                                 <i class="fas fa-edit"></i>
 
@@ -326,19 +328,24 @@
 
                     </tr>
 
+
                 {% empty %}
 
                     <tr>
 
-                        <td colspan="9" class="text-center py-5">
+                        <td
+                            colspan="7"
+                            class="text-center py-5">
 
                             <i class="fas fa-folder-open fa-3x text-secondary mb-3"></i>
 
                             <h5 class="text-muted">
-
                                 No Departments Found
-
                             </h5>
+
+                            <p class="text-muted mb-0">
+                                Add a department to get started.
+                            </p>
 
                         </td>
 
@@ -355,52 +362,29 @@
     </div>
 
 
-    <!-- Pagination -->
+
+    <!-- =========================
+         PAGINATION
+    ========================== -->
 
     {% if page_obj.has_other_pages %}
 
-    <nav class="mt-4">
+        <nav class="mt-4">
 
-        <ul class="pagination justify-content-center">
-
-            {% if page_obj.has_previous %}
-
-                <li class="page-item">
-
-                    <a class="page-link"
-                       href="?page={{ page_obj.previous_page_number }}&search={{ search }}">
-
-                        Previous
-
-                    </a>
-
-                </li>
-
-            {% endif %}
+            <ul class="pagination justify-content-center">
 
 
-            {% for num in page_obj.paginator.page_range %}
+                <!-- Previous -->
 
-                {% if page_obj.number == num %}
-
-                    <li class="page-item active">
-
-                        <span class="page-link">
-
-                            {{ num }}
-
-                        </span>
-
-                    </li>
-
-                {% else %}
+                {% if page_obj.has_previous %}
 
                     <li class="page-item">
 
-                        <a class="page-link"
-                           href="?page={{ num }}&search={{ search }}">
+                        <a
+                            class="page-link"
+                            href="?page={{ page_obj.previous_page_number }}&search={{ search }}">
 
-                            {{ num }}
+                            Previous
 
                         </a>
 
@@ -408,108 +392,133 @@
 
                 {% endif %}
 
-            {% endfor %}
 
 
-            {% if page_obj.has_next %}
+                <!-- Page Numbers -->
 
-                <li class="page-item">
+                {% for num in page_obj.paginator.page_range %}
 
-                    <a class="page-link"
-                       href="?page={{ page_obj.next_page_number }}&search={{ search }}">
+                    {% if page_obj.number == num %}
 
-                        Next
+                        <li class="page-item active">
 
-                    </a>
+                            <span class="page-link">
 
-                </li>
+                                {{ num }}
 
-            {% endif %}
+                            </span>
 
-        </ul>
+                        </li>
 
-    </nav>
+                    {% else %}
+
+                        <li class="page-item">
+
+                            <a
+                                class="page-link"
+                                href="?page={{ num }}&search={{ search }}">
+
+                                {{ num }}
+
+                            </a>
+
+                        </li>
+
+                    {% endif %}
+
+                {% endfor %}
+
+
+
+                <!-- Next -->
+
+                {% if page_obj.has_next %}
+
+                    <li class="page-item">
+
+                        <a
+                            class="page-link"
+                            href="?page={{ page_obj.next_page_number }}&search={{ search }}">
+
+                            Next
+
+                        </a>
+
+                    </li>
+
+                {% endif %}
+
+            </ul>
+
+        </nav>
 
     {% endif %}
 
 </div>
 
 
+
+<!-- =========================
+     PAGE CSS
+========================== -->
+
 <style>
 
 /* ---------- Status Switch ---------- */
 
-.status-switch{
-
-    width:52px;
-
-    height:28px;
-
-    cursor:not-allowed;
-
+.status-switch {
+    width: 52px;
+    height: 28px;
+    cursor: not-allowed;
 }
 
-.status-switch:checked{
 
-    background-color:#198754;
-
-    border-color:#198754;
-
+.status-switch:checked {
+    background-color: #198754;
+    border-color: #198754;
 }
 
-.status-switch:not(:checked){
 
-    background-color:#dc3545;
-
-    border-color:#dc3545;
-
+.status-switch:not(:checked) {
+    background-color: #dc3545;
+    border-color: #dc3545;
 }
 
-.status-switch:focus{
 
-    box-shadow:none;
-
+.status-switch:focus {
+    box-shadow: none;
 }
 
 
 /* ---------- Card Hover ---------- */
 
-.card{
-
-    transition:.3s;
-
+.card {
+    transition: 0.3s;
 }
 
-.card:hover{
 
-    transform:translateY(-3px);
-
+.card:hover {
+    transform: translateY(-3px);
 }
 
 
 /* ---------- Table ---------- */
 
-.table td{
-
-    vertical-align:middle;
-
+.table td {
+    vertical-align: middle;
 }
 
-.table-dark th{
 
-    text-align:center;
-
+.table-dark th {
+    text-align: center;
 }
 
 
 /* ---------- Pagination ---------- */
 
-.page-link{
-
-    border-radius:8px;
-
-    margin:0 3px;
-
+.page-link {
+    border-radius: 8px;
+    margin: 0 3px;
 }
 
 </style>

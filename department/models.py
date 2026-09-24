@@ -22,15 +22,9 @@ class Department(models.Model):
     dean_name = models.CharField(
         max_length=100
     )
-    
+
     hod_name = models.CharField(
         max_length=100
-    )
-
-    email = models.EmailField()
-
-    phone = models.CharField(
-        max_length=15
     )
 
     description = models.TextField(

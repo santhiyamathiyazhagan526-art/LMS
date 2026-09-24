@@ -1,224 +1,452 @@
-{% extends 'base.html' %}
-
-{% block title %}
-Institution Management
-{% endblock %}
+{% extends "base.html" %}
 
 {% block content %}
 
-{% include 'includes/navbar.html' %}
+<style>
+    .institution-page {
+        padding: 25px;
+        background: #f5f8fc;
+        min-height: calc(100vh - 70px);
+    }
 
-<div class="container-fluid">
+    .page-header {
+        margin-bottom: 25px;
+    }
 
-    <div class="row">
+    .page-title {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: #123b63;
+    }
 
-        <!-- Sidebar -->
-        <div class="col-lg-2 col-md-3 p-0">
-            {% include 'includes/sidebar.html' %}
+    .page-subtitle {
+        margin-top: 6px;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .search-area {
+        margin-bottom: 20px;
+    }
+
+    .search-box {
+        width: 100%;
+        max-width: 420px;
+        padding: 12px 16px;
+        border: 1px solid #d7e0ea;
+        border-radius: 10px;
+        background: white;
+        font-size: 14px;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .search-box:focus {
+        border-color: #1976d2;
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.10);
+    }
+
+    .institution-card {
+        background: white;
+        border: 1px solid #e1e8f0;
+        border-radius: 14px;
+        box-shadow: 0 4px 16px rgba(18, 59, 99, 0.06);
+        overflow: hidden;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .institution-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 900px;
+    }
+
+    .institution-table thead {
+        background: #123b63;
+    }
+
+    .institution-table th {
+        padding: 15px 16px;
+        color: white;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .institution-table td {
+        padding: 15px 16px;
+        border-bottom: 1px solid #edf1f5;
+        color: #374151;
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+    .institution-table tbody tr:hover {
+        background: #f8fbff;
+    }
+
+    .institution-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .logo {
+        width: 58px;
+        height: 58px;
+        object-fit: contain;
+        border-radius: 10px;
+        border: 1px solid #e1e7ee;
+        background: #f8fafc;
+        padding: 4px;
+        box-sizing: border-box;
+    }
+
+    .no-logo {
+        width: 58px;
+        height: 58px;
+        border-radius: 10px;
+        background: #eef4fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #7b8794;
+        font-size: 22px;
+    }
+
+    .institution-name {
+        color: #123b63;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .institution-code {
+        margin-top: 4px;
+        color: #7b8794;
+        font-size: 12px;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .status-active {
+        background: #e8f7ee;
+        color: #16803c;
+    }
+
+    .status-inactive {
+        background: #fdecec;
+        color: #c62828;
+    }
+
+    .edit-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 9px 15px;
+        border-radius: 8px;
+        background: #1976d2;
+        color: white;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .edit-btn:hover {
+        background: #125ca5;
+        color: white;
+        text-decoration: none;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #7b8794;
+    }
+
+    .empty-state i {
+        font-size: 42px;
+        margin-bottom: 15px;
+    }
+
+    .empty-state p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+
+        .institution-page {
+            padding: 15px;
+        }
+
+        .page-title {
+            font-size: 23px;
+        }
+    }
+</style>
+
+
+<div class="institution-page">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+
+        <h1 class="page-title">
+            Institution Management
+        </h1>
+
+        <div class="page-subtitle">
+            View and manage institution details
         </div>
 
-        <!-- Main Content -->
-        <div class="col-lg-10 col-md-9 p-4">
+    </div>
 
-            <!-- Page Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
 
-                <div>
-                    <h2 class="fw-bold mb-1">
-                        <i class="fas fa-building text-primary me-2"></i>
-                        Institution Management
-                    </h2>
+    <!-- SEARCH -->
+    <div class="search-area">
 
-                    <p class="text-muted mb-0">
-                        Manage all institutions from one place.
-                    </p>
-                </div>
+        <input
+            type="text"
+            id="institutionSearch"
+            class="search-box"
+            placeholder="Search institution..."
+            autocomplete="off"
+        >
 
-                <a href="{% url 'add_institution' %}"
-                   class="btn btn-primary rounded-pill px-4 shadow-sm">
+    </div>
 
-                    <i class="fas fa-plus-circle me-2"></i>
-                    Add Institution
 
-                </a>
+    <!-- INSTITUTION TABLE -->
+    <div class="institution-card">
 
-            </div>
+        <div class="table-container">
 
-            <!-- Search Box -->
-            <div class="card border-0 shadow-sm mb-4">
+            <table
+                class="institution-table"
+                id="institutionTable"
+            >
 
-                <div class="card-body">
+                <thead>
 
-                    <div class="input-group">
+                    <tr>
 
-                        <span class="input-group-text bg-white border-end-0">
-                            <i class="fas fa-search text-muted"></i>
-                        </span>
+                        <th>Logo</th>
 
-                        <input type="text"
-                               class="form-control border-start-0"
-                               placeholder="Search Institution...">
+                        <th>Institution</th>
 
-                    </div>
+                        <th>Email</th>
 
-                </div>
+                        <th>Phone</th>
 
-            </div>
+                        <th>Location</th>
 
-            <!-- Table Card -->
-            <div class="card border-0 shadow-sm">
+                        <th>Status</th>
 
-                <div class="card-body">
+                        <th>Action</th>
 
-                    <div class="table-responsive">
+                    </tr>
 
-                        <table class="table table-hover align-middle">
+                </thead>
 
-                            <thead class="table-primary">
 
-                                <tr>
+                <tbody id="institutionTableBody">
 
-                                    <th>ID</th>
-                                    <th>Logo</th>
-                                    <th>Institution</th>
-                                    <th>Code</th>
-                                    <th>Contact</th>
-                                    <th>City</th>
-                                    <th>Status</th>
-                                    <th class="text-center">Actions</th>
+                    {% for institution in institutions %}
 
-                                </tr>
+                    <tr>
 
-                            </thead>
+                        <!-- LOGO -->
+                        <td>
 
-                            <tbody>
+                            {% if institution.logo %}
 
-                            {% for institution in institutions %}
+                                <img
+                                    src="{{ institution.logo.url }}"
+                                    alt="{{ institution.name }}"
+                                    class="logo"
+                                >
 
-                                <tr>
+                            {% else %}
 
-                                    <td>
-                                        <strong>{{ institution.id }}</strong>
-                                    </td>
+                                <div class="no-logo">
+                                    <i class="fas fa-university"></i>
+                                </div>
 
-                                    <!-- Logo -->
-                                    <td>
+                            {% endif %}
 
-                                        {% if institution.logo %}
+                        </td>
 
-                                            <img src="{{ institution.logo.url }}"
-                                                 class="rounded-circle border shadow-sm"
-                                                 width="55"
-                                                 height="55"
-                                                 style="object-fit:cover;">
 
-                                        {% else %}
+                        <!-- INSTITUTION -->
+                        <td>
 
-                                            <div class="bg-light rounded-circle d-flex justify-content-center align-items-center border"
-                                                 style="width:55px;height:55px;">
+                            <div class="institution-name">
+                                {{ institution.name }}
+                            </div>
 
-                                                <i class="fas fa-building text-secondary"></i>
+                            <div class="institution-code">
+                                Code: {{ institution.code }}
+                            </div>
 
-                                            </div>
+                        </td>
 
-                                        {% endif %}
 
-                                    </td>
+                        <!-- EMAIL -->
+                        <td>
+                            {{ institution.email }}
+                        </td>
 
-                                    <td>
 
-                                        <strong>{{ institution.name }}</strong>
+                        <!-- PHONE -->
+                        <td>
+                            {{ institution.phone }}
+                        </td>
 
-                                    </td>
 
-                                    <td>
+                        <!-- LOCATION -->
+                        <td>
 
-                                        {{ institution.code }}
+                            {{ institution.city }},
 
-                                    </td>
+                            {{ institution.state }}
 
-                                    <td>
+                            {% if institution.pincode %}
+                                - {{ institution.pincode }}
+                            {% endif %}
 
-                                        <div>{{ institution.email }}</div>
+                        </td>
 
-                                        <small class="text-muted">
-                                            {{ institution.phone }}
-                                        </small>
 
-                                    </td>
+                        <!-- STATUS -->
+                        <td>
 
-                                    <td>
+                            {% if institution.is_active %}
 
-                                        {{ institution.city }}
+                                <span class="status status-active">
+                                    Active
+                                </span>
 
-                                    </td>
+                            {% else %}
 
-                                    <td>
+                                <span class="status status-inactive">
+                                    Inactive
+                                </span>
 
-                                        {% if institution.is_active %}
+                            {% endif %}
 
-                                            <span class="badge rounded-pill bg-success px-3 py-2">
-                                                Active
-                                            </span>
+                        </td>
 
-                                        {% else %}
 
-                                            <span class="badge rounded-pill bg-danger px-3 py-2">
-                                                Inactive
-                                            </span>
+                        <!-- EDIT -->
+                        <td>
 
-                                        {% endif %}
+                            <a
+                                href="{% url 'edit_institution' institution.id %}"
+                                class="edit-btn"
+                            >
 
-                                    </td>
+                                <i class="fas fa-pen"></i>
 
-                                    <td>
+                                Edit
 
-                                        <div class="d-flex justify-content-center gap-2">
+                            </a>
 
-                                            <a href="{% url 'edit_institution' institution.id %}"
-                                                class="btn btn-outline-primary btn-sm rounded-pill px-3">
-                                                <i class="fas fa-pen me-1"></i> Edit
-                                            </a>
-                                        </div>
+                        </td>
 
-                                    </td>
+                    </tr>
 
-                                </tr>
+                    {% empty %}
 
-                            {% empty %}
+                    <tr>
 
-                                <tr>
+                        <td colspan="7">
 
-                                    <td colspan="8" class="text-center py-5">
+                            <div class="empty-state">
 
-                                        <i class="fas fa-building fa-3x text-muted mb-3"></i>
+                                <i class="fas fa-university"></i>
 
-                                        <h5>No Institution Found</h5>
+                                <p>
+                                    No institution found.
+                                </p>
 
-                                        <p class="text-muted">
-                                            Click <strong>Add Institution</strong> to create your first institution.
-                                        </p>
+                            </div>
 
-                                    </td>
+                        </td>
 
-                                </tr>
+                    </tr>
 
-                            {% endfor %}
+                    {% endfor %}
 
-                            </tbody>
+                </tbody>
 
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </div>
+            </table>
 
         </div>
 
     </div>
 
 </div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput =
+        document.getElementById("institutionSearch");
+
+    const tableBody =
+        document.getElementById("institutionTableBody");
+
+
+    if (!searchInput || !tableBody) {
+        return;
+    }
+
+
+    searchInput.addEventListener("keyup", function () {
+
+        const searchValue =
+            this.value.toLowerCase().trim();
+
+        const rows =
+            tableBody.getElementsByTagName("tr");
+
+
+        for (let i = 0; i < rows.length; i++) {
+
+            const rowText =
+                rows[i].innerText.toLowerCase();
+
+            if (rowText.includes(searchValue)) {
+
+                rows[i].style.display = "";
+
+            } else {
+
+                rows[i].style.display = "none";
+
+            }
+
+        }
+
+    });
+
+});
+
+</script>
 
 {% endblock %}

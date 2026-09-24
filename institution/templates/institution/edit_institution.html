@@ -1,0 +1,590 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .edit-page {
+        padding: 25px;
+        background: #f5f8fc;
+        min-height: calc(100vh - 70px);
+    }
+
+    .page-header {
+        margin-bottom: 25px;
+    }
+
+    .page-title {
+        margin: 0;
+        color: #123b63;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .page-subtitle {
+        margin-top: 6px;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .form-card {
+        max-width: 1000px;
+        background: white;
+        border: 1px solid #e1e8f0;
+        border-radius: 15px;
+        box-shadow: 0 4px 18px rgba(18, 59, 99, 0.07);
+        padding: 30px;
+    }
+
+    .section-title {
+        color: #123b63;
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0 0 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e7edf4;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .form-label {
+        margin-bottom: 7px;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 11px 13px;
+        border: 1px solid #d5dee8;
+        border-radius: 9px;
+        background: white;
+        color: #374151;
+        font-size: 14px;
+        box-sizing: border-box;
+        outline: none;
+        transition: 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: #1976d2;
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.10);
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 95px;
+    }
+
+    .error-message {
+        margin-top: 5px;
+        color: #c62828;
+        font-size: 12px;
+    }
+
+    .current-logo-area {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 12px;
+        padding: 15px;
+        background: #f7faff;
+        border: 1px solid #e4ebf3;
+        border-radius: 10px;
+    }
+
+    .current-logo {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        background: white;
+        border: 1px solid #dce5ee;
+        border-radius: 10px;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+
+    .logo-text {
+        color: #6b7280;
+        font-size: 13px;
+    }
+
+    .logo-text strong {
+        display: block;
+        color: #123b63;
+        margin-bottom: 4px;
+    }
+
+    .checkbox-area {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 5px;
+    }
+
+    .checkbox-area input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    .checkbox-area label {
+        color: #374151;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .button-area {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #e7edf4;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 11px 20px;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-cancel {
+        background: #eef2f6;
+        color: #374151;
+    }
+
+    .btn-cancel:hover {
+        background: #e1e7ed;
+        color: #374151;
+    }
+
+    .btn-save {
+        background: #1976d2;
+        color: white;
+    }
+
+    .btn-save:hover {
+        background: #125ca5;
+        color: white;
+    }
+
+    .messages {
+        margin-bottom: 20px;
+    }
+
+    .message {
+        padding: 12px 15px;
+        border-radius: 8px;
+        background: #e8f7ee;
+        color: #16803c;
+        font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+
+        .edit-page {
+            padding: 15px;
+        }
+
+        .form-card {
+            padding: 20px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full-width {
+            grid-column: auto;
+        }
+
+        .button-area {
+            flex-direction: column-reverse;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+
+<div class="edit-page">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+
+        <h1 class="page-title">
+            Edit Institution
+        </h1>
+
+        <div class="page-subtitle">
+            Update institution information and logo
+        </div>
+
+    </div>
+
+
+    <!-- MESSAGES -->
+    {% if messages %}
+
+        <div class="messages">
+
+            {% for message in messages %}
+
+                <div class="message">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- FORM CARD -->
+    <div class="form-card">
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- BASIC INFORMATION -->
+            <h2 class="section-title">
+                Basic Information
+            </h2>
+
+            <div class="form-grid">
+
+                <!-- NAME -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Institution Name
+                    </label>
+
+                    {{ form.name }}
+
+                    {% for error in form.name.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- CODE -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Institution Code
+                    </label>
+
+                    {{ form.code }}
+
+                    {% for error in form.code.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Email Address
+                    </label>
+
+                    {{ form.email }}
+
+                    {% for error in form.email.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- PHONE -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Phone Number
+                    </label>
+
+                    {{ form.phone }}
+
+                    {% for error in form.phone.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- WEBSITE -->
+                <div class="form-group full-width">
+
+                    <label class="form-label">
+                        Website
+                    </label>
+
+                    {{ form.website }}
+
+                    {% for error in form.website.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- ADDRESS -->
+                <div class="form-group full-width">
+
+                    <label class="form-label">
+                        Address
+                    </label>
+
+                    {{ form.address }}
+
+                    {% for error in form.address.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- LOCATION -->
+            <h2
+                class="section-title"
+                style="margin-top: 35px;"
+            >
+                Location Details
+            </h2>
+
+            <div class="form-grid">
+
+                <!-- CITY -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        City
+                    </label>
+
+                    {{ form.city }}
+
+                    {% for error in form.city.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- STATE -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        State
+                    </label>
+
+                    {{ form.state }}
+
+                    {% for error in form.state.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- COUNTRY -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Country
+                    </label>
+
+                    {{ form.country }}
+
+                    {% for error in form.country.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- PINCODE -->
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Pincode
+                    </label>
+
+                    {{ form.pincode }}
+
+                    {% for error in form.pincode.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGO -->
+            <h2
+                class="section-title"
+                style="margin-top: 35px;"
+            >
+                Institution Logo
+            </h2>
+
+            {% if institution.logo %}
+
+                <div class="current-logo-area">
+
+                    <img
+                        src="{{ institution.logo.url }}"
+                        alt="{{ institution.name }}"
+                        class="current-logo"
+                    >
+
+                    <div class="logo-text">
+
+                        <strong>
+                            Current Logo
+                        </strong>
+
+                        Upload a new image below if you want
+                        to replace the existing logo.
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    Change Logo
+                </label>
+
+                {{ form.logo }}
+
+                {% for error in form.logo.errors %}
+
+                    <div class="error-message">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- STATUS -->
+            <h2
+                class="section-title"
+                style="margin-top: 35px;"
+            >
+                Status
+            </h2>
+
+            <div class="checkbox-area">
+
+                {{ form.is_active }}
+
+                <label for="{{ form.is_active.id_for_label }}">
+                    Institution is Active
+                </label>
+
+            </div>
+
+
+            {% for error in form.is_active.errors %}
+
+                <div class="error-message">
+                    {{ error }}
+                </div>
+
+            {% endfor %}
+
+
+            <!-- BUTTONS -->
+            <div class="button-area">
+
+                <a
+                    href="{% url 'institution_list' %}"
+                    class="btn btn-cancel"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-save"
+                >
+                    <i class="fas fa-save"></i>
+                    Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

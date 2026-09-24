@@ -1,8 +1,23 @@
 from django.db import models
+import os
+import uuid
 
 from staff.models import Staff
 from subject.models import Subject
 from section.models import Section
+
+
+def study_material_upload_path(instance, filename):
+    """
+    Store uploaded study materials using a short unique filename.
+    Keeps the original file extension.
+    """
+
+    extension = os.path.splitext(filename)[1].lower()
+
+    unique_filename = f"{uuid.uuid4().hex}{extension}"
+
+    return f"study_materials/{unique_filename}"
 
 
 class StudyMaterial(models.Model):
@@ -49,7 +64,8 @@ class StudyMaterial(models.Model):
 
     # Uploaded file
     file = models.FileField(
-        upload_to="study_materials/"
+        upload_to=study_material_upload_path,
+        max_length=255
     )
 
     # Material type

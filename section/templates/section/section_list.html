@@ -5,15 +5,17 @@
 
 {% block content %}
 
-<div class="container-fluid">
+<div class="container-fluid py-4">
 
-    <!-- Header -->
+    <!-- =========================
+         HEADER
+    ========================== -->
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
 
-            <h2 class="fw-bold">
+            <h2 class="fw-bold mb-1">
                 Section Management
             </h2>
 
@@ -23,32 +25,62 @@
 
         </div>
 
-        <a href="{% url 'add_section' %}"
-           class="btn btn-primary">
 
-            <i class="fas fa-plus"></i>
+        <div class="d-flex gap-2">
 
-            Add Section
+            <!-- Back to Dashboard -->
+            <a
+                href="{% url 'dashboard' %}"
+                class="btn btn-secondary"
+            >
 
-        </a>
+                <i class="fas fa-arrow-left me-2"></i>
+
+                Back to Dashboard
+
+            </a>
+
+
+            <!-- Add Section -->
+            <a
+                href="{% url 'add_section' %}"
+                class="btn btn-primary"
+            >
+
+                <i class="fas fa-plus me-2"></i>
+
+                Add Section
+
+            </a>
+
+        </div>
 
     </div>
 
-    <!-- Cards -->
+
+
+    <!-- =========================
+         STATISTICS CARDS
+    ========================== -->
 
     <div class="row mb-4">
 
-        <div class="col-md-4">
+        <!-- Total -->
+        <div class="col-md-4 mb-3">
 
-            <div class="card shadow-sm">
+            <div class="card shadow-sm border-0">
 
                 <div class="card-body text-center">
 
                     <i class="fas fa-layer-group fa-2x text-primary mb-3"></i>
 
-                    <h2>{{ total_sections }}</h2>
+                    <h2>
+                        {{ total_sections }}
+                    </h2>
 
-                    <h6>Total Sections</h6>
+                    <h6>
+                        Total Sections
+                    </h6>
 
                 </div>
 
@@ -56,17 +88,23 @@
 
         </div>
 
-        <div class="col-md-4">
 
-            <div class="card shadow-sm">
+        <!-- Active -->
+        <div class="col-md-4 mb-3">
+
+            <div class="card shadow-sm border-0">
 
                 <div class="card-body text-center">
 
                     <i class="fas fa-check-circle fa-2x text-success mb-3"></i>
 
-                    <h2>{{ active_sections }}</h2>
+                    <h2>
+                        {{ active_sections }}
+                    </h2>
 
-                    <h6>Active Sections</h6>
+                    <h6>
+                        Active Sections
+                    </h6>
 
                 </div>
 
@@ -74,17 +112,23 @@
 
         </div>
 
-        <div class="col-md-4">
 
-            <div class="card shadow-sm">
+        <!-- Inactive -->
+        <div class="col-md-4 mb-3">
+
+            <div class="card shadow-sm border-0">
 
                 <div class="card-body text-center">
 
                     <i class="fas fa-times-circle fa-2x text-danger mb-3"></i>
 
-                    <h2>{{ inactive_sections }}</h2>
+                    <h2>
+                        {{ inactive_sections }}
+                    </h2>
 
-                    <h6>Inactive Sections</h6>
+                    <h6>
+                        Inactive Sections
+                    </h6>
 
                 </div>
 
@@ -94,129 +138,182 @@
 
     </div>
 
-    <!-- Search -->
 
-    <div class="card shadow-sm mb-4">
+
+    <!-- =========================
+         SEARCH
+    ========================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
 
         <div class="card-body">
 
-            <input type="text"
-                   class="form-control"
-                   id="searchInput"
-                   placeholder="Search Section">
+            <input
+                type="text"
+                class="form-control"
+                id="searchInput"
+                placeholder="Search Section"
+            >
 
         </div>
 
     </div>
 
-    <!-- Table -->
 
-    <div class="card shadow-sm">
+
+    <!-- =========================
+         SECTION TABLE
+    ========================== -->
+
+    <div class="card shadow-sm border-0">
 
         <div class="card-header">
 
             <h5 class="mb-0">
-
                 Section List
-
             </h5>
 
         </div>
 
+
         <div class="table-responsive">
 
-            <table class="table table-hover mb-0"
-                   id="sectionTable">
+            <table
+                class="table table-hover mb-0"
+                id="sectionTable"
+            >
 
                 <thead class="table-dark">
 
-                <tr>
+                    <tr>
 
-                    <th>S.No</th>
-                    <th>Institution</th>
-                    <th>Department</th>
-                    <th>Course</th>
-                    <th>Year</th>
-                    <th>Section</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                        <th>S.No</th>
 
-                </tr>
+                        <th>Institution</th>
+
+                        <th>Department</th>
+
+                        <th>Course</th>
+
+                        <th>Year</th>
+
+                        <th>Section</th>
+
+                        <th>Status</th>
+
+                        <th>Action</th>
+
+                    </tr>
 
                 </thead>
+
 
                 <tbody>
 
                 {% for section in sections %}
 
-                <tr>
+                    <tr>
 
-                    <td>{{ forloop.counter }}</td>
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
 
-                    <td>{{ section.institution }}</td>
 
-                    <td>{{ section.department }}</td>
+                        <td>
+                            {{ section.institution }}
+                        </td>
 
-                    <td>{{ section.course }}</td>
 
-                    <td>{{ section.year }}</td>
+                        <td>
+                            {{ section.department }}
+                        </td>
 
-                    <td>{{ section.section }}</td>
 
-                    <td>
+                        <td>
+                            {{ section.course }}
+                        </td>
 
-                        {% if section.is_active %}
 
-                            <span class="badge bg-success">
+                        <td>
+                            {{ section.year }}
+                        </td>
 
-                                Active
 
-                            </span>
+                        <td>
+                            {{ section.section }}
+                        </td>
 
-                        {% else %}
 
-                            <span class="badge bg-danger">
+                        <td>
 
-                                Inactive
+                            {% if section.is_active %}
 
-                            </span>
+                                <span class="badge bg-success">
 
-                        {% endif %}
+                                    Active
 
-                    </td>
+                                </span>
 
-                    <td>
+                            {% else %}
 
-                        <a href="{% url 'edit_section' section.id %}"
-                           class="btn btn-sm btn-primary">
+                                <span class="badge bg-danger">
 
-                            <i class="fas fa-edit"></i>
+                                    Inactive
 
-                        </a>
+                                </span>
 
-                        <a href="{% url 'delete_section' section.id %}"
-                           class="btn btn-sm btn-danger">
+                            {% endif %}
 
-                            <i class="fas fa-trash"></i>
+                        </td>
 
-                        </a>
 
-                    </td>
+                        <td>
 
-                </tr>
+                            <!-- Edit -->
+                            <a
+                                href="{% url 'edit_section' section.id %}"
+                                class="btn btn-sm btn-primary"
+                                title="Edit"
+                            >
+
+                                <i class="fas fa-edit"></i>
+
+                            </a>
+
+
+                            <!-- Delete -->
+                            <a
+                                href="{% url 'delete_section' section.id %}"
+                                class="btn btn-sm btn-danger"
+                                title="Delete"
+                            >
+
+                                <i class="fas fa-trash"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
 
                 {% empty %}
 
-                <tr>
+                    <tr>
 
-                    <td colspan="8"
-                        class="text-center p-5">
+                        <td
+                            colspan="8"
+                            class="text-center p-5"
+                        >
 
-                        No Sections Available
+                            <i class="fas fa-layer-group fa-2x text-muted mb-3"></i>
 
-                    </td>
+                            <div class="text-muted">
+                                No Sections Available
+                            </div>
 
-                </tr>
+                        </td>
+
+                    </tr>
 
                 {% endfor %}
 
@@ -230,25 +327,40 @@
 
 </div>
 
+
+
+<!-- =========================
+     SEARCH SCRIPT
+========================== -->
+
 <script>
 
-document.getElementById("searchInput").addEventListener("keyup", function(){
+document
+    .getElementById("searchInput")
+    .addEventListener("keyup", function () {
 
-    let value = this.value.toLowerCase();
+        let value = this.value.toLowerCase();
 
-    let rows = document.querySelectorAll("#sectionTable tbody tr");
+        let rows =
+            document.querySelectorAll(
+                "#sectionTable tbody tr"
+            );
 
-    rows.forEach(function(row){
 
-        row.style.display =
-            row.innerText.toLowerCase().includes(value)
-            ? ""
-            : "none";
+        rows.forEach(function (row) {
+
+            row.style.display =
+                row.innerText
+                    .toLowerCase()
+                    .includes(value)
+                    ? ""
+                    : "none";
+
+        });
 
     });
 
-});
-
 </script>
+
 
 {% endblock %}

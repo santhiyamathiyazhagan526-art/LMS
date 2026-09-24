@@ -12,16 +12,31 @@ from .forms import StudyMaterialForm
 
 
 # ==========================================================
+# HELPER - GET LOGGED-IN STAFF
+# ==========================================================
+
+def get_logged_in_staff(request):
+    """
+    Get the Staff record belonging to the currently
+    logged-in Staff user.
+
+    Staff login username = Staff.staff_id
+    """
+
+    return get_object_or_404(
+        Staff,
+        staff_id=request.user.username
+    )
+
+
+# ==========================================================
 # STAFF - STUDY MATERIAL LIST
 # ==========================================================
 
 @login_required(login_url="login")
 def study_material_list(request):
 
-    staff = get_object_or_404(
-        Staff,
-        staff_id=request.user.username
-    )
+    staff = get_logged_in_staff(request)
 
     materials = StudyMaterial.objects.filter(
         staff=staff
@@ -54,10 +69,7 @@ def add_study_material(request):
     # Logged-in staff
     # ------------------------------------------------------
 
-    staff = get_object_or_404(
-        Staff,
-        staff_id=request.user.username
-    )
+    staff = get_logged_in_staff(request)
 
     # ------------------------------------------------------
     # Staff subjects
@@ -279,10 +291,7 @@ def edit_study_material(request, id):
     # Logged-in staff
     # ------------------------------------------------------
 
-    staff = get_object_or_404(
-        Staff,
-        staff_id=request.user.username
-    )
+    staff = get_logged_in_staff(request)
 
     # ------------------------------------------------------
     # Get material belonging to this staff
@@ -554,10 +563,7 @@ def edit_study_material(request, id):
 @login_required(login_url="login")
 def delete_study_material(request, id):
 
-    staff = get_object_or_404(
-        Staff,
-        staff_id=request.user.username
-    )
+    staff = get_logged_in_staff(request)
 
     material = get_object_or_404(
         StudyMaterial,
@@ -648,10 +654,7 @@ def get_years(request):
 @login_required(login_url="login")
 def get_sections(request):
 
-    staff = get_object_or_404(
-        Staff,
-        staff_id=request.user.username
-    )
+    staff = get_logged_in_staff(request)
 
     programme = request.GET.get(
         "programme",
@@ -722,10 +725,12 @@ def get_sections(request):
             section.section
         )
 
-        data.append({
-            "id": section.id,
-            "name": section.section,
-        })
+        data.append(
+            {
+                "id": section.id,
+                "name": section.section,
+            }
+        )
 
     print(
         "RETURNING:",

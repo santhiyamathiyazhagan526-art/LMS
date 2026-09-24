@@ -1,0 +1,844 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.classes-page {
+    min-height: calc(100vh - 70px);
+    background: #f5f7fb;
+    padding: 30px 38px 60px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.classes-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 35px;
+}
+
+.header-title h1 {
+    margin: 0;
+    color: #182433;
+    font-size: 30px;
+    font-weight: 750;
+}
+
+.header-title p {
+    margin: 7px 0 0;
+    color: #7b8794;
+    font-size: 14px;
+}
+
+
+.dashboard-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 11px 17px;
+
+    background: #ffffff;
+    color: #465364;
+
+    border: 1px solid #dfe5ec;
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: .2s ease;
+}
+
+.dashboard-btn:hover {
+    color: #0d6efd;
+    border-color: #bfd5f4;
+    background: #f8fbff;
+}
+
+
+/* =========================================================
+   PROGRAMME CONTAINER
+   ========================================================= */
+
+.programme-container {
+    background: #ffffff;
+
+    border: 1px solid #e4e9f0;
+    border-radius: 17px;
+
+    margin-bottom: 28px;
+
+    overflow: hidden;
+
+    box-shadow: 0 3px 12px rgba(15, 23, 42, .035);
+}
+
+
+/* =========================================================
+   PROGRAMME HEADER
+   ========================================================= */
+
+.programme-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px 24px;
+
+    background: #fbfcfe;
+
+    border-bottom: 1px solid #e8edf3;
+}
+
+
+.programme-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+
+.programme-icon {
+    width: 43px;
+    height: 43px;
+
+    border-radius: 11px;
+
+    background: #e9f2ff;
+    color: #0d6efd;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+}
+
+
+.programme-title h2 {
+    margin: 0;
+
+    color: #1c2938;
+
+    font-size: 19px;
+    font-weight: 700;
+}
+
+
+.programme-title span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #8793a1;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   YEAR AREA
+   ========================================================= */
+
+.years-container {
+    padding: 25px 24px 27px;
+}
+
+
+.year-block {
+    margin-bottom: 26px;
+}
+
+.year-block:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   YEAR TITLE
+   ========================================================= */
+
+.year-title {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 12px;
+}
+
+
+.year-title::before {
+    content: "";
+
+    width: 3px;
+    height: 19px;
+
+    background: #0d6efd;
+
+    border-radius: 4px;
+
+    margin-right: 10px;
+}
+
+
+.year-title h3 {
+    margin: 0;
+
+    color: #344054;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+.year-title span {
+    margin-left: 8px;
+
+    color: #98a2b3;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   SECTION ROW
+   ========================================================= */
+
+.section-list {
+    border: 1px solid #e8edf3;
+
+    border-radius: 11px;
+
+    overflow: hidden;
+}
+
+
+.section-row {
+    display: flex;
+    align-items: center;
+
+    min-height: 62px;
+
+    padding: 10px 17px;
+
+    text-decoration: none;
+
+    background: #ffffff;
+
+    transition: all .18s ease;
+}
+
+
+.section-row + .section-row {
+    border-top: 1px solid #edf1f5;
+}
+
+
+.section-row:hover {
+    background: #f7faff;
+}
+
+
+/* =========================================================
+   SECTION LETTER
+   ========================================================= */
+
+.section-letter {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 9px;
+
+    background: #edf4ff;
+    color: #0d6efd;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+    font-weight: 750;
+
+    margin-right: 15px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   SECTION INFORMATION
+   ========================================================= */
+
+.section-info {
+    flex: 1;
+    min-width: 0;
+}
+
+
+.section-name {
+    color: #293548;
+
+    font-size: 13.5px;
+    font-weight: 650;
+}
+
+
+.section-course {
+    margin-top: 3px;
+
+    color: #8a95a3;
+
+    font-size: 11.5px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   STUDENT COUNT
+   ========================================================= */
+
+.section-students {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    margin-right: 25px;
+
+    color: #687585;
+
+    font-size: 12.5px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+.section-students i {
+    color: #0d6efd;
+}
+
+
+/* =========================================================
+   ARROW
+   ========================================================= */
+
+.section-arrow {
+    width: 31px;
+    height: 31px;
+
+    border-radius: 8px;
+
+    background: #f3f6fa;
+
+    color: #7c8998;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: all .18s ease;
+}
+
+
+.section-row:hover .section-arrow {
+    background: #e8f1ff;
+    color: #0d6efd;
+}
+
+
+/* =========================================================
+   EMPTY PROGRAMME
+   ========================================================= */
+
+.empty-programme {
+    padding: 35px;
+
+    text-align: center;
+
+    color: #8995a3;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   NO CLASSES
+   ========================================================= */
+
+.empty-page {
+    background: #ffffff;
+
+    border: 1px solid #e4e9f0;
+
+    border-radius: 17px;
+
+    padding: 70px 30px;
+
+    text-align: center;
+}
+
+
+.empty-page-icon {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 17px;
+
+    border-radius: 16px;
+
+    background: #edf4ff;
+    color: #0d6efd;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+}
+
+
+.empty-page h3 {
+    margin: 0 0 7px;
+
+    color: #293548;
+
+    font-size: 18px;
+}
+
+
+.empty-page p {
+    margin: 0;
+
+    color: #8793a1;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .classes-page {
+        padding: 22px 16px 40px;
+    }
+
+
+    .classes-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 17px;
+    }
+
+
+    .dashboard-btn {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+
+    .programme-header {
+        padding: 17px;
+    }
+
+
+    .years-container {
+        padding: 20px 15px;
+    }
+
+
+    .section-row {
+        padding: 10px 12px;
+    }
+
+
+    .section-students {
+        margin-right: 10px;
+    }
+
+
+    .section-course {
+        max-width: 180px;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .section-students {
+        display: none;
+    }
+
+}
+
+</style>
+
+
+<div class="classes-page">
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <div class="classes-header">
+
+
+        <div class="header-title">
+
+            <h1>
+                Classes
+            </h1>
+
+            <p>
+                Select a programme, year and section
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="dashboard-btn"
+        >
+
+            <i class="fas fa-arrow-left"></i>
+
+            Back to Dashboard
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         UG PROGRAMME
+         ===================================================== -->
+
+    {% if ug_years %}
+
+    <div class="programme-container">
+
+
+        <div class="programme-header">
+
+            <div class="programme-left">
+
+                <div class="programme-icon">
+
+                    <i class="fas fa-graduation-cap"></i>
+
+                </div>
+
+
+                <div class="programme-title">
+
+                    <h2>
+                        Undergraduate
+                    </h2>
+
+                    <span>
+                        UG Programme
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="years-container">
+
+
+            {% for year in ug_years %}
+
+            <div class="year-block">
+
+
+                <div class="year-title">
+
+                    <h3>
+                        {{ year.name }}
+                    </h3>
+
+                    <span>
+                        Select Section
+                    </span>
+
+                </div>
+
+
+
+                <div class="section-list">
+
+
+                    {% for section in year.sections %}
+
+
+                    <a
+                        href="{% url 'class_students' section.id %}"
+                        class="section-row"
+                    >
+
+
+                        <div class="section-letter">
+
+                            {{ section.section|upper }}
+
+                        </div>
+
+
+                        <div class="section-info">
+
+                            <div class="section-name">
+
+                                Section {{ section.section|upper }}
+
+                            </div>
+
+
+                            <div class="section-course">
+
+                                {{ section.course.name }}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="section-students">
+
+                            <i class="fas fa-users"></i>
+
+                            {{ section.student_set.count }}
+                            Student{{ section.student_set.count|pluralize }}
+
+                        </div>
+
+
+                        <div class="section-arrow">
+
+                            <i class="fas fa-chevron-right"></i>
+
+                        </div>
+
+
+                    </a>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+
+
+    </div>
+
+    {% endif %}
+
+
+
+    <!-- =====================================================
+         PG PROGRAMME
+         ===================================================== -->
+
+    {% if pg_years %}
+
+    <div class="programme-container">
+
+
+        <div class="programme-header">
+
+            <div class="programme-left">
+
+                <div class="programme-icon">
+
+                    <i class="fas fa-user-graduate"></i>
+
+                </div>
+
+
+                <div class="programme-title">
+
+                    <h2>
+                        Postgraduate
+                    </h2>
+
+                    <span>
+                        PG Programme
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="years-container">
+
+
+            {% for year in pg_years %}
+
+            <div class="year-block">
+
+
+                <div class="year-title">
+
+                    <h3>
+                        {{ year.name }}
+                    </h3>
+
+                    <span>
+                        Select Section
+                    </span>
+
+                </div>
+
+
+
+                <div class="section-list">
+
+
+                    {% for section in year.sections %}
+
+
+                    <a
+                        href="{% url 'class_students' section.id %}"
+                        class="section-row"
+                    >
+
+
+                        <div class="section-letter">
+
+                            {{ section.section|upper }}
+
+                        </div>
+
+
+                        <div class="section-info">
+
+                            <div class="section-name">
+
+                                Section {{ section.section|upper }}
+
+                            </div>
+
+
+                            <div class="section-course">
+
+                                {{ section.course.name }}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="section-students">
+
+                            <i class="fas fa-users"></i>
+
+                            {{ section.student_set.count }}
+                            Student{{ section.student_set.count|pluralize }}
+
+                        </div>
+
+
+                        <div class="section-arrow">
+
+                            <i class="fas fa-chevron-right"></i>
+
+                        </div>
+
+
+                    </a>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+
+
+    </div>
+
+    {% endif %}
+
+
+
+    <!-- =====================================================
+         NO CLASSES
+         ===================================================== -->
+
+    {% if not ug_years and not pg_years %}
+
+    <div class="empty-page">
+
+
+        <div class="empty-page-icon">
+
+            <i class="fas fa-users"></i>
+
+        </div>
+
+
+        <h3>
+            No Classes Available
+        </h3>
+
+
+        <p>
+            Please create active sections from Section Management.
+        </p>
+
+
+    </div>
+
+    {% endif %}
+
+
+</div>
+
+{% endblock %}

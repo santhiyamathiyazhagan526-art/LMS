@@ -41,6 +41,7 @@ urlpatterns = [
     path("attendance/",include("attendance.urls")),
     path("study-material/",include("study_material.urls")),
     path("student/",include("student_portal.urls")),
+    path("online-exam/",include("online_exam.urls")),
     ]
 
 # Serve uploaded media files during development

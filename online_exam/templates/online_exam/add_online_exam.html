@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- PAGE HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                Create Online Exam
+            </h2>
+
+            <p class="text-muted mb-0">
+                Post an online exam for a class
+            </p>
+        </div>
+
+        <a href="{% url 'online_exam_list' %}"
+           class="btn btn-outline-secondary">
+
+            <i class="fas fa-arrow-left me-2"></i>
+            Back
+        </a>
+
+    </div>
+
+
+    <!-- MESSAGES -->
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <!-- FORM CARD -->
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <!-- EXAM TITLE -->
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Exam Title
+                    </label>
+
+                    <input
+                        type="text"
+                        name="title"
+                        class="form-control"
+                        placeholder="Example: Python Internal Test"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="row">
+
+
+                    <!-- SUBJECT -->
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Subject
+                        </label>
+
+                        <select
+                            name="subject"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Select Subject
+                            </option>
+
+                            {% for subject in subjects %}
+
+                                <option value="{{ subject.id }}">
+                                    {{ subject.name }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CLASS -->
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Class / Section
+                        </label>
+
+                        <select
+                            name="section"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Select Class
+                            </option>
+
+                            {% for section in sections %}
+
+                                <option value="{{ section.id }}">
+
+                                    {{ section.programme }}
+                                    -
+                                    {{ section.year }}
+                                    -
+                                    {{ section.section }}
+
+                                    {% if section.course %}
+                                        ({{ section.course.name }})
+                                    {% endif %}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="row">
+
+
+                    <!-- DATE -->
+                    <div class="col-md-4 mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Exam Date
+                        </label>
+
+                        <input
+                            type="date"
+                            name="exam_date"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- START TIME -->
+                    <div class="col-md-4 mb-4">
+
+                        <label class="form-label fw-semibold">
+                            Start Time
+                        </label>
+
+                        <input
+                            type="time"
+                            name="start_time"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- END TIME -->
+                    <div class="col-md-4 mb-4">
+
+                        <label class="form-label fw-semibold">
+                            End Time
+                        </label>
+
+                        <input
+                            type="time"
+                            name="end_time"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- TOTAL MARKS -->
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Total Marks
+                    </label>
+
+                    <input
+                        type="number"
+                        name="total_marks"
+                        class="form-control"
+                        min="1"
+                        placeholder="Example: 50"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EXAM LINK -->
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Online Exam Link
+                    </label>
+
+                    <input
+                        type="url"
+                        name="exam_link"
+                        class="form-control"
+                        placeholder="https://..."
+                        required
+                    >
+
+                    <small class="text-muted">
+                        Paste the Google Classroom, Google Form,
+                        Microsoft Teams or other exam link.
+                    </small>
+
+                </div>
+
+
+                <!-- INSTRUCTIONS -->
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Instructions
+                    </label>
+
+                    <textarea
+                        name="instructions"
+                        class="form-control"
+                        rows="5"
+                        placeholder="Enter instructions for students..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a
+                        href="{% url 'online_exam_list' %}"
+                        class="btn btn-light px-4"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary px-4"
+                    >
+
+                        <i class="fas fa-paper-plane me-2"></i>
+                        Post Exam
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

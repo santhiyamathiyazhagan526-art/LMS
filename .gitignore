@@ -1,24 +1,19 @@
-# Python
+venv/
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Django
-db.sqlite3
-
-# Virtual environment
-venv/
-.venv/
-
-# Environment variables
 .env
+.env.*
+!.env.example
 
-# Media uploads
 media/
-
-# Static collected files
 staticfiles/
 
-# IDE
+*.log
+
 .vscode/
 .idea/
+
+.DS_Store
+Thumbs.db

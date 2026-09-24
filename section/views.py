@@ -40,65 +40,128 @@ def add_section(request):
 
     if request.method == "POST":
 
-        institution = Institution.objects.get(
-            id=request.POST["institution"]
+        institution_id = request.POST.get("institution")
+        department_id = request.POST.get("department")
+        course_id = request.POST.get("course")
+        programme = request.POST.get("programme")
+        year = request.POST.get("year")
+        section_name = request.POST.get("section", "").strip()
+        is_active = request.POST.get("is_active") == "on"
+
+        institution = get_object_or_404(
+            Institution,
+            pk=institution_id
         )
 
-        department = Department.objects.get(
-            id=request.POST["department"]
+        department = get_object_or_404(
+            Department,
+            pk=department_id
         )
 
-        course = Course.objects.get(
-            id=request.POST["course"]
+        course = get_object_or_404(
+            Course,
+            pk=course_id
         )
 
+        # Validate programme
+        if programme not in ["UG", "PG"]:
+
+            messages.error(
+                request,
+                "Please select a valid programme."
+            )
+
+            return redirect("add_section")
+
+        # Validate course programme
+        if course.programme != programme:
+
+            messages.error(
+                request,
+                "Selected course does not belong to the selected programme."
+            )
+
+            return redirect("add_section")
+
+        # Validate course department
+        if course.department_id != department.id:
+
+            messages.error(
+                request,
+                "Selected course does not belong to the selected department."
+            )
+
+            return redirect("add_section")
+
+        # Validate year
+        if programme == "UG":
+
+            valid_years = [
+                "I",
+                "II",
+                "III",
+                "IV"
+            ]
+
+        else:
+
+            valid_years = [
+                "PG-I",
+                "PG-II"
+            ]
+
+        if year not in valid_years:
+
+            messages.error(
+                request,
+                "Please select a valid year."
+            )
+
+            return redirect("add_section")
+
+        # Section required
+        if not section_name:
+
+            messages.error(
+                request,
+                "Section name is required."
+            )
+
+            return redirect("add_section")
+
+        # Create section
         Section.objects.create(
-
             institution=institution,
             department=department,
             course=course,
-
-            year=request.POST["year"],
-            section=request.POST["section"],
-
-            is_active="is_active" in request.POST
-
+            programme=programme,
+            year=year,
+            section=section_name,
+            is_active=is_active
         )
 
-        messages.success(request, "Section Added Successfully")
+        messages.success(
+            request,
+            "Section Added Successfully."
+        )
 
         return redirect("section_list")
 
     context = {
-
-        "institutions": Institution.objects.all(),
-        "departments": Department.objects.all(),
-        "courses": Course.objects.all(),
+        "institutions": Institution.objects.all().order_by("name"),
+        "departments": Department.objects.all().order_by("name"),
+        "courses": Course.objects.filter(
+            is_active=True
+        ).select_related(
+            "department"
+        ).order_by("name"),
     }
-    print("Courses Count:", context["courses"].count())
-    print("Courses:", list(context["courses"].values()))
 
-    return render(request, "section/add_section.html", context)
-
-
-# Edit Section
-from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
-
-from .models import Section
-from institution.models import Institution
-from department.models import Department
-from course.models import Course
-
-
-from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
-
-from .models import Section
-from institution.models import Institution
-from department.models import Department
-from course.models import Course
-
+    return render(
+        request,
+        "section/add_section.html",
+        context
+    )
 
 def edit_section(request, pk):
 

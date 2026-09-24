@@ -204,7 +204,9 @@
             </div>
 
         </div>
-                <!-- =========================
+
+
+        <!-- =========================
                 ACADEMIC INFORMATION
         ========================== -->
 
@@ -265,6 +267,7 @@
                         {{ form.section }}
 
                     </div>
+
                     <div class="col-md-6">
 
                         <label class="form-label fw-semibold">
@@ -282,6 +285,29 @@
                         </label>
 
                         {{ form.year }}
+
+                    </div>
+
+
+                    <!-- Learning Mode -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label fw-semibold">
+                            Learning Mode
+                        </label>
+
+                        {{ form.learning_mode }}
+
+                        {% if form.learning_mode.errors %}
+
+                            <div class="text-danger small mt-1">
+
+                                {{ form.learning_mode.errors }}
+
+                            </div>
+
+                        {% endif %}
 
                     </div>
 

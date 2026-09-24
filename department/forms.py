@@ -1,62 +1,70 @@
 from django import forms
 from .models import Department
+from institution.models import Institution
 
 
 class DepartmentForm(forms.ModelForm):
+
     class Meta:
         model = Department
+
         fields = [
-            'name',
-            'code',
-            'dean_name',
-            'hod_name',
-            'email',
-            'phone',
-            'description',
-            'is_active'
+            "institution",
+            "name",
+            "code",
+            "dean_name",
+            "hod_name",
+            "description",
+            "is_active",
         ]
 
         widgets = {
-            'institution': forms.Select(attrs={
-                'class': 'form-select'
-            }),
 
-            'name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter Department Name'
-            }),
+            "institution": forms.Select(
+                attrs={
+                    "class": "form-select",
+                }
+            ),
 
-            'code': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter Department Code'
-            }),
-            'dean_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter Dean Name'
-            }),
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Department Name",
+                }
+            ),
 
-            'hod_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter HOD Name'
-            }),
+            "code": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Department Code",
+                }
+            ),
 
-            'email': forms.EmailInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter Email'
-            }),
+            "dean_name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter Dean Name",
+                }
+            ),
 
-            'phone': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter Phone Number'
-            }),
+            "hod_name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter HOD Name",
+                }
+            ),
 
-            'description': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 4,
-                'placeholder': 'Department Description'
-            }),
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 4,
+                    "placeholder": "Department Description",
+                }
+            ),
 
-            'is_active': forms.CheckboxInput(attrs={
-                'class': 'form-check-input'
-            }),
+            "is_active": forms.CheckboxInput(
+                attrs={
+                    "class": "form-check-input",
+                }
+            ),
         }

@@ -5,215 +5,298 @@
 
 {% block content %}
 
-<div class="row justify-content-center">
+<div class="container-fluid py-4">
 
-    <div class="col-lg-8">
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
 
-        <div class="card shadow">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">
-                    Add Section
-                </h4>
-            </div>
+        <div>
+            <h2 class="fw-bold mb-1">
+                Add Section
+            </h2>
 
-            <div class="card-body">
+            <small class="text-muted">
+                Section Management
+            </small>
+        </div>
 
-                <form method="POST">
+        <!-- BACK BUTTON -->
+        <a
+            href="{% url 'section_list' %}"
+            class="btn btn-secondary"
+        >
+            <i class="fas fa-arrow-left me-2"></i>
+            Back
+        </a>
 
-                    {% csrf_token %}
+    </div>
 
-                    <!-- Institution -->
-                    <div class="mb-3">
 
-                        <label>Institution</label>
+    <!-- =========================
+         FORM CARD
+    ========================== -->
 
-                        <select
-                            name="institution"
-                            class="form-select"
-                            required>
+    <div class="row justify-content-center">
 
-                            <option value="">
-                                Select Institution
-                            </option>
+        <div class="col-lg-8">
 
-                            {% for institution in institutions %}
+            <div class="card shadow border-0">
 
-                            <option value="{{ institution.id }}">
+                <div class="card-header bg-primary text-white">
 
-                                {{ institution.name }}
+                    <h4 class="mb-0">
+                        Add Section
+                    </h4>
 
-                            </option>
+                </div>
 
-                            {% endfor %}
 
-                        </select>
+                <div class="card-body">
 
-                    </div>
+                    <form method="POST">
 
+                        {% csrf_token %}
 
-                    <!-- Department -->
-                    <div class="mb-3">
 
-                        <label>Department</label>
+                        <!-- =========================
+                             Institution
+                        ========================== -->
 
-                        <select
-                            name="department"
-                            class="form-select"
-                            required>
+                        <div class="mb-3">
 
-                            <option value="">
-                                Select Department
-                            </option>
+                            <label class="form-label">
+                                Institution
+                            </label>
 
-                            {% for department in departments %}
+                            <select
+                                name="institution"
+                                class="form-select"
+                                required>
 
-                            <option value="{{ department.id }}">
+                                <option value="">
+                                    Select Institution
+                                </option>
 
-                                {{ department.name }}
+                                {% for institution in institutions %}
 
-                            </option>
+                                    <option value="{{ institution.id }}">
 
-                            {% endfor %}
+                                        {{ institution.name }}
 
-                        </select>
+                                    </option>
 
-                    </div>
+                                {% endfor %}
 
+                            </select>
 
-                    <!-- Course -->
-                    <div class="mb-3">
+                        </div>
 
-                        <label>Course</label>
 
-                        <select
-                            name="course"
-                            id="course"
-                            class="form-select"
-                            required>
+                        <!-- =========================
+                             Department
+                        ========================== -->
 
-                            <option value="">
-                                Select Course
-                            </option>
+                        <div class="mb-3">
 
-                            {% for course in courses %}
+                            <label class="form-label">
+                                Department
+                            </label>
 
-                            <option
-                                value="{{ course.id }}"
-                                data-programme="{{ course.programme }}">
+                            <select
+                                name="department"
+                                class="form-select"
+                                required>
 
-                                {{ course.name }}
+                                <option value="">
+                                    Select Department
+                                </option>
 
-                                - {{ course.programme }}
+                                {% for department in departments %}
 
-                            </option>
+                                    <option value="{{ department.id }}">
 
-                            {% endfor %}
+                                        {{ department.name }}
 
-                        </select>
+                                    </option>
 
-                    </div>
+                                {% endfor %}
 
+                            </select>
 
-                    <!-- Programme -->
-                    <div class="mb-3">
+                        </div>
 
-                        <label>Programme</label>
 
-                        <select
-                            name="programme"
-                            id="programme"
-                            class="form-select"
-                            required>
+                        <!-- =========================
+                             Course
+                        ========================== -->
 
-                            <option value="">
-                                Select Programme
-                            </option>
+                        <div class="mb-3">
 
-                            <option value="UG">
-                                Under Graduate
-                            </option>
+                            <label class="form-label">
+                                Course
+                            </label>
 
-                            <option value="PG">
-                                Post Graduate
-                            </option>
+                            <select
+                                name="course"
+                                id="course"
+                                class="form-select"
+                                required>
 
-                        </select>
+                                <option value="">
+                                    Select Course
+                                </option>
 
-                    </div>
+                                {% for course in courses %}
 
+                                    <option
+                                        value="{{ course.id }}"
+                                        data-programme="{{ course.programme }}">
 
-                    <!-- Year -->
-                    <div class="mb-3">
+                                        {{ course.name }} - {{ course.programme }}
 
-                        <label>Year</label>
+                                    </option>
 
-                        <select
-                            name="year"
-                            id="year"
-                            class="form-select"
-                            required>
+                                {% endfor %}
 
-                            <option value="">
-                                Select Year
-                            </option>
+                            </select>
 
-                        </select>
+                        </div>
 
-                    </div>
 
+                        <!-- =========================
+                             Programme
+                        ========================== -->
 
-                    <!-- Section -->
-                    <div class="mb-3">
+                        <div class="mb-3">
 
-                        <label>Section</label>
+                            <label class="form-label">
+                                Programme
+                            </label>
 
-                        <input
-                            type="text"
-                            name="section"
-                            class="form-control"
-                            placeholder="Example: A"
-                            required>
+                            <select
+                                name="programme"
+                                id="programme"
+                                class="form-select"
+                                required>
 
-                    </div>
+                                <option value="">
+                                    Select Programme
+                                </option>
 
+                                <option value="UG">
+                                    Under Graduate
+                                </option>
 
-                    <!-- Status -->
-                    <div class="form-check mb-4">
+                                <option value="PG">
+                                    Post Graduate
+                                </option>
 
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            name="is_active"
-                            checked>
+                            </select>
 
-                        <label class="form-check-label">
-                            Active
-                        </label>
+                        </div>
 
-                    </div>
 
+                        <!-- =========================
+                             Year
+                        ========================== -->
 
-                    <!-- Buttons -->
-                    <button
-                        type="submit"
-                        class="btn btn-success">
+                        <div class="mb-3">
 
-                        <i class="fas fa-save"></i>
+                            <label class="form-label">
+                                Year
+                            </label>
 
-                        Save
+                            <select
+                                name="year"
+                                id="year"
+                                class="form-select"
+                                required>
 
-                    </button>
+                                <option value="">
+                                    Select Year
+                                </option>
 
-                    <a
-                        href="{% url 'section_list' %}"
-                        class="btn btn-secondary">
+                            </select>
 
-                        Cancel
+                        </div>
 
-                    </a>
 
-                </form>
+                        <!-- =========================
+                             Section
+                        ========================== -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Section
+                            </label>
+
+                            <input
+                                type="text"
+                                name="section"
+                                class="form-control"
+                                placeholder="Example: A"
+                                required>
+
+                        </div>
+
+
+                        <!-- =========================
+                             Status
+                        ========================== -->
+
+                        <div class="form-check mb-4">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="is_active"
+                                checked>
+
+                            <label class="form-check-label">
+                                Active
+                            </label>
+
+                        </div>
+
+
+                        <!-- =========================
+                             BUTTONS
+                        ========================== -->
+
+                        <div class="d-flex gap-2">
+
+                            <!-- SAVE -->
+                            <button
+                                type="submit"
+                                class="btn btn-success">
+
+                                <i class="fas fa-save me-2"></i>
+
+                                Save
+
+                            </button>
+
+
+                            <!-- CANCEL -->
+                            <a
+                                href="{% url 'section_list' %}"
+                                class="btn btn-secondary">
+
+                                <i class="fas fa-times me-2"></i>
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
 
             </div>
 
@@ -223,6 +306,10 @@
 
 </div>
 
+
+<!-- =========================
+     PROGRAMME / YEAR SCRIPT
+========================== -->
 
 <script>
 
@@ -269,6 +356,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
+    // ----------------------------------
+    // Load Years
+    // ----------------------------------
+
     function loadYears(programme) {
 
         yearSelect.innerHTML =
@@ -307,5 +398,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
+
 
 {% endblock %}
