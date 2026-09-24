@@ -90,25 +90,26 @@ WSGI_APPLICATION = 'lms.wsgi.application'
 
 # Database (Temporary - SQLite)
 
-DATABASES = {
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-    "default": {
-
-        "ENGINE": "django.db.backends.postgresql",
-
-        "NAME": os.environ.get("DB_NAME", "lms_db"),
-
-        "USER": os.environ.get("DB_USER", "postgres"),
-
-        "PASSWORD": os.environ.get("DB_PASSWORD", "santhiya$123"), 
-
-        "HOST": os.environ.get("DB_HOST", "127.0.0.1"),
-
-        "PORT": os.environ.get("DB_PORT", "5432"),
-
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+        )
     }
-
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ.get("DB_NAME", "lms_db"),
+            "USER": os.environ.get("DB_USER", "postgres"),
+            "PASSWORD": os.environ.get("DB_PASSWORD", ""),
+            "HOST": os.environ.get("DB_HOST", "127.0.0.1"),
+            "PORT": os.environ.get("DB_PORT", "5432"),
+        }
+    }
 # Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
