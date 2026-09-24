@@ -28,7 +28,14 @@ ALLOWED_HOSTS = [
     ).split(",")
     if host.strip()
 ]
-
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get(
+        "CSRF_TRUSTED_ORIGINS",
+        ""
+    ).split(",")
+    if origin.strip()
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -91,6 +98,16 @@ WSGI_APPLICATION = 'lms.wsgi.application'
 # Database (Temporary - SQLite)
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+        )
+    }
+else:
+    DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if DATABASE_URL:
     DATABASES = {
